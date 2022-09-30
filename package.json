@@ -1,0 +1,19 @@
+{
+  "name": "nufright",
+  "version": "1.0.0",
+  "description": "multi-media horror application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaunttWare/nuFright.git"
+  },
+  "author": "Hauntware",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HaunttWare/nuFright/issues"
+  },
+  "homepage": "https://github.com/HaunttWare/nuFright#readme"
+}
