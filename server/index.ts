@@ -3,13 +3,6 @@ const path = require('path');
 
 const app = express();
 
-// app.get('/', (req: Request, res: Response, next: NextFunction): void => {
-//   try {
-//     res.send('yoooo') 
-//   } catch (error) {
-//     next(error);
-//   }
-// })
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve('client', 'build')));
 app.use(express.json());
