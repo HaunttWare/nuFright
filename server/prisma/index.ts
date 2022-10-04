@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 const main = async () => {
  const user = await prisma.test.create({ data: { name: "bigfede"}});
 
-  console.log(user);
+  console.log(`${user} has totally connected to the database yo!`);
 };
 
 main()
