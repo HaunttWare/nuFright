@@ -5,8 +5,9 @@
   "main": "index.ts",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack --watch",
+    "dev:build": "webpack --watch",
     "start": "nodemon server/index.ts",
+    "dev": "npm run dev:build & npm start",
     "prisma": "npx ts-node server/prisma/index.ts"
   },
   "prisma": {
