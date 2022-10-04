@@ -4,9 +4,10 @@
   "description": "multi-media horror application",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --watch",
-    "start": "nodemon server/index.ts"
+    "build": "webpack",
+    "dev": "webpack --watch",
+    "start": "nodemon server/index.ts",
+    "prisma": "npx ts-node server/prisma/index.ts"
   },
   "prisma": {
     "schema": "server/prisma/schema.prisma"
