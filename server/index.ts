@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import express, { application, Request, Response } from "express";
 import passport from 'passport';
 import cors from 'cors'
@@ -6,10 +5,9 @@ import './routes/auth/auth'
 import authRouter from './routes/auth/auth.router'
 
 
-=======
-import express, { Request, Response } from "express";
->>>>>>> 1c8b44c0cf18abc51a45e5c1cf013b42e5954054
+
 const path = require('path');
+const images = require('./routes/images/images.controller.ts');
 
 const app = express();
 
@@ -22,6 +20,8 @@ app.use(express.static(path.resolve('client', 'public')));
 app.use(express.json());
 
 app.use('/auth', authRouter)
+app.use('/images', images);
+
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
