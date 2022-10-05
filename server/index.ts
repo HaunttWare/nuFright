@@ -1,11 +1,15 @@
 import express, { Request, Response } from "express";
 const path = require('path');
+const images = require('./routes/images/images.controller.ts');
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve('client', 'public')));
 app.use(express.json());
+
+app.use('/images', images);
+
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
