@@ -1,19 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
-model test {
-  id   Int    @id @default(autoincrement())
-  name String
-}
-
 model User {
   id    Int    @id
+  googleId String
   name  String
   email String
+  avatar String
+}
+
+model Book {
+  id          String @id
+  title       String
+  author      String
+  description String
+  image       Json
+  genre       Json
+}
+
+model Cinema {
+  id          String @id
+  title       String
+  description String
+  genres      String
+  type        String
+  images      String
+}
+
+model Stories {
+  id       String @id
+  authorId String
+  title    String
+  story    String
+  images   String
 }
