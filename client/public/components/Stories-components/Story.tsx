@@ -1,6 +1,7 @@
 import React from 'react';
+import { textSpanContainsPosition } from 'typescript';
 
-const Story = () => {
+const Story = (props:{ test:any }) => {
     const HauntedHouse = require('../../../../assets/haunted-house.jpg').default;
 
     return (
@@ -10,7 +11,7 @@ const Story = () => {
             <div style={{display: 'flex', justifyContent: 'center'}}>
                 Description goes here
             </div>
-            <button style={{maxWidth: 250, borderRadius: '45%', background: 'black', color: 'lime'}}>Read More</button>
+            <button onClick={() => props.test('story')} style={{maxWidth: 250, borderRadius: '45%', background: 'black', color: 'lime'}}>Read More</button>
         </div>
     )
 }
