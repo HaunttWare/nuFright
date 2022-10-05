@@ -8,23 +8,25 @@ const ImagePost = () => {
 
   const onImageChange = (image: File) => {
     if (image) {
-      
+      setFile(image);
     }
   }
-  const submit = async (e) => {
+  const submit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    console.log('captions state',caption)
     if (file) {
-      const formData = new FormData();
-      formData.append("image", file)
-      formData.append("caption", caption)
-      await axios.post("/images", formData, { headers: {'Content-Type': 'multipart/form-data'}})
+      const data = {
+        image: file,
+        caption: caption
+      }
+      await axios.post("/images", data, { headers: {'Content-Type': 'multipart/form-data'}})
     }
   }
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={(e) => {submit(e)}}>
        <input onChange={e => onImageChange(e.target.files![0])} type="file" accept="image/*"></input>
-       <input value={caption} onChange={e => setCaption(e.target.value)} type="text" placeholder='Caption'></input>
+       <input value={caption} onChange={(event) => setCaption(event.target.value)} type="text" placeholder='Caption'></input>
        <button type="submit">Submit</button>
      </form>
   )
