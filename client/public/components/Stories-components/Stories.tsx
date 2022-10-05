@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 //subcomponents
 import Story from './Story';
+import StoryDisplay from './StoryDisplay';
 
 const StoriesPage = () => {
     const [view, setView] = useState('storyList');
@@ -8,7 +9,7 @@ const StoriesPage = () => {
     return (
         <div id="stories_page">
             {view === 'storyList' && <Story test={setView} />}
-            {view === 'story' && <div>individual story</div>}
+            {view === 'story' && <StoryDisplay/>}
         </div>
     );
 }

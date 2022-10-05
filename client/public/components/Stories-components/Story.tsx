@@ -6,7 +6,7 @@ const Story = (props:{ test:any }) => {
 
     return (
         <div className="row" style={{background: 'rgb(220, 53, 69)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <h5 style={{display: 'flex', justifyContent: 'center', cursor: 'pointer'}}><b><u>Story Title</u></b></h5>
+            <h5 style={{display: 'flex', justifyContent: 'center', cursor: 'pointer'}} onClick={() => props.test('story')}><b><u>Story Title</u></b></h5>
             <img src={HauntedHouse} style={{maxHeight: 450, maxWidth: 450, overflow: 'hidden'}}></img>
             <div style={{display: 'flex', justifyContent: 'center'}}>
                 Description goes here
