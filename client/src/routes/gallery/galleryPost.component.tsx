@@ -20,8 +20,8 @@ const ImagePost = () => {
 
   return (
     <form onSubmit={(e) => {submit(e)}}>
-       <input name='image' onChange={e => setFile(e.target.files![0])} type="file" accept="image/*"></input>
-       <input name='caption' value={caption} onChange={(event) => setCaption(event.target.value)} type="text" placeholder='Caption'></input>
+       <input onChange={e => setFile(e.target.files![0])} type="file" accept="image/*"></input>
+       <input value={caption} onChange={(event) => setCaption(event.target.value)} type="text" placeholder='Caption'></input>
        <button type="submit">Submit</button>
      </form>
   )
