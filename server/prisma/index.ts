@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const main = async () => {
-  const user = await prisma.user.create({ data: { id: 2, name: 'adonis', email: 'codinggod00@bigman.com' } });
+  const user = await prisma.user.create({ data: { id: 1, name: 'wilbur', email: 'lacurly00@bigman.com' } });
   
   const allUsers = await prisma.user.findMany()
   console.log(allUsers)

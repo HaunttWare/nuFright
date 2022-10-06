@@ -13,15 +13,6 @@ model User {
   email String
 }
 
-model Book {
-  id          String @id
-  title       String
-  author      String
-  description String
-  image       Json
-  genre       Json
-}
-
 model Cinema {
   id          String @id
   title       String
@@ -29,6 +20,15 @@ model Cinema {
   genres      String
   type        String
   images      String
+}
+
+model Book {
+  id          String @id
+  title       String
+  author      String
+  description String
+  image       Json
+  genre       Json
 }
 
 model Stories {
