@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 const path = require('path');
 const images = require('./routes/images/images.controller.ts');
+require('dotenv').config();
 
 const app = express();
 
