@@ -1,10 +1,11 @@
 import React from 'react';
 
-const StoryDisplay = () => {
+const StoryDisplay = (props:{backHandler:Function}) => {
     const HauntedHouse = require('../../../../assets/haunted-house.jpg').default;
 
     return (
         <div className='row' style={{background: 'rgb(220, 53, 69)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <button onClick={() => {props.backHandler('storyList')}} style={{maxWidth: 100, display: 'inline-flex', justifyContent: 'center', background: 'black', color: 'lime', borderRadius: '45%'}}>Back</button>
             <h5 style={{display: 'flex', justifyContent: 'center'}}><b><u>individual story title</u></b></h5>
             <div className='col-6'>by: insert author name here</div>
             <div className='col-6' style={{display: 'flex', justifyContent: 'right'}}>published: insert date here</div>
