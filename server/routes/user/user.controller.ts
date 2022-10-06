@@ -1,2 +1,1 @@
-const prisma = require('../client.ts');
-// require('../client.ts')
+import { db } from '../../prisma/utils/db.server';
