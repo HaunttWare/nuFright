@@ -3,8 +3,8 @@ import { Outlet, Link } from "react-router-dom";
 
 const Navigation = () => (
   <>
-    <nav className="navbar navbar-expand-lg bg-danger">
-      <div className="container-fluid text-light">
+    <nav className="navbar navbar-dark navbar-expand-lg bg-danger">
+      <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           NuFright
         </Link>
@@ -39,6 +39,11 @@ const Navigation = () => (
             <li className="nav-item">
               <Link className="nav-link" to="/gallery">
                 Gallery
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/auth">
+                Sign In
               </Link>
             </li>
           </ul>
