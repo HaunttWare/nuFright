@@ -12,7 +12,7 @@ const StoriesPage = () => {
             {view === 'storyList' && <button onClick={() => setView('write')} style={{maxWidth: 200, background: 'black', color: 'lime', borderRadius: '45%'}}>Write a Story</button>}
             {view === 'storyList' && <Story test={setView} />}
             {view === 'story' && <StoryDisplay backHandler={setView}/>}
-            {view === 'write' && <WriteStory/>}
+            {view === 'write' && <WriteStory backHandler={setView}/>}
         </div>
     );
 }
