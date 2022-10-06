@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const WriteStory = () => {
+const WriteStory = (props:{backHandler: Function}) => {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
 
@@ -13,11 +13,20 @@ const WriteStory = () => {
         setText(event.target.value);
     }
 
+    //publish handler
+    const postHandler = () => {
+        console.log(title, text);
+    }
+
     return (
         <div id='write_story'>
+            <button onClick={() => props.backHandler('storyList')}>Back</button>
+            <br style={{margin: 5}}></br>
             <input placeholder='Write your title here...' onChange={titleHandler} value={title}></input>
             <br style={{margin: 5}}></br>
             <textarea rows={5} placeholder='Write your story here...' onChange={textHandler} value={text}></textarea>
+            <br style={{margin: 5}}></br>
+            <button onClick={postHandler}>Post</button>
         </div>
     )
 }
