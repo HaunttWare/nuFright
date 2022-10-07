@@ -1,1 +1,0 @@
-export const selectCurrentLocation = (state: any) => state.location.currentLocation;
