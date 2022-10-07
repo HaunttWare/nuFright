@@ -1,37 +1,25 @@
 import express from 'express';
 import { db } from '../../prisma/utils/db.server';
-// multer to handle multipart form data
+import { config } from '../../config';
 import multer from 'multer';
-// s3 client to interact with s3 buckets
-import { S3Client, PutObjectCommand, GetObjectCommand, S3ClientConfig } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, GetObjectCommand} from '@aws-sdk/client-s3';
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-require('dotenv').config();
 const images = express.Router();
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 
-// s3 variables
-const bucketKey = (process.env.BUCKET_KEY as string);
-const bucketSecret = (process.env.BUCKET_SECRET as string);
-const bucketRegion = (process.env.BUCKET_REGION as string);
-const bucketName = (process.env.BUCKET_NAME as string);
 
-// const s3config: S3ClientConfig = {
-//   credentials: {
-//     accessKeyId: '<ACCESS_KEY_ID>
-//     secretAccessKey: '<BUCKET_SECRET>'
-//   },
-//   region: ''
-// }
+
+
 
 const s3 = new S3Client({
   credentials: {
-    accessKeyId: bucketKey,
-    secretAccessKey: bucketSecret
+    accessKeyId: config.BUCKET_KEY,
+    secretAccessKey: config.BUCKET_SECRET
   },
-  region: bucketRegion
+  region: config.BUCKET_REGION
 });
 
 images.post('/', upload.single('image'), async (req, res) => {
@@ -41,7 +29,7 @@ images.post('/', upload.single('image'), async (req, res) => {
 
 
   const params = {
-    Bucket: bucketName,
+    Bucket: config.BUCKET_NAME,
     Key: req.file?.originalname,
     Body: req.file?.buffer,
     ContentType: req.file?.mimetype
@@ -56,7 +44,7 @@ images.post('/', upload.single('image'), async (req, res) => {
     })
 
   const ObjectParams = {
-    Bucket: bucketName,
+    Bucket: config.BUCKET_NAME,
     Key: req.file?.originalname
   };
 
