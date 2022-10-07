@@ -3,11 +3,11 @@ import { features } from './haunted-houses';
 
 const HauntedHouseList = () => (
     <>
-      {features.map((feature, idx) => (
+      {/* {features.map((feature, idx) => (
         <li key={`${feature}${idx}`}>
           {feature.properties.name}
         </li>
-      ))}
+      ))} */}
     </>
 )
 
