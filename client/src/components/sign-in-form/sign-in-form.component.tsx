@@ -1,6 +1,12 @@
 import React from "react";
 
 const SignInForm = () => {
+  
+  const googleSignIn = () => {
+    console.log("Google sign in");
+    window.open("http://localhost:3000/auth/google", "_self");
+  };
+
   return (
     <section className="vh-100">
       <div className="container py-5 h-100">
@@ -41,7 +47,7 @@ const SignInForm = () => {
 
                 <button
                   className="btn btn-lg text-white btn-danger w-100"
-                  type="submit"
+                  onClick={googleSignIn}
                 >
                   <i className="fab fa-google me-2"></i> Sign in with google
                 </button>
