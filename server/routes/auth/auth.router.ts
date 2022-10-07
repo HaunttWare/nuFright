@@ -1,37 +1,46 @@
-// import express from 'express';
-// import passport from 'passport';
-// //import { send } from 'process';
+import express from "express";
+import passport from "passport";
 
-// const authRouter = express.Router();
-// authRouter.get('/login/failed', (req, res) => {
-//   res.status(401).json({
-//     success: false,
-//     message: 'Counldn\'t login loser'
-//   });
-// })
-// authRouter.get('/login/success', (req, res) => {
-//   if (req.user) {
-//     res.status(200).json({
-//       success: true,
-//       message: 'You\'re logged in but still kind of a loser ',
-//       user: req.user
-//     });
-//   }
-// })
+const authRouter = express.Router();
 
-// // authRouter.get('/logout', (req, res) => {
-// //   req.logout();
-// //   res.redirect('http://localhost:3000');
-// // })
+authRouter.get("/login/successful", (req, res) => {
+  if (req.user) {
+    res.json({
+      success: true,
+      message: "user has successfully authenticated",
+      user: req.user,
+      // cookies: req.cookies
+    });
+  }
+});
 
-// authRouter.get('/google', passport.authenticate('google', {
-//   scope: ['profile']
-// }))
+authRouter.get("/login/failed", (req, res) => {
+  res.status(401).json({
+    success: false,
+    message: "user failed to authenticate.",
+  });
+});
 
-// authRouter.get('/google/callback', passport.authenticate('google', {
-//     successRedirect: 'http://localhost:3000',
-//     failureRedirect: '/login/failed'
-// }))
+authRouter.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
-// export default authRouter;
+authRouter.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/",
+    failureRedirect: "/login/failed",
+  })
+);
 
+authRouter.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      res.send(err);
+    }
+  });
+  res.redirect("/");
+});
+
+export default authRouter;

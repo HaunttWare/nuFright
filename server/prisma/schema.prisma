@@ -8,20 +8,11 @@ datasource db {
 }
 
 model User {
-  id    Int    @id
-  googleId String
-  name  String
-  email String
-  avatar String
-}
-
-model Book {
-  id          String @id
-  title       String
-  author      String
-  description String
-  image       Json
-  genre       Json
+  id       String @id @default(cuid())
+  googleId String @unique
+  name     String
+  email    String @unique
+  photo    String
 }
 
 model Cinema {
@@ -33,6 +24,15 @@ model Cinema {
   images      String
 }
 
+model Book {
+  id          String @id
+  title       String
+  author      String
+  description String
+  image       Json
+  genre       Json
+}
+
 model Stories {
   id       String @id
   authorId String
@@ -40,5 +40,3 @@ model Stories {
   story    String
   images   String
 }
-
-
