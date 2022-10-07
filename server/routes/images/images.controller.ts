@@ -23,10 +23,6 @@ const s3 = new S3Client({
 });
 
 images.post('/', upload.single('image'), async (req, res) => {
-  // console.log('whats in the body\n', req.body);
-  // console.log('whats in the file\n', req.file);
-  // console.log('whats the bucketname?\n', bucketName)
-
 
   const params = {
     Bucket: config.BUCKET_NAME,
@@ -49,11 +45,8 @@ images.post('/', upload.single('image'), async (req, res) => {
   };
 
   const urlCommand = new GetObjectCommand(ObjectParams)
-  // const url = await getSignedUrl(s3, urlCommand, { expiresIn: 3600 })  
-  // console.log(url);
 
   res.sendStatus(200);
 });
 
-
-module.exports = images;
+export default images;
