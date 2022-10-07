@@ -8,6 +8,7 @@ import Books from "./routes/books/books.components";
 import Stories from "./routes/stories/stories.component";
 import Gallery from "./routes/gallery/gallery.component";
 import Authentication from "./routes/authentication/authentication.component";
+import MapBox from "./routes/haunted-houses/Map.component"
 
 const App = () => (
   <Routes>
@@ -18,6 +19,7 @@ const App = () => (
       <Route path="stories" element={<Stories />} />
       <Route path="gallery" element={<Gallery />} />
       <Route path="auth" element={<Authentication />} />
+      <Route path="map" element={<MapBox />} />
     </Route>
   </Routes>
 );
