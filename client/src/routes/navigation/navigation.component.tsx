@@ -46,6 +46,11 @@ const Navigation = () => (
                 Sign In
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/map">
+                Haunted Houses
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
