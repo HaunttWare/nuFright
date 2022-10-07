@@ -1,7 +1,9 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 
 module.exports = {
+  devtool: 'eval-source-map',
   entry: './client/src/index.tsx', 
   output: {
     path: path.join(__dirname, 'client/public/build'),
@@ -33,5 +35,12 @@ module.exports = {
       },
     ],
   },
-
+  stats: {
+    errorDetails: true
+  },
+  plugins: [
+    new Dotenv({
+      systemvars: true,
+    })
+  ]
 };

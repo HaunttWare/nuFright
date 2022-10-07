@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { setCurrentUser } from "../../store/user/user.action";
 
+
 const Navigation = () => {
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
@@ -51,6 +52,11 @@ const Navigation = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/gallery">
                   Gallery
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/map">
+                  Haunts
                 </Link>
               </li>
               {currentUser ? (
@@ -104,7 +110,6 @@ const Navigation = () => {
               )}
             </ul>
           </div>
-        </div>
       </nav>
       <Outlet />
     </>
