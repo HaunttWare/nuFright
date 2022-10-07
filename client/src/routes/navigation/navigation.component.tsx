@@ -110,6 +110,7 @@ const Navigation = () => {
               )}
             </ul>
           </div>
+        </div>
       </nav>
       <Outlet />
     </>
