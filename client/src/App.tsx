@@ -23,7 +23,7 @@ const App = () => {
       .get("/auth/login/successful")
       .then(({ data: { user } }) => dispatch(setCurrentUser(user)))
       .catch((err) => console.log(err));
-  }, []);
+  }, [dispatch]);
 
   return (
     <Routes>
