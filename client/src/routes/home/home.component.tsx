@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import HauntedHouseList from '../haunted-houses/haunted-house-list.componet'
 
 const Home = () => (
 //   const [user, setUser] = useState<User>({} as User);
@@ -13,8 +14,8 @@ const Home = () => (
 // return (
   // user ? 
   <div className="container">
-    <h1>Home Page logged in</h1>
-    {/* <button onClick={handleLogout}>logout</button>   */}
+    <h1>Home</h1>
+    <HauntedHouseList />
   </div>
   // :
   // <div className="container">
