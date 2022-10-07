@@ -8,33 +8,138 @@ datasource db {
 }
 
 model User {
-  id    Int    @id
-  name  String
-  email String
+  id         String      @id @default(cuid())
+  googleId   String      @unique
+  name       String
+  email      String      @unique
+  photo      String
+  createdAt  DateTime    @default(now())
+  stories    Stories[]
+  savedlist  Savedlist[]
+  followedBy Follows[]   @relation("follower")
+  following  Follows[]   @relation("following")
+  liked      Likes[]
+  images     Images[]
 }
 
 model Cinema {
-  id          String @id
+  id          String      @id @default(cuid())
   title       String
   description String
   genres      String
   type        String
   images      String
+  savedBy     Savedlist[] @relation("saveCinema")
+  likedBy     Likes[]     @relation("likeCinema")
+  ratings     BooScale[]  @relation("rateCinema")
 }
 
 model Book {
-  id          String @id
+  id          String      @id @default(cuid())
   title       String
   author      String
   description String
   image       Json
   genre       Json
+  savedBy     Savedlist[] @relation("saveBook")
+  likedBy     Likes[]     @relation("likeBook")
+  ratings     BooScale[]  @relation("rateBook")
 }
 
 model Stories {
-  id       String @id
-  authorId String
-  title    String
-  story    String
-  images   String
+  id        String      @id @default(cuid())
+  author    User        @relation(fields: [authorId], references: [id])
+  authorId  String
+  title     String
+  story     String
+  images    String
+  createdAt DateTime    @default(now())
+  savedBy   Savedlist[] @relation("saveStory")
+  likedBy   Likes[]     @relation("likeStory")
+  ratings   BooScale[]  @relation("rateStory")
+}
+
+model Images {
+  id      String      @id @default(cuid())
+  image   String
+  user    User        @relation(fields: [userId], references: [id])
+  userId  String
+  caption String
+  savedBy Savedlist[] @relation("saveImage")
+  likedBy Likes[]     @relation("likeImage")
+  ratings BooScale[]  @relation("rateImage")
+}
+
+model BooScale {
+  id        String   @id @default(cuid())
+  userId    String
+  rating    Int
+  cinemaId  String?
+  bookId    String?
+  storiesId String?
+  imagesId  String?
+  cinema    Cinema?  @relation("rateCinema", fields: [cinemaId], references: [id])
+  book      Book?    @relation("rateBook", fields: [bookId], references: [id])
+  stories   Stories? @relation("rateStory", fields: [storiesId], references: [id])
+  images    Images?  @relation("rateImage", fields: [imagesId], references: [id])
+  haunts    Haunts?  @relation("rateHaunt", fields: [hauntsId], references: [id])
+  hauntsId  String?
+}
+
+model Haunts {
+  id           String      @id @default(cuid())
+  hauntId      String?
+  name         String
+  latitude     String
+  longitude    String
+  locationType String
+  addressType  String
+  address      String
+  address2     String
+  address3     String
+  address4     String
+  savedBy      Savedlist[] @relation("saveHaunt")
+  likedBy      Likes[]     @relation("likeHaunt")
+  ratings      BooScale[]  @relation("rateHaunt")
+}
+
+model Follows {
+  id         String @id @default(cuid())
+  user       User   @relation("following", fields: [userId], references: [id])
+  userId     String
+  follower   User   @relation("follower", fields: [followerId], references: [id])
+  followerId String
+}
+
+model Likes {
+  id       String   @id @default(cuid())
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String   @unique
+  isLiked  Boolean
+  haunt    Haunts?  @relation("likeHaunt", fields: [hauntId], references: [id])
+  hauntId  String?
+  cinema   Cinema?  @relation("likeCinema", fields: [cinemaId], references: [id])
+  cinemaId String?
+  book     Book?    @relation("likeBook", fields: [bookId], references: [id])
+  bookId   String?
+  story    Stories? @relation("likeStory", fields: [storyId], references: [id])
+  storyId  String?
+  images   Images?  @relation("likeImage", fields: [imagesId], references: [id])
+  imagesId String?
+}
+
+model Savedlist {
+  id       String   @id @default(cuid())
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String   @unique
+  cinema   Cinema?  @relation("saveCinema", fields: [cinemaId], references: [id])
+  cinemaId String?  @unique
+  haunt    Haunts?  @relation("saveHaunt", fields: [hauntId], references: [id])
+  hauntId  String?
+  book     Book?    @relation("saveBook", fields: [bookId], references: [id])
+  bookId   String?
+  story    Stories? @relation("saveStory", fields: [storyId], references: [id])
+  storyId  String?
+  images   Images?  @relation("saveImage", fields: [imagesId], references: [id])
+  imagesId String?
 }
