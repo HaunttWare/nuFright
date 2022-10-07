@@ -18,14 +18,13 @@ const Profile = () => {
                 >
                   <img
                     src={currentUser.photo}
-                    alt="Generic placeholder image"
+                    alt="user-photo"
                     className="img-fluid img-thumbnail mt-4 mb-2"
                     style={{ width: "150px", zIndex: 1 }}
                   />
                   <button
                     type="button"
-                    className="btn btn-outline-dark"
-                    data-mdb-ripple-color="dark"
+                    className="btn btn-outline-danger"
                     style={{ zIndex: 1 }}
                   >
                     Edit profile
