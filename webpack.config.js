@@ -35,6 +35,9 @@ module.exports = {
       },
     ],
   },
+  stats: {
+    errorDetails: true
+  },
   plugins: [
     new Dotenv({
       systemvars: true,
