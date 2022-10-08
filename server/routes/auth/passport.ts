@@ -1,5 +1,6 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { UserData } from "../../../client/src/store/user/user.action";
 import { db } from "../../prisma/utils/db.server";
 import { config } from "../../config";
 
@@ -34,13 +35,11 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-
   done(null, user);
 });
 
-passport.deserializeUser((user: any, done) => {
-  console.log(user);
-  done(null, user);
+passport.deserializeUser((user: UserData, done) => {
+  done(null, user)
 });
 
 export default passport;
