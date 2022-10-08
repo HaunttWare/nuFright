@@ -11,7 +11,7 @@ import Films from "./routes/movies-shows/films.component";
 import Books from "./routes/books/books.components";
 import Stories from "./routes/stories/stories.component";
 import Gallery from "./routes/gallery/gallery.component";
-import MapBox from "./routes/haunted-houses/Map.component"
+import MapBox from "./routes/haunted-houses/Map.component";
 import Authentication from "./routes/authentication/authentication.component";
 import Profile from "./routes/profile/profile.component";
 
@@ -21,7 +21,12 @@ const App = () => {
   useEffect(() => {
     axios
       .get("/auth/login/successful")
-      .then(({ data: { user } }) => dispatch(setCurrentUser(user)))
+      .then(({ data: { user } }) => { 
+        console.log("got user",user);
+        if(user) {
+          dispatch(setCurrentUser(user));
+        }
+      })
       .catch((err) => console.log(err));
   }, []);
 

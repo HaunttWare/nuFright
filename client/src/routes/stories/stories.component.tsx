@@ -1,5 +1,5 @@
 import React from "react";
-import StoriesPage from '../../../public/components/Stories-components/Stories';
+import StoriesPage from '../../components/Stories-components/Stories';
 
 const Stories = () => (
   <div className="container">
