@@ -28,13 +28,11 @@ const WriteStory = (props:{backHandler: Function}) => {
 
     return (
         <div id='write_story'>
-            <button onClick={() => props.backHandler('storyList')}>Back</button>
+            <button onClick={() => props.backHandler('storyList')} style={{background: 'black', color: 'lime', borderRadius: '45%', minWidth: 50}}>Back</button>
             <br style={{margin: 5}}></br>
-            <input placeholder='Write your title here...' onChange={titleHandler} value={title}></input>
-            <br style={{margin: 5}}></br>
-            <textarea rows={5} placeholder='Write your story here...' onChange={textHandler} value={text}></textarea>
-            <br style={{margin: 5}}></br>
-            <button onClick={postHandler}>Post</button>
+            <input placeholder='Write your title here...' onChange={titleHandler} value={title} style={{width: '100%', display: 'block', marginBottom: 5}}></input>
+            <textarea rows={5} placeholder='Write your story here...' onChange={textHandler} value={text} style={{width: '100%', display: 'block', marginBottom: 5}}></textarea>
+            <button onClick={postHandler} style={{background: 'black', color: 'lime', borderRadius: '45%', minWidth: 50}}>Post</button>
         </div>
     )
 }
