@@ -1,12 +1,12 @@
 import express from "express";
 
 import authRouter from "./auth/auth.router";
-import images from "./images/images.controller";
+import imageRouter from "./images/images.router";
 
 const rootRouter = express.Router();
 
 rootRouter.use("/auth", authRouter);
-rootRouter.use('/images', images);
+rootRouter.use('/images', imageRouter);
 
 export default rootRouter;
 
