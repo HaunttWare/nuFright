@@ -15,16 +15,18 @@ const getAllStories = (req:Request, res:Response) => {
 }
 
 const getName = (req:Request, res:Response) => {
+    const { userId }  = req.params;
     db.user.findUnique({
         where: {
-            id: req.body.userId,
+            id: req.body.userId ? req.body.userId : userId,
         }
     })
     .then((result:any) => {
         res.status(200).send(result.name);
     })
     .catch((err:Error) => {
-        res.status(500).send(err);
+        console.error(err);
+        res.status(500);
     })
 }
 
