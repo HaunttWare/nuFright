@@ -47,7 +47,7 @@ model Book {
 }
 
 model Stories {
-  id        String      @id @default(uuid())
+  id        String      @id @default(cuid())
   authorId  String
   title     String
   story     String      @unique
@@ -61,7 +61,7 @@ model Stories {
 
 model Images {
   id      String      @id @default(cuid())
-  image   String
+  image   String      @unique
   userId  String
   caption String
   user    User        @relation(fields: [userId], references: [id])
