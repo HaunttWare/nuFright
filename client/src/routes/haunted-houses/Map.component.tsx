@@ -9,7 +9,13 @@ const MapBox = () => {
     latitude: 37.8,
     zoom: 14,
   });
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleClick = (e: any) => {
+    console.log(e.currentTarget.id);
+    
+    
+  };
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -32,48 +38,46 @@ const MapBox = () => {
           key={feature.properties.id}
           longitude={feature.geometry.coordinates[0]}
           latitude={feature.geometry.coordinates[1]}
-        ></Marker>
+        >
+          <div onClick={handleClick}
+          id={feature.properties.id}
+          >📍</div>
+        </Marker>
       )),
     [features]
   );
 
   const popups = useMemo(
     () =>
-      features.map((feature) => {
-        return (
-          <>
-            {showPopup && (
-              <Popup
-                key={feature.properties.id}
-                longitude={feature.geometry.coordinates[0]}
-                latitude={feature.geometry.coordinates[1]}
-                anchor='top'
-                onClose={() => setShowPopup(false)}
-              >
-                <h3
-                  className='text-black'
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {feature.properties.name}
-                </h3>
-                <h4
-                  className='text-muted'
-                  style={{
-                    fontSize: '10px',
-                  }}
-                >
-                  {feature.properties.address}
-                  <br />
-                  {feature.properties.address2}
-                </h4>
-              </Popup>
-            )}
-          </>
-        );
-      }),
+      features.map((feature) => (
+        <Popup
+          key={feature.properties.id}
+          longitude={feature.geometry.coordinates[0]}
+          latitude={feature.geometry.coordinates[1]}
+          anchor='top'
+          onClose={() => setShowPopup(false)}
+        >
+          <h3
+            className='text-black'
+            style={{
+              fontSize: '14px',
+              fontWeight: 'bold',
+            }}
+          >
+            {feature.properties.name}
+          </h3>
+          <h4
+            className='text-muted'
+            style={{
+              fontSize: '10px',
+            }}
+          >
+            {feature.properties.address}
+            <br />
+            {feature.properties.address2}
+          </h4>
+        </Popup>
+      )),
     [features]
   );
 
@@ -86,7 +90,7 @@ const MapBox = () => {
       mapStyle='mapbox://styles/mapbox/dark-v10'
     >
       {markers}
-      {popups}
+      {showPopup && popups}
     </Map>
   );
 };
