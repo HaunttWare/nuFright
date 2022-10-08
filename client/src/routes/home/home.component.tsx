@@ -12,7 +12,7 @@ const Home = () => (
     <CreepyCarousel/><br></br>
     <h3>Top Haunts!</h3>
     <CreepyCarousel />
-    <h3>Favoirte horror books!</h3>
+    <h3>Favorite horror books!</h3>
     <CreepyCarousel />
     <h3>chilling tales from around the web...</h3>
     <CreepyCarousel />
