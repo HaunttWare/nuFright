@@ -16,6 +16,29 @@ const getAllStories = (req:Request, res:Response) => {
 
 // POST REQUESTS
 
+const addStory = (req:Request, res:Response) => {
+    let newStory = req.body;
+    if(newStory.title && newStory.text && newStory.userId) {
+        db.stories.create({
+            data: {
+                authorId: newStory.userId,
+                title: newStory.title,
+                story: newStory.text,
+                images: newStory.image ? newStory.image : '',
+            }
+        })
+        .then((result:any) => {
+            res.sendStatus(200);
+        })
+        .catch((err:Error) => {
+            res.status(500).send(err);
+        });
+    } else {
+        res.status(500).send('Cannot post story due to missing field(s)');
+    }
+}
+
 export {
     getAllStories,
+    addStory,
 }
