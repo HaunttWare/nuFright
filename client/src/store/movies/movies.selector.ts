@@ -1,0 +1,1 @@
+export const selectCurrentMovies = (state: any) => state.movies.currentMovies;
