@@ -39,7 +39,7 @@ const StoriesPage = () => {
 
     return (
         <div id="stories_page">
-            {view === 'storyList' && <button onClick={() => viewHandler('write', null)} style={{maxWidth: 200, background: 'black', color: 'lime', borderRadius: '45%'}}>Write a Story</button>}
+            {view === 'storyList' && <button onClick={() => viewHandler('write', null)} style={{minWidth: 110, maxWidth: 200, background: 'black', color: 'lime', borderRadius: '45%'}}>Write a Story</button>}
             {view === 'storyList' && !allStories.length && <div>Loading...</div>}
             <>
             {view === 'storyList' && allStories.map(((story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String}, index:any) => {
