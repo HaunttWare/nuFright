@@ -47,11 +47,11 @@ model Book {
 }
 
 model Stories {
-  id        String      @id @default(cuid())
+  id        String      @id @default(uuid())
   author    User        @relation(fields: [authorId], references: [id])
   authorId  String
   title     String
-  story     String
+  story     String      @unique
   images    String
   createdAt DateTime    @default(now())
   savedBy   Savedlist[] @relation("saveStory")

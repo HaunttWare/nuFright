@@ -11,9 +11,9 @@ const Home = () => (
     <h3>Top Shows/Movies</h3>
     <CreepyCarousel /><br></br>
     <h3>Top Haunts!</h3>
-    <CreepyCarousel /><br></br>
-    <h3>Favoirte horror books!</h3>
-    <CreepyCarousel /><br></br>
+    <CreepyCarousel />
+    <h3>Favorite horror books!</h3>
+    <CreepyCarousel />
     <h3>chilling tales from around the web...</h3>
     <CreepyCarousel />
   </div>
