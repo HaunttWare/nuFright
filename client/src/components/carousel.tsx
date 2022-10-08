@@ -35,7 +35,7 @@ const CreepyCarousel = () => {
         />
 
         <Carousel.Caption>
-          <h3>Third slide label</h3>
+          <h3></h3>
           <p>
             Praesent commodo cursus magna, vel scelerisque nisl consectetur.
           </p>
