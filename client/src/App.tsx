@@ -21,7 +21,12 @@ const App = () => {
   useEffect(() => {
     axios
       .get("/auth/login/successful")
-      .then(({ data: { user } }) => dispatch(setCurrentUser(user)))
+      .then(({ data: { user } }) => { 
+        console.log("got user",user);
+        if(user) {
+          dispatch(setCurrentUser(user));
+        }
+      })
       .catch((err) => console.log(err));
   }, []);
 
