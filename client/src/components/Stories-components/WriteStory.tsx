@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
+import axios from 'axios';
 
 const WriteStory = (props:{backHandler: Function}) => {
+    const currentUser = useSelector(selectCurrentUser);
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
 
@@ -15,7 +19,11 @@ const WriteStory = (props:{backHandler: Function}) => {
 
     //publish handler
     const postHandler = () => {
-        console.log(title, text);
+        if(title && text && currentUser) {
+            axios.post('/story/addStory', {userId: currentUser.id, title: title, text: text})
+            .then((result:any) => props.backHandler('storyList'))
+            .catch((err:Error) => console.error(err));
+        }
     }
 
     return (
