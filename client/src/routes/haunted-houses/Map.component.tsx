@@ -9,12 +9,23 @@ const MapBox = () => {
     latitude: 37.8,
     zoom: 14,
   });
+  type Haunts = {
+    name: string;
+    id: string;
+    address: string;
+    address2: string;
+  }
   const [showPopup, setShowPopup] = useState(false);
+  const [selectft, setFeat] = useState<Haunts>();
 
   const handleClick = (e: any) => {
-    console.log(e.currentTarget.id);
-    
-    
+    setShowPopup(true);
+    const feat: number = e.currentTarget.id;
+    const selected = features.map(ft => (
+      {name: ft.properties.name, id: ft.properties.id, address: ft.properties.address, address2: ft.properties.address2}
+    )).find(ft => ft.id === feat.toString());
+    console.log(selected);
+    setFeat(selected);
   };
 
   useEffect(() => {
@@ -56,26 +67,27 @@ const MapBox = () => {
           latitude={feature.geometry.coordinates[1]}
           anchor='top'
           onClose={() => setShowPopup(false)}
-        >
-          <h3
-            className='text-black'
-            style={{
-              fontSize: '14px',
-              fontWeight: 'bold',
-            }}
-          >
-            {feature.properties.name}
-          </h3>
-          <h4
-            className='text-muted'
-            style={{
-              fontSize: '10px',
-            }}
-          >
-            {feature.properties.address}
-            <br />
-            {feature.properties.address2}
-          </h4>
+        > {selectft && (
+
+          <><h3
+              className='text-black'
+              style={{
+                fontSize: '14px',
+                fontWeight: 'bold',
+              }}
+            >
+              {selectft.name}
+            </h3><h4
+              className='text-muted'
+              style={{
+                fontSize: '10px',
+              }}
+            >
+                {selectft.address}
+                <br />
+                {selectft.address2}
+              </h4></>
+            )}
         </Popup>
       )),
     [features]
