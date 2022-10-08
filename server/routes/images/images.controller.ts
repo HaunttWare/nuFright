@@ -2,7 +2,7 @@ import express from 'express';
 import { db } from '../../prisma/utils/db.server';
 import { config } from '../../config';
 import multer from 'multer';
-import { S3Client, PutObjectCommand, GetObjectCommand} from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 const images = express.Router();
 
@@ -45,7 +45,8 @@ images.post('/', upload.single('image'), async (req, res) => {
   };
 
   const urlCommand = new GetObjectCommand(ObjectParams)
-
+  const url = await getSignedUrl(s3, urlCommand, { expiresIn: 3600 })
+  console.log('the almighty url',url);
   res.sendStatus(200);
 });
 
