@@ -15,7 +15,7 @@ const StoriesPage = () => {
     const updateStoryList = () => {
         axios.get('/story/allStories')
         .then(result => {
-            setAllStories(result.data);
+            setAllStories(result.data.reverse());
         })
         .catch((err:Error) => console.error(err));
     }
@@ -42,7 +42,7 @@ const StoriesPage = () => {
             {view === 'storyList' && <button onClick={() => viewHandler('write', null)} style={{maxWidth: 200, background: 'black', color: 'lime', borderRadius: '45%'}}>Write a Story</button>}
             {view === 'storyList' && !allStories.length && <div>Loading...</div>}
             <>
-            {view === 'storyList' && allStories.reverse().map(((story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String}, index:any) => {
+            {view === 'storyList' && allStories.map(((story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String}, index:any) => {
                 return <div key={index}>
                         <Story test={viewHandler} story={story} key={index} />
                         <br style={{margin: 5}}></br>
