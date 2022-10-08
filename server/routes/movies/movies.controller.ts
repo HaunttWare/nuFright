@@ -121,7 +121,7 @@ const getMoviesFromAPI = (req: Request, res: Response) => {
           description: movie.overview,
           genres: matchedGenres,
           type: 'movie',
-          images: movie.poster_path,
+          images: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
         }
         return movieObj;
       })
