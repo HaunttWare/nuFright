@@ -9,11 +9,11 @@ const Home = () => (
     <h2>The one stop shop for all of you freaks out there 😈 </h2><br></br>
     
     <h3>Top Shows/Movies</h3>
-    <CreepyCarousel/><br></br>
+    <CreepyCarousel /><br></br>
     <h3>Top Haunts!</h3>
-    <CreepyCarousel />
+    <CreepyCarousel /><br></br>
     <h3>Favoirte horror books!</h3>
-    <CreepyCarousel />
+    <CreepyCarousel /><br></br>
     <h3>chilling tales from around the web...</h3>
     <CreepyCarousel />
   </div>
