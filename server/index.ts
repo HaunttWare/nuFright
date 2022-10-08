@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import path from "path";
-const images = require('./routes/images/images.controller.ts');
+import images from './routes/images/images.controller'
 import cors from "cors";
 import passport from "passport";
 import cookieSession from "cookie-session";
