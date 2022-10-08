@@ -7,7 +7,6 @@ const ImagePost = () => {
   const [file, setFile] = useState<File | null>(null);
   const [caption, setCaption] = useState("")
   const currentUser = useSelector(selectCurrentUser);
-  console.log('here it is', currentUser);
   const submit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (file) {
