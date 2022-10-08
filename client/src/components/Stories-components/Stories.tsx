@@ -8,6 +8,7 @@ import WriteStory from './WriteStory';
 const StoriesPage = () => {
     const [view, setView] = useState('storyList');
     const [allStories, setAllStories] = useState([]);
+    const [selectedStory, setSelected] = useState({authorId: '', createdAt: '', id: '', images: '', title: '', story: ''});
     const [isLoading, setIsLoading] = useState(true);
 
     //on initializing, get all stories from database
@@ -23,6 +24,9 @@ const StoriesPage = () => {
     //view handler handles changing views
     const viewHandler = (view:any, props:any) => {
         setView(view);
+        if(props) {
+            setSelected(props);
+        }
     }
 
     return (
@@ -33,7 +37,7 @@ const StoriesPage = () => {
                 return <Story test={viewHandler} story={story} key={index} />
             }))}
             </>
-            {view === 'story' && <StoryDisplay backHandler={viewHandler}/>}
+            {view === 'story' && <StoryDisplay story={selectedStory} backHandler={viewHandler}/>}
             {view === 'write' && <WriteStory backHandler={viewHandler}/>}
         </div>
     );
