@@ -1,1 +1,1 @@
-export const selectCurrentMovies = (state: any) => state.movies.currentMovies;
+export const selectCurrentMovies = (state: any) => state.movies.movies;
