@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import { db } from '../../prisma/utils/db.server';
 import { config } from '../../config';
-import { forEachChild } from 'typescript';
 import axios from 'axios';
 import { prisma } from '@prisma/client';
 
@@ -114,7 +113,7 @@ const getMoviesFromAPI = (req: Request, res: Response) => {
               return genresFromMovieDb[i].name;
             }
           }
-        }).join('');
+        }).join(',');
         
         let movieObj = {
           title: movie.title,
