@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import ImagePost from '../../components/Gallery-components/galleryPost.component';
 import ImageCard from '../../components/Gallery-components/ImageCard.component';
 import loadSpinner from '../../components/Gallery-components/loadSpinner.component';
+ import{ galleryProps, imgs } from '../../components/Gallery-components/galleryProps.component';
 
-// type for allImages
-type imgs = Images[];
+
 
 const Gallery = () => {
   const [allImages, setAllImages] = useState<imgs | null>(null);
@@ -33,7 +33,7 @@ const Gallery = () => {
       <ImagePost />
       {
         allImages ?
-          <ImageCard />
+          <ImageCard allImages={allImages} />
           :
           <div className="spinner-border text-danger" role="status">
             <span className="visually-hidden">Loading...</span>
