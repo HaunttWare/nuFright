@@ -1,6 +1,4 @@
 import React from "react";
-import HauntedHouseList from '../haunted-houses/haunted-house-list.componet'
-import { selectCurrentUser } from "../../store/user/user.selector";
 import CreepyCarousel from "../../components/carousel";
 
 const Home = () => (
