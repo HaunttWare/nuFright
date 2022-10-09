@@ -1,5 +1,5 @@
 import React from "react";
-import ImagePost from './galleryPost.component';
+import ImagePost from '../../components/Gallery-components/galleryPost.component';
 
 const Gallery = () => (
   <div className="container">
