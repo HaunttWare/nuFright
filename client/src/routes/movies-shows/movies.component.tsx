@@ -29,7 +29,6 @@ return (
   <div className="container">
     <h1>Movies</h1>
     { currentMovies?.map((movie: MoviesData, i: number) => {
-      console.log(movie);
       return (
         <EachMovie key={`${movie} @ ${i}`} movie={movie} />
       )

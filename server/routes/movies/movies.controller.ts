@@ -99,7 +99,6 @@ const getMoviesFromAPI = (req: Request, res: Response) => {
   
   return Promise.all(apiReq)
     .then((results) => {
-      //console.log(results);
       const allMovies = results.map(({ data }) => {
         return data.results.flat(); 
       }).flat();
