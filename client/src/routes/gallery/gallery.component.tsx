@@ -31,7 +31,14 @@ const Gallery = () => {
     <div className="container">
       <h1>Gallery</h1>
       <ImagePost />
-      { allImages ? <ImageCard /> : <loadSpinner /> }
+      {
+        allImages ?
+          <ImageCard />
+          :
+          <div className="spinner-border text-danger" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+      }
     </div>
   );
 }
