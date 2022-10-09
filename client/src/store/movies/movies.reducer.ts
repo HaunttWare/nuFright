@@ -4,7 +4,7 @@ interface MoviesState {
   movies: any
 }
 const initialState = {
-  movies: {}
+  movies: []
 }
 
 type Action = { type: "MOVIES_ACTIONS_TYPES", payload: {}}
@@ -14,7 +14,7 @@ export const moviesReducer = (state: MoviesState = initialState, action: any) =>
     case MOVIES_ACTIONS_TYPES.SET_CURRENT_MOVIES: {
       return {
         ...state,
-        movies: [...state.movies, action.payload]
+        movies: action.payload
       }
     }
     default:

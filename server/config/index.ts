@@ -6,5 +6,6 @@ export const config = {
     BUCKET_REGION: process.env.BUCKET_REGION || '',
     BUCKET_KEY: process.env.BUCKET_KEY || '',
     BUCKET_SECRET: process.env.BUCKET_SECRET || '',
+    MOVIEDB_API_KEY: process.env.MOVIEDB_API_KEY || ''
 };
 
