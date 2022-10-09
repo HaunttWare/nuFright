@@ -91,7 +91,7 @@ const getMoviesFromAPI = (req: Request, res: Response) => {
     `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=2`,
     `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=3`,
     `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=4`
-  ]
+  ];
   const apiReq = urls.map((url) => {
     return axios.get(url)
     
@@ -134,8 +134,8 @@ const getMoviesFromAPI = (req: Request, res: Response) => {
       res.sendStatus(200);
     })
     .catch((err) => {
-      res.sendStatus(500);
       console.error(err);
+      res.sendStatus(500);
     })
   
 };
