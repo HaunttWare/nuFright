@@ -105,16 +105,33 @@ const getUserImgs = async (req: Request, res: Response) => {
   } catch (err) {
     console.error('could not find users images', err)
     res.sendStatus(500);
-  }
-
-  
+  } 
 }
 
+const getUserNames = async (req: Request, res: Response) => {
+
+  return db.user.findMany({})
+    .then((users) => {
+      let allUsers = users.map((curr) => {
+        return {
+          id: curr.id,
+          name: curr.name
+      }
+    })
+      console.log('here are users', allUsers);
+      res.status(200).send(allUsers);
+  })
+  .catch((err) => {
+    console.error('error on getting users\n', err);
+    res.sendStatus(500);
+  })
+}
 
 export {
   uploadImage,
   getImages,
   getUserImgs,
+  getUserNames,
   upload
 }
 
