@@ -24,7 +24,7 @@ const WriteStory = (props:{backHandler: Function}) => {
         if(title && text && currentUser) {
             setIsLoading(true);
             setFormFilled('Posting...');
-            axios.post('/story/addStory', {userId: currentUser.id, title: title, text: text})
+            axios.post('/api/story/addStory', {userId: currentUser.id, title: title, text: text})
             .then((result:any) => {
                 props.backHandler('storyList')
                 setIsLoading(false);
