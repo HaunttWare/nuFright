@@ -14,19 +14,27 @@ const Movies = () => {
   const getMovies = () => {
     axios.get('/movies')
       .then(({ data }) => {
-       dispatch(setCurrentMovies(data));
+        data.forEach((movie: MoviesData) => {
+          if (movie.type === 'movie') {
+            dispatch(setCurrentMovies(data.slice(0, 50)));
+          }
+        })
       })
-  }; 
+  };  
 
   useEffect(() => {
     getMovies();
     setCurrentMoviesLoaded(true);
   }, []);
 
+<<<<<<< HEAD
 // console.log(currentMovies);
+=======
+console.log('in movies' ,currentMovies);
+>>>>>>> 030a78dfc8ebc8d40657b7c24ce087c7d1f3c21c
 
 return (
-  <div className="container">
+  <div className="cinema-container">
     <h1>Movies</h1>
     { currentMovies?.map((movie: MoviesData, i: number) => {
       return (
