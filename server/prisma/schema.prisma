@@ -8,30 +8,30 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(cuid())
+  id         String      @id @default(cuid())
   name       String
-  email      String     @unique
-  createdAt  DateTime   @default(now())
-  googleId   String     @unique
+  email      String      @unique
+  createdAt  DateTime    @default(now())
+  googleId   String      @unique
   photo      String
-  followedBy Follows[]  @relation("follower")
-  following  Follows[]  @relation("following")
+  followedBy Follows[]   @relation("follower")
+  following  Follows[]   @relation("following")
   images     Images[]
-  liked      Likes?
-  savedlist  Savedlist?
+  liked      Likes[]
+  savedlist  Savedlist[]
   stories    Stories[]
 }
 
 model Cinema {
-  id          String     @id @default(cuid())
+  id          String      @id @default(cuid())
   title       String
   description String
   genres      String
   type        String
   images      String
-  ratings     BooScale[] @relation("rateCinema")
-  likedBy     Likes[]    @relation("likeCinema")
-  savedBy     Savedlist? @relation("saveCinema")
+  ratings     BooScale[]  @relation("rateCinema")
+  likedBy     Likes[]     @relation("likeCinema")
+  savedBy     Savedlist[] @relation("saveCinema")
 }
 
 model Book {
@@ -113,7 +113,7 @@ model Follows {
 
 model Likes {
   id       String   @id @default(cuid())
-  userId   String   @unique
+  userId   String
   isLiked  Boolean
   hauntId  String?
   cinemaId String?
@@ -130,8 +130,8 @@ model Likes {
 
 model Savedlist {
   id       String   @id @default(cuid())
-  userId   String   @unique
-  cinemaId String?  @unique
+  userId   String
+  cinemaId String?
   hauntId  String?
   bookId   String?
   storyId  String?
