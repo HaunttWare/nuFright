@@ -2,14 +2,13 @@ import { Images } from ".prisma/client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ImagePost from '../../components/Gallery-components/galleryPost.component';
-import ImageCard from '../../components/Gallery-components/ImageCard.component';
-import loadSpinner from '../../components/Gallery-components/loadSpinner.component';
- import{ galleryProps, imgs } from '../../components/Gallery-components/galleryProps.component';
+import ImageCards from '../../components/Gallery-components/ImageCards.component';
+ import{ galleryProps, imageArr } from '../../components/Gallery-components/galleryProps.component';
 
 
 
 const Gallery = () => {
-  const [allImages, setAllImages] = useState<imgs | null>(null);
+  const [allImages, setAllImages] = useState<imageArr | null>(null);
   const [gotImages, setGotImages] = useState(false);
 
   useEffect(() => {
@@ -33,7 +32,7 @@ const Gallery = () => {
       <ImagePost />
       {
         allImages ?
-          <ImageCard allImages={allImages} />
+          <ImageCards allImages={allImages} />
           :
           <div className="spinner-border text-danger" role="status">
             <span className="visually-hidden">Loading...</span>
