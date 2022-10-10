@@ -4,7 +4,7 @@ import ImageCardEntry from './ImageCardEntry.component';
 
 const ImageCards = ({ allImages }: galleryProps) => {
   return (
-    <div className="container text-center">
+    <div className="container">
       <div className="row row-cols-3">
       {
         allImages.map((card) => {
