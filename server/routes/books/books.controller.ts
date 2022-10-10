@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import axios from "axios";
+import { db } from "../../prisma/utils/db.server";
 import { config } from "../../config";
 
 export const getBooks = (req: Request, res: Response) => {
@@ -10,7 +11,7 @@ export const getBooks = (req: Request, res: Response) => {
         "x-rapidapi-key": config.HAPI_BOOK_API_KEY,
       },
     })
-    .then(({data}) => {
+    .then(({ data }) => {
       res.send(data);
     })
     .catch((error) => {
@@ -26,14 +27,22 @@ export const getBook = (req: Request, res: Response) => {
         "x-rapidapi-key": config.HAPI_BOOK_API_KEY,
       },
     })
-    .then(({data}) => {
+    .then(({ data }) => {
       res.send(data);
     })
     .catch((error) => {
       console.log(error);
     });
-}
+};
 
-
-
-
+export const likeBook = async (req: Request, res: Response) => {
+  const { bookId, userId } = req.body;
+  const like = await db.likes.create({
+    data: {
+      bookId,
+      userId,
+      isLiked: true,
+    },
+  });
+  res.json(like);
+};
