@@ -61,7 +61,7 @@ model Stories {
 
 model Images {
   id      String      @id @default(cuid())
-  image   String      @unique
+  image   String
   userId  String
   caption String
   user    User        @relation(fields: [userId], references: [id])
