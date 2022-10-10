@@ -23,7 +23,7 @@ const App = () => {
     axios
       .get("/auth/login/successful")
       .then(({ data: { user } }) => { 
-        console.log("got user",user);
+        // console.log("got user",user);
         if(user) {
           dispatch(setCurrentUser(user));
         }

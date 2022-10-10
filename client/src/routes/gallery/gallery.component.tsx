@@ -14,12 +14,12 @@ const Gallery = () => {
   useEffect(() => {
     axios.get('/images')
       .then(({ data }) => {
-        console.log('images from database', data);
+        // console.log('images from database', data);
         setAllImages(data);
       })
       .then(() => {
         setGotImages(true);
-        console.log('images in the state', allImages);
+        // console.log('images in the state', allImages);
       })
       .catch((err) => {
         console.error('error on get images from db client\n', err);

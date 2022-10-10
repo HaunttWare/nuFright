@@ -23,7 +23,7 @@ const Movies = () => {
     setCurrentMoviesLoaded(true);
   }, []);
 
-console.log(currentMovies);
+// console.log(currentMovies);
 
 return (
   <div className="container">
