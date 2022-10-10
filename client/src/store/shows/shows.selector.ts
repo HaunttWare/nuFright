@@ -1,0 +1,1 @@
+export const selectCurrentShows = (state: any) => state.shows.shows;

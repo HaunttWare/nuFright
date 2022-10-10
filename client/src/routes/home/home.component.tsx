@@ -1,22 +1,47 @@
-import React from "react";
-import HauntedHouseList from '../haunted-houses/haunted-house-list.componet'
-import { selectCurrentUser } from "../../store/user/user.selector";
+import React, {useEffect} from "react";
 import CreepyCarousel from "../../components/carousel";
+import { useSelector } from "react-redux";
+import { setCurrentMovies, MoviesData } from "../../store/movies/movies.action";
+import { selectCurrentMovies } from "../../store/movies/movies.selector";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import Carousel2 from "../../components/carousel2";
+import Carousel3 from "../../components/carousel3";
 
-const Home = () => (
+const Home = () => {
+  const currentMovies = useSelector(selectCurrentMovies);
+  const dispatch = useDispatch();
+
+  const getMovies = () => {
+    axios.get('/movies')
+      .then(({ data }) => {
+        data.forEach((movie: MoviesData) => {
+          if (movie.type === 'movie') {
+            dispatch(setCurrentMovies(data.slice(0, 5)));
+          }
+        })
+      })
+  };  
+
+  useEffect(() => {
+    getMovies();
+  }, []);
+
+
+  return (
   <div className="container">
     <h1>Welcome to nuFright</h1>
     <h2>The one stop shop for all of you freaks out there 😈 </h2><br></br>
-    
     <h3>Top Shows/Movies</h3>
-    <CreepyCarousel /><br></br>
-    <h3>Top Haunts!</h3>
     <CreepyCarousel />
-    <h3>Favorite horror books!</h3>
-    <CreepyCarousel />
-    <h3>chilling tales from around the web...</h3>
-    <CreepyCarousel />
+    <br></br>
+    <h3>Top Haunts:</h3>
+    <Carousel2 /><br></br>
+    <h3>Favoirte tales of terror:</h3>
+    <Carousel3 /><br></br>
   </div>
-);
+
+  )
+  };
 
 export default Home;
