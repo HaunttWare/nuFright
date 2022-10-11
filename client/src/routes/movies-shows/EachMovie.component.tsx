@@ -25,7 +25,7 @@ const EachMovie = ({ movie } : MovieProp) => {
   console.log('user', currentUser);
 
 const handleLikeSelect = () => {
-  axios.post('/movies/like', {
+  axios.post('/api/movies/like', {
     userId: currentUser.id,
     cinemaId: movie.id,
     isLiked: true
@@ -40,14 +40,14 @@ const handleLikeSelect = () => {
 
 const handleUnlikeSelect = () => {
 setCheckIsLiked(false);
-  // axios.delete(`/movies/unlike/${movie.id}`, {id: currentUser.id, cinemaId: movie.id})
-//   .then(() => {
-//     setCheckIsLiked(false);
-//   })
-//   .catch((err) => {
-//     console.error(err)
-//   })
- }
+  axios.delete(`/api/movies/unlike`, {data: {id: currentUser.id, movieId: movie.id}})
+  .then(() => {
+    setCheckIsLiked(false);
+  })
+  .catch((err) => {
+    console.error(err)
+  });
+}
 
 const handleSavedRender = () => {
   setIsSaved(true);
@@ -71,6 +71,13 @@ const isSavedRender = () => {
     return (<button>save</button>)
   }
 };
+// const dislikeRender = () => {
+//   if (isDisliked) {
+//     return (<button>change your mind?</button>)
+//   } else {
+//     return (<button>dislike</button>)
+//   }
+// }
 useEffect(() => {
 
 }, [checkIsLiked])
