@@ -6,6 +6,7 @@ import imageRouter from "./images/images.router";
 import MovieRouter from "./movies/movies.router";
 import storyRouter from './stories/stories.router';
 import booksRouter from "./books/books.router";
+import { getHorrorShows } from "./shows/shows.controller";
 
 const rootRouter = express.Router();
 
@@ -14,6 +15,7 @@ rootRouter.use("/user", userRouter);
 rootRouter.use('/images', imageRouter);
 rootRouter.use('/movies', MovieRouter);
 rootRouter.use('/story', storyRouter);
+rootRouter.use('/shows', getHorrorShows);
 rootRouter.use("/books", booksRouter);
 
 
