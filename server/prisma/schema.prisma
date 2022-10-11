@@ -20,6 +20,7 @@ model User {
   liked      Likes[]
   savedlist  Savedlist[]
   stories    Stories[]
+  badges     Badges[]
 }
 
 model Cinema {
@@ -142,4 +143,14 @@ model Savedlist {
   images   Images?  @relation("saveImage", fields: [imagesId], references: [id])
   story    Stories? @relation("saveStory", fields: [storyId], references: [id])
   user     User     @relation(fields: [userId], references: [id])
+}
+
+model Badges {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  badge       String
+  createdAt   DateTime @default(now())
+  userId      String
+  users       User[]
 }
