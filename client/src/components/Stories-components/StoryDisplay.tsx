@@ -7,7 +7,7 @@ const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String
     const [isLoading,setIsLoading] = useState(true);
 
     if(isLoading) {
-        axios.get(`/story/user/${props.story.authorId}`)
+        axios.get(`/api/story/user/${props.story.authorId}`)
         .then(result => {
             setUsername(result.data);
         })

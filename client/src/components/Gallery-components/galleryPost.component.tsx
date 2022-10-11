@@ -15,7 +15,7 @@ const ImagePost = () => {
         caption: caption,
         userId: currentUser.id
       };
-      await axios.post("/images/upload", data, { headers: {'Content-Type': 'multipart/form-data'}})
+      await axios.post("/api/images/upload", data, { headers: {'Content-Type': 'multipart/form-data'}})
     }
   }
 
