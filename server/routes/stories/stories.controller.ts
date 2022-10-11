@@ -1,3 +1,4 @@
+import { prisma } from '@prisma/client';
 import express, {Request, Response} from 'express';
 import { ModuleResolutionKind } from 'typescript';
 import { db } from '../../prisma/utils/db.server';
@@ -54,8 +55,29 @@ const addStory = (req:Request, res:Response) => {
     }
 }
 
+// UPDATE REQUESTS
+
+const editStory = (req:Request, res:Response) => {
+    db.stories.update({
+        where: {
+            id: req.body.id,
+        },
+        data: {
+            story: req.body.newStory,
+        }
+    })
+    .then((result:any) => {
+        res.status(200).send(result);
+    })
+    .catch((err:Error) => {
+        console.error(err);
+        res.sendStatus(500);
+    });
+}
+
 export {
     getAllStories,
     getName,
     addStory,
+    editStory,
 }
