@@ -14,7 +14,7 @@ const Shows = () => {
     axios.get('/shows')
       .then(({ data }) => {
           console.log(data);
-          dispatch(setCurrentShows(data.slice(80, 150)));
+          dispatch(setCurrentShows(data));
       })
   };
 
