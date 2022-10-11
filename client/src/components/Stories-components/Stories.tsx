@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
 //subcomponents
 import Story from './Story';
 import StoryDisplay from './StoryDisplay';
 import WriteStory from './WriteStory';
 
 const StoriesPage = () => {
+    const currentUser = useSelector(selectCurrentUser);
     const [view, setView] = useState('storyList');
     const [allStories, setAllStories] = useState([]);
     const [selectedStory, setSelected] = useState({authorId: '', createdAt: '', id: '', images: '', title: '', story: ''});
