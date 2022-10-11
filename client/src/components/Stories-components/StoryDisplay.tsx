@@ -26,7 +26,13 @@ const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String
     //edit related
     const editButtonHandler = () => {
         if(currentUser.id === props.story.authorId) {
-            //
+            axios.patch('/api/story/editStory', {id: props.story.id, newStory: story})
+            .then(result => {
+              console.log('update success');  
+            })
+            .catch(err => {
+                console.error(err);
+            });
         }
     };
 
