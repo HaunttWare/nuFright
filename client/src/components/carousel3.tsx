@@ -8,7 +8,7 @@ const Carousel3 = () => {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src="https://static.wikia.nocookie.net/scary-stories-to-tell-in-the-dark/images/a/a9/Haunted.png/revision/latest?cb=20200922144620"
+            src="https://i.kym-cdn.com/entries/icons/original/000/001/676/slenderman.thumbnail.jpg"
             alt="First slide"
           />
           <Carousel.Caption>
