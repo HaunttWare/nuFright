@@ -9,7 +9,7 @@ const Books = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get("/books").then(({ data }) => {
+    axios.get("/api/books").then(({ data }) => {
       dispatch(setBookList(data));
     });
   }, [dispatch]);

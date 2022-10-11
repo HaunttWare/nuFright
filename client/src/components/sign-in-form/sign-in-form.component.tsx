@@ -3,7 +3,6 @@ import React from "react";
 const SignInForm = () => {
   
   const googleSignIn = () => {
-    console.log("Google sign in");
     window.open("http://localhost:3000/auth/google", "_self");
   };
 
