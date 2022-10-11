@@ -21,6 +21,7 @@ model User {
   savedlist  Savedlist[]
   stories    Stories[]
   badges     Badges[]
+  Comments   Comments[]
 }
 
 model Cinema {
@@ -48,16 +49,17 @@ model Book {
 }
 
 model Stories {
-  id        String      @id @default(cuid())
-  authorId  String
-  title     String
-  story     String      @unique
-  images    String
-  createdAt DateTime    @default(now())
-  author    User        @relation(fields: [authorId], references: [id])
-  ratings   BooScale[]  @relation("rateStory")
-  likedBy   Likes[]     @relation("likeStory")
-  savedBy   Savedlist[] @relation("saveStory")
+  id          String      @id @default(cuid())
+  authorId    String
+  title       String
+  story       String      @unique
+  images      String
+  description String
+  createdAt   DateTime    @default(now())
+  author      User        @relation(fields: [authorId], references: [id])
+  ratings     BooScale[]  @relation("rateStory")
+  likedBy     Likes[]     @relation("likeStory")
+  savedBy     Savedlist[] @relation("saveStory")
 }
 
 model Images {
@@ -153,4 +155,14 @@ model Badges {
   createdAt   DateTime @default(now())
   userId      String
   users       User[]
+}
+
+model Comments {
+  id           String     @id @default(cuid())
+  comment      String
+  userId       String?
+  User         User?      @relation(fields: [userId], references: [id])
+  topCommentId String?
+  topComment   Comments?  @relation("CommentReplies", fields: [topCommentId], references: [id])
+  replies      Comments[] @relation("CommentReplies")
 }
