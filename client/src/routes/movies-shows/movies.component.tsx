@@ -14,7 +14,6 @@ const Movies = () => {
   const getMovies = () => {
     axios.get('/api/movies')
       .then(({ data }) => {
-        console.log('---->', data);
         data.forEach((movie: MoviesData) => {
           if (movie.type === 'movie') {
             dispatch(setCurrentMovies(data.slice(0, 50)));
