@@ -27,11 +27,7 @@ const Movies = () => {
     setCurrentMoviesLoaded(true);
   }, []);
 
-<<<<<<< HEAD
-// console.log(currentMovies);
-=======
 console.log('in movies' ,currentMovies);
->>>>>>> 030a78dfc8ebc8d40657b7c24ce087c7d1f3c21c
 
 return (
   <div className="cinema-container">
