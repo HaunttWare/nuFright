@@ -11,12 +11,12 @@ const WriteStory = (props:{backHandler: Function}) => {
     const [isLoading, setIsLoading] = useState(false);
 
     //handlers for title and text
-    const titleHandler = (event: any) => {
+    const titleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value);
     }
 
-    const textHandler = (event: any) => {
-        setText(event.target.value);
+    const textHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setText(e.target.value);
     }
 
     //publish handler
