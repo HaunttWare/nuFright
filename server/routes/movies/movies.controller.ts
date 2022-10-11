@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { db } from '../../prisma/utils/db.server';
 import { config } from '../../config';
 import axios from 'axios';
+import { userInfo } from 'os';
 
 
 let type = 'movie';
@@ -175,27 +176,31 @@ const likeAMovie = (req: Request, res: Response) => {
   })
 }
 
-// const unLikeMovie = (req: Request, res: Response) => {
-//   const { userId, cinemaId, isLiked } = req.body;
-//   db.likes.delete({
-//     where: {
-//       userId: req.body.id,
-//     }
-//   })
-//   .then((data) => {
-//     console.log(data);
-//     res.status(202).send(data);
-//   })
-//   .catch((err) => {
-//     console.error(err);
-//     res.sendStatus(500);
-//   })
-// }
+const unLikeMovie = (req: Request, res: Response) => {
+  const { id, movieId } = req.body;
+  db.likes.delete({
+    where: {
+      id
+    },
+      // where: {
+      //   movieId,
+      // }
+    }
+  )
+  .then((data) => {
+    console.log(data);
+    res.status(202).send(data);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.sendStatus(500);
+  })
+}
 
 
 export {
   getHorrorMovies,
   getMoviesFromAPI,
   likeAMovie,
-  // unLikeMovie,
+  unLikeMovie,
 }
