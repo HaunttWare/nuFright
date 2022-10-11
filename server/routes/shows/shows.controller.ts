@@ -4,7 +4,7 @@ import { config } from '../../config';
 import axios from 'axios';
 
 
-let type = 'show';
+
 let genresFromShowDb = [
   {
     "id": 10759,
