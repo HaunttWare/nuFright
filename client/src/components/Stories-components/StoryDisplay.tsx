@@ -55,6 +55,7 @@ const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String
             {isEditing && <>
                 <h5><b><u>{title}</u></b></h5>
                 <textarea placeholder="story text" value={story.toString()} onChange={editStoryInputHandler}></textarea>
+                <button onClick={editButtonHandler}>Save Changes</button>
             </>}
         </div>
     )
