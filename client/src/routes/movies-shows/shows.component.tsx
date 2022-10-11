@@ -11,7 +11,7 @@ const Shows = () => {
   const dispatch = useDispatch();
 
   const getShows = () => {
-    axios.get('/shows')
+    axios.get('/api/shows')
       .then(({ data }) => {
           console.log(data);
           dispatch(setCurrentShows(data.slice(80, 150)));

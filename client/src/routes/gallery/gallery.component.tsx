@@ -12,7 +12,7 @@ const Gallery = () => {
   const [gotImages, setGotImages] = useState(false);
 
   useEffect(() => {
-    axios.get('/images')
+    axios.get('/api/images')
       .then(({ data }) => {
         // console.log('images from database', data);
         setAllImages(data);

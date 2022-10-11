@@ -13,7 +13,7 @@ const StoriesPage = () => {
 
     //get stories from database
     const updateStoryList = () => {
-        axios.get('/story/allStories')
+        axios.get('/api/story/allStories')
         .then(result => {
             setAllStories(result.data.reverse());
         })
