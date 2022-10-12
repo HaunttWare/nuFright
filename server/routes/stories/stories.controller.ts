@@ -42,6 +42,7 @@ const addStory = (req:Request, res:Response) => {
                 title: newStory.title,
                 story: newStory.text,
                 images: newStory.image ? newStory.image : '',
+                description: newStory.description ? newStory.description : '',
             }
         })
         .then((result:any) => {
@@ -64,6 +65,7 @@ const editStory = (req:Request, res:Response) => {
         },
         data: {
             story: req.body.newStory,
+            description: req.body.newDescription,
         }
     })
     .then((result:any) => {
