@@ -1,7 +1,7 @@
 import React from 'react';
 import { textSpanContainsPosition } from 'typescript';
 
-const Story = (props:{ test:any, story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String}, key:any }) => {
+const Story = (props:{ test:any, story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String, description?: String}, key:any }) => {
     const HauntedHouse = require('../../../../assets/haunted-house.jpg').default;
 
     return (
@@ -9,7 +9,7 @@ const Story = (props:{ test:any, story:{authorId:String, createdAt:String, id:St
             <h5 style={{display: 'inline-flex', justifyContent: 'center'}} ><b onClick={() => props.test('story', props.story)} style={{cursor: 'pointer'}}><u>{props.story.title}</u></b></h5>
             <img src={HauntedHouse} style={{maxHeight: 450, maxWidth: 450, overflow: 'hidden'}}></img>
             <div style={{display: 'flex', justifyContent: 'center'}}>
-                {props.story.story.slice(0, 100) + '...'}
+                {props.story.description ? props.story.description : props.story.story.slice(0, 100) + '...'}
             </div>
             <button onClick={() => props.test('story', props.story)} style={{maxWidth: 250, borderRadius: '45%', background: 'black', color: 'lime'}}>Read More</button>
         </div>

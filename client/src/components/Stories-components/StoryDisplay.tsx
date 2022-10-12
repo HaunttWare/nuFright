@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 
-const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String}, backHandler:Function}) => {
+const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String, description?: String}, backHandler:Function}) => {
     const currentUser = useSelector(selectCurrentUser);
     const HauntedHouse = require('../../../../assets/haunted-house.jpg').default;
     const [username, setUsername] = useState('');

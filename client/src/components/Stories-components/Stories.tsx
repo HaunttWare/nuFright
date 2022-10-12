@@ -11,7 +11,7 @@ const StoriesPage = () => {
     const currentUser = useSelector(selectCurrentUser);
     const [view, setView] = useState('storyList');
     const [allStories, setAllStories] = useState([]);
-    const [selectedStory, setSelected] = useState({authorId: '', createdAt: '', id: '', images: '', title: '', story: ''});
+    const [selectedStory, setSelected] = useState({authorId: '', createdAt: '', id: '', images: '', title: '', story: '', description: ''});
     const [isLoading, setIsLoading] = useState(true);
 
     //get stories from database
@@ -45,7 +45,7 @@ const StoriesPage = () => {
             {view === 'storyList' && <button onClick={() => viewHandler('write', null)} style={{minWidth: 110, maxWidth: 200, background: 'black', color: 'lime', borderRadius: '45%'}}>Write a Story</button>}
             {view === 'storyList' && !allStories.length && <div>Loading...</div>}
             <>
-            {view === 'storyList' && allStories.map(((story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String}, index:any) => {
+            {view === 'storyList' && allStories.map(((story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String, description?:String}, index:any) => {
                 return <div key={index}>
                         <Story test={viewHandler} story={story} key={index} />
                         <br style={{margin: 5}}></br>
