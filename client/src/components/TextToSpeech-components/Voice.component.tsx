@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactHTMLElement, useEffect, useState } from 'react';
 
 const Voice = (props:{lang?:string, text:string}) => {
     const [supported, setSupported] = useState(true);
@@ -8,15 +8,18 @@ const Voice = (props:{lang?:string, text:string}) => {
     const [isSpeeking, setSpeeking] = useState(false);
     const [speech, setSpeech] = useState(new SpeechSynthesisUtterance());
     speech.onend = () => setSpeeking(false);
+    const [voices, setVoices] = useState(window.speechSynthesis.getVoices());
+    speech.voice =voices[0];
 
     useEffect(() => {
         if("speechSynthesis" in window) {
-
+            
         } else {
             setSupported(false);
         }
     }, []);
 
+    // HANDLERS FOR BUTTONS
     const play = () => {
         speech.text = text;
         speech.lang = lang;
@@ -28,10 +31,27 @@ const Voice = (props:{lang?:string, text:string}) => {
         window.speechSynthesis.cancel();
     };
 
+    const select = (e:React.ChangeEvent<HTMLSelectElement>) => {
+        for(const voice of voices) {
+            if(e.target.value === voice.name) {
+                speech.voice = voice;
+            }
+        }
+    }
+
     return (
         <div id="Voice_Component" style={{display: 'inline-block'}}>
-            <button disabled={isSpeeking} onClick={play} style={{borderTopLeftRadius: '45%', borderBottomLeftRadius: '45%', minWidth: 43}}>Play</button>
-            <button disabled={!isSpeeking} onClick={stop} style={{borderTopRightRadius: '45%', borderBottomRightRadius: '45%', minWidth: 45}}>Stop</button>
+            { supported &&
+                <>
+                    <button disabled={isSpeeking} onClick={play} style={{borderTopLeftRadius: '45%', borderBottomLeftRadius: '45%', minWidth: 43}}>Play</button>
+                    <button disabled={!isSpeeking} onClick={stop} style={{borderTopRightRadius: '45%', borderBottomRightRadius: '45%', minWidth: 45}}>Stop</button>
+                    <select onChange={select}>
+                        {voices.map(((voice:any, index:number) => {
+                           return <option value={voice.name} key={index}>{voice.name}</option>
+                        }))}
+                    </select>
+                </>
+            }
         </div>
     )
 }
