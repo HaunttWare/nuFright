@@ -1,20 +1,21 @@
 import React, {useState} from "react";
 import axios from 'axios';
-
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 const ImagePost = () => {
   const [file, setFile] = useState<File | null>(null);
   const [caption, setCaption] = useState("")
-
-  
+  const currentUser = useSelector(selectCurrentUser);
   const submit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (file) {
       const data = {
         image: file,
-        caption: caption
+        caption: caption,
+        userId: currentUser.id
       };
-      await axios.post("/images", data, { headers: {'Content-Type': 'multipart/form-data'}})
+      await axios.post("/api/images/upload", data, { headers: {'Content-Type': 'multipart/form-data'}})
     }
   }
 

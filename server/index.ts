@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import path from "path";
-import images from './routes/images/images.controller'
 import cors from "cors";
 import passport from "passport";
 import cookieSession from "cookie-session";
@@ -35,7 +34,7 @@ app.use(
   })
 );
 
-app.use("/", rootRouter);
+app.use("/api", rootRouter);
 
 // route to handle all other endpoints and server index.html
 app.get("/*", (req: Request, res: Response) => {
