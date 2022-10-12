@@ -5,7 +5,7 @@ const MovieRouter = express.Router();
 
 // example 
 MovieRouter.get('/', getHorrorMovies);
-MovieRouter.get('/api', getMoviesFromAPI);
+MovieRouter.get('/movie-api', getMoviesFromAPI);
 MovieRouter.post('/like', likeAMovie);
 MovieRouter.delete('/unlike/', unLikeMovie);
 //unLikeMovie // put back in import

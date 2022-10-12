@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { db } from '../../prisma/utils/db.server';
 import { config } from '../../config';
 import axios from 'axios';
-import { userInfo } from 'os';
+
 
 
 let type = 'movie';
@@ -149,7 +149,10 @@ const getHorrorMovies = (req: Request, res: Response) => {
     }
   })
     .then((moviesData) => {
-      res.status(200).send(moviesData);
+      const filteredMovies = moviesData.filter((cinemaData) => {
+        return cinemaData.type !== 'show'
+      })
+      res.status(200).send(filteredMovies);
     }) 
     .catch((err) => {
       console.error('error in getHorrorMovies, in controller', err);

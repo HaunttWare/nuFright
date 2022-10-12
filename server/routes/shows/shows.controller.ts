@@ -4,7 +4,7 @@ import { config } from '../../config';
 import axios from 'axios';
 
 
-let type = 'show';
+
 let genresFromShowDb = [
   {
     "id": 10759,
@@ -124,9 +124,18 @@ const getShowsFromAPI = (req: Request, res: Response) => {
 };
 
 const getHorrorShows = (req: Request, res: Response) => {
-  db.cinema.findMany({})
+  db.cinema.findMany({
+    include: {
+      likedBy: true,
+      savedBy: true,
+    }
+  })
     .then((showsData) => {
-      res.status(200).send(showsData);
+      const filteredShows = showsData.filter((cinemaData) => {
+          return cinemaData.type !== 'movie';
+      })
+      
+      res.status(200).send(filteredShows);
     })
     .catch((err) => {
       console.error('error in the getHorrorShows, in controller', err);

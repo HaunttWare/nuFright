@@ -13,7 +13,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const getMovies = () => {
-    axios.get('/movies')
+    axios.get('/api/movies')
       .then(({ data }) => {
         data.forEach((movie: MoviesData) => {
           if (movie.type === 'movie') {
