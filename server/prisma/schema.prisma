@@ -37,15 +37,19 @@ model Cinema {
 }
 
 model Book {
-  id          String      @id @default(cuid())
-  title       String
-  author      String
-  description String
-  image       Json
-  genre       Json
-  ratings     BooScale[]  @relation("rateBook")
-  likedBy     Likes[]     @relation("likeBook")
-  savedBy     Savedlist[] @relation("saveBook")
+  id             String      @id @default(cuid())
+  book_id        String
+  name           String
+  cover          String
+  url            String
+  authors        String[]
+  synopsis       String
+  rating         Float
+  pages          Int
+  published_date String
+  ratings        BooScale[]  @relation("rateBook")
+  likedBy        Likes[]     @relation("likeBook")
+  savedBy        Savedlist[] @relation("saveBook")
 }
 
 model Stories {
@@ -54,7 +58,7 @@ model Stories {
   title       String
   story       String      @unique
   images      String
-  description String
+  description String?
   createdAt   DateTime    @default(now())
   author      User        @relation(fields: [authorId], references: [id])
   ratings     BooScale[]  @relation("rateStory")
