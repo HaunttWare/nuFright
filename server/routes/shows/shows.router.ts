@@ -5,6 +5,6 @@ const ShowsRouter = express.Router();
 
 ShowsRouter.get('/', getHorrorShows);
 
-ShowsRouter.get('/api', getShowsFromAPI);
+ShowsRouter.get('/show-api', getShowsFromAPI);
 
 export default ShowsRouter;

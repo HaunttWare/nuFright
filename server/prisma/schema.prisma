@@ -14,12 +14,14 @@ model User {
   createdAt  DateTime    @default(now())
   googleId   String      @unique
   photo      String
+  Comments   Comments[]
   followedBy Follows[]   @relation("follower")
   following  Follows[]   @relation("following")
   images     Images[]
   liked      Likes[]
   savedlist  Savedlist[]
   stories    Stories[]
+  Badges     Badges[]
 }
 
 model Cinema {
@@ -35,28 +37,33 @@ model Cinema {
 }
 
 model Book {
-  id          String      @id @default(cuid())
-  title       String
-  author      String
-  description String
-  image       Json
-  genre       Json
-  ratings     BooScale[]  @relation("rateBook")
-  likedBy     Likes[]     @relation("likeBook")
-  savedBy     Savedlist[] @relation("saveBook")
+  id             String      @id @default(cuid())
+  authors        String[]
+  book_id        String
+  cover          String
+  name           String
+  pages          Int
+  published_date String
+  rating         Float
+  synopsis       String
+  url            String
+  ratings        BooScale[]  @relation("rateBook")
+  likedBy        Likes[]     @relation("likeBook")
+  savedBy        Savedlist[] @relation("saveBook")
 }
 
 model Stories {
-  id        String      @id @default(cuid())
-  authorId  String
-  title     String
-  story     String      @unique
-  images    String
-  createdAt DateTime    @default(now())
-  author    User        @relation(fields: [authorId], references: [id])
-  ratings   BooScale[]  @relation("rateStory")
-  likedBy   Likes[]     @relation("likeStory")
-  savedBy   Savedlist[] @relation("saveStory")
+  id          String      @id @default(cuid())
+  authorId    String
+  title       String
+  story       String      @unique
+  images      String
+  createdAt   DateTime    @default(now())
+  description String?
+  author      User        @relation(fields: [authorId], references: [id])
+  ratings     BooScale[]  @relation("rateStory")
+  likedBy     Likes[]     @relation("likeStory")
+  savedBy     Savedlist[] @relation("saveStory")
 }
 
 model Images {
@@ -142,4 +149,24 @@ model Savedlist {
   images   Images?  @relation("saveImage", fields: [imagesId], references: [id])
   story    Stories? @relation("saveStory", fields: [storyId], references: [id])
   user     User     @relation(fields: [userId], references: [id])
+}
+
+model Badges {
+  id          String   @id
+  name        String
+  description String
+  badge       String
+  createdAt   DateTime @default(now())
+  userId      String
+  User        User[]
+}
+
+model Comments {
+  id             String     @id
+  comment        String
+  userId         String?
+  topCommentId   String?
+  Comments       Comments?  @relation("CommentsToComments", fields: [topCommentId], references: [id])
+  User           User?      @relation(fields: [userId], references: [id])
+  other_Comments Comments[] @relation("CommentsToComments")
 }
