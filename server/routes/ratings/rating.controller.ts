@@ -3,8 +3,18 @@ import { db } from '../../prisma/utils/db.server';
 
 const postRating = (req: Request, res: Response) => {
   const { type } = req.params;
-  const { userId, horrorId, rating } = req.body;
-  let rateData;
+  const { userId, horrorId, rating} = req.body;
+  const horrorType = type + "Id";
+  
+  const rateObj = {
+    data: {
+      userId,
+      rating
+    }
+  }
+  // rateObj.data[type] = horrorId;
+
+  db.booScale.create(rateObj);
   
 
 }
