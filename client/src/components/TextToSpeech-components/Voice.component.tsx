@@ -9,7 +9,8 @@ const Voice = (props:{lang?:string, text:string}) => {
     const [speech, setSpeech] = useState(new SpeechSynthesisUtterance());
     speech.onend = () => setSpeeking(false);
     const [voices, setVoices] = useState(window.speechSynthesis.getVoices());
-    speech.voice =voices[0];
+    speech.voice = voices[0];
+    speech.pitch = 0;
 
     useEffect(() => {
         if("speechSynthesis" in window) {
@@ -45,7 +46,7 @@ const Voice = (props:{lang?:string, text:string}) => {
                 <>
                     <button disabled={isSpeeking} onClick={play} style={{borderTopLeftRadius: '45%', borderBottomLeftRadius: '45%', minWidth: 43}}>Play</button>
                     <button disabled={!isSpeeking} onClick={stop} style={{borderTopRightRadius: '45%', borderBottomRightRadius: '45%', minWidth: 45}}>Stop</button>
-                    <select onChange={select}>
+                    <select onChange={select} style={{marginLeft: 5, marginRight: 5}}>
                         {voices.map(((voice:any, index:number) => {
                            return <option value={voice.name} key={index}>{voice.name}</option>
                         }))}
