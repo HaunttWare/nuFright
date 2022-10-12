@@ -14,6 +14,7 @@ model User {
   createdAt  DateTime    @default(now())
   googleId   String      @unique
   photo      String
+  Comments   Comments[]
   followedBy Follows[]   @relation("follower")
   following  Follows[]   @relation("following")
   images     Images[]
@@ -21,7 +22,6 @@ model User {
   savedlist  Savedlist[]
   stories    Stories[]
   badges     Badges[]
-  Comments   Comments[]
 }
 
 model Cinema {
@@ -38,15 +38,15 @@ model Cinema {
 
 model Book {
   id             String      @id @default(cuid())
-  book_id        String
-  name           String
-  cover          String
-  url            String
   authors        String[]
-  synopsis       String
-  rating         Float
+  book_id        String
+  cover          String
+  name           String
   pages          Int
   published_date String
+  rating         Float
+  synopsis       String
+  url            String
   ratings        BooScale[]  @relation("rateBook")
   likedBy        Likes[]     @relation("likeBook")
   savedBy        Savedlist[] @relation("saveBook")
@@ -58,8 +58,8 @@ model Stories {
   title       String
   story       String      @unique
   images      String
-  description String?
   createdAt   DateTime    @default(now())
+  description String?
   author      User        @relation(fields: [authorId], references: [id])
   ratings     BooScale[]  @relation("rateStory")
   likedBy     Likes[]     @relation("likeStory")
@@ -165,8 +165,8 @@ model Comments {
   id           String     @id @default(cuid())
   comment      String
   userId       String?
-  User         User?      @relation(fields: [userId], references: [id])
   topCommentId String?
   topComment   Comments?  @relation("CommentReplies", fields: [topCommentId], references: [id])
+  User         User?      @relation(fields: [userId], references: [id])
   replies      Comments[] @relation("CommentReplies")
 }

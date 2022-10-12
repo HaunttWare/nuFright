@@ -1,0 +1,3 @@
+export const SHOWS_ACTIONS_TYPES = {
+  SET_CURRENT_SHOWS: 'shows/SET_CURRENT_SHOWS',
+};

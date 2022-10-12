@@ -21,8 +21,6 @@ const s3 = new S3Client({
 
 const uploadImage = async (req: Request, res: Response) => {
   const { userId, caption } = req.body
-  console.log('req.body', req.body);
-  console.log('req.file', req.file);
 
   const params = {
     send: {
@@ -61,7 +59,6 @@ const uploadImage = async (req: Request, res: Response) => {
      }
    })
    .then((data) => {
-     console.log('data from upload Image', data);
      res.status(200).send(data);
   })
   .catch((err) => {
@@ -79,7 +76,6 @@ const getImages = async (req: Request, res: Response) => {
 
   try {
     const images = await db.images.findMany({})
-    console.log('all images', images);
     res.status(200).send(images);
 
   } catch (err) {
@@ -100,7 +96,6 @@ const getUserImgs = async (req: Request, res: Response) => {
         userId: userId
       }
     })
-    console.log('here are the user images', userImages);
     res.status(200).send(userImages);
   } catch (err) {
     console.error('could not find users images', err)
@@ -118,7 +113,6 @@ const getUserNames = async (req: Request, res: Response) => {
           name: curr.name
       }
     })
-      console.log('here are users', allUsers);
       res.status(200).send(allUsers);
   })
   .catch((err) => {

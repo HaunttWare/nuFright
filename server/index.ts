@@ -34,7 +34,7 @@ app.use(
   })
 );
 
-app.use("/", rootRouter);
+app.use("/api", rootRouter);
 
 // route to handle all other endpoints and server index.html
 app.get("/*", (req: Request, res: Response) => {

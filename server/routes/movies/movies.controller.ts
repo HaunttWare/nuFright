@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express';
 import { db } from '../../prisma/utils/db.server';
 import { config } from '../../config';
 import axios from 'axios';
-import { prisma } from '@prisma/client';
+
+
 
 let type = 'movie';
 
@@ -91,7 +92,7 @@ const getMoviesFromAPI = (req: Request, res: Response) => {
     `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=2`,
     `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=3`,
     `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=4`
-  ]
+  ];
   const apiReq = urls.map((url) => {
     return axios.get(url)
     
@@ -134,25 +135,75 @@ const getMoviesFromAPI = (req: Request, res: Response) => {
       res.sendStatus(200);
     })
     .catch((err) => {
-      res.sendStatus(500);
       console.error(err);
+      res.sendStatus(500);
     })
   
 };
 
 const getHorrorMovies = (req: Request, res: Response) => {
-  db.cinema.findMany({})
+  db.cinema.findMany({
+    include: {
+      likedBy: true,
+      savedBy: true,
+    }
+  })
     .then((moviesData) => {
-      res.status(200).send(moviesData);
+      const filteredMovies = moviesData.filter((cinemaData) => {
+        return cinemaData.type !== 'show'
+      })
+      res.status(200).send(filteredMovies);
     }) 
     .catch((err) => {
       console.error('error in getHorrorMovies, in controller', err);
       res.sendStatus(500);
     })
+};
+
+const likeAMovie = (req: Request, res: Response) => {
+    const { userId, cinemaId, isLiked } = req.body;
+  db.likes.create({
+    data: {
+      userId,
+      cinemaId,
+      isLiked,
+    }
+  })
+  .then((data) => {
+    console.log(data);
+    res.status(200).send(data);
+  }) 
+  .catch((err) => {
+    console.error(err);
+    res.sendStatus(500)
+  })
+}
+
+const unLikeMovie = (req: Request, res: Response) => {
+  const { id, movieId } = req.body;
+  db.likes.delete({
+    where: {
+      id
+    },
+      // where: {
+      //   movieId,
+      // }
+    }
+  )
+  .then((data) => {
+    console.log(data);
+    res.status(202).send(data);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.sendStatus(500);
+  })
 }
 
 
 export {
   getHorrorMovies,
   getMoviesFromAPI,
+  likeAMovie,
+  unLikeMovie,
 }
