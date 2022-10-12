@@ -6,6 +6,7 @@ import imageRouter from "./images/images.router";
 import MovieRouter from "./movies/movies.router";
 import storyRouter from './stories/stories.router';
 import booksRouter from "./books/books.router";
+import badgeRouter from "./badges/badge.router";
 
 const rootRouter = express.Router();
 
@@ -15,6 +16,7 @@ rootRouter.use('/images', imageRouter);
 rootRouter.use('/movies', MovieRouter);
 rootRouter.use('/story', storyRouter);
 rootRouter.use("/books", booksRouter);
+rootRouter.use('/badges', badgeRouter);
 
 
 export default rootRouter;
