@@ -10,6 +10,7 @@ const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String
     const [isLoading,setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(props.story.title);
+    const [description, setDescription] = useState(props.story.description);
     const [story, setStory] = useState(props.story.story);
 
     if(isLoading) {
@@ -26,9 +27,11 @@ const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String
     //edit related
     const editButtonHandler = () => {
         if(currentUser.id === props.story.authorId) {
-            axios.patch('/api/story/editStory', {id: props.story.id, newStory: story})
+            axios.patch('/api/story/editStory', {id: props.story.id, newStory: story, newDescription: description})
             .then(result => {
-              console.log('update success');  
+                props.story.story = story;
+                props.story.description = description;
+                setIsEditing(!isEditing); 
             })
             .catch(err => {
                 console.error(err);
@@ -36,13 +39,23 @@ const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String
         }
     };
 
+    const editDescriptionInputHandler = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
+        setDescription(e.target.value);
+    }
+
     const editStoryInputHandler = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
         setStory(e.target.value);
     }
 
+    const backToDisplayHandler = () => {
+        setIsEditing(!isEditing);
+        setStory(props.story.story);
+        setDescription(props.story.description);
+    }
+
     return (
         <div className='row' style={{background: 'rgb(220, 53, 69)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <button onClick={() => {!isEditing ? props.backHandler('storyList') : setIsEditing(!isEditing)}} style={{maxWidth: 100, display: 'inline-flex', justifyContent: 'center', background: 'black', color: 'lime', borderRadius: '45%'}}>Back</button>
+            <button onClick={() => {!isEditing ? props.backHandler('storyList') : backToDisplayHandler()}} style={{maxWidth: 100, display: 'inline-flex', justifyContent: 'center', background: 'black', color: 'lime', borderRadius: '45%'}}>Back</button>
             {(currentUser ? currentUser.id : false) === props.story.authorId && !isEditing && <button onClick={() => setIsEditing(!isEditing)}>edit</button>}
             {!isEditing && <>
                 <h5 style={{display: 'flex', justifyContent: 'center'}}><b><u>{title}</u></b></h5>
@@ -54,6 +67,7 @@ const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String
             </>}
             {isEditing && <>
                 <h5><b><u>{title}</u></b></h5>
+                <textarea placeholder='description text' value={description?.toString()} onChange={editDescriptionInputHandler}></textarea>
                 <textarea placeholder="story text" value={story.toString()} onChange={editStoryInputHandler}></textarea>
                 <button onClick={editButtonHandler}>Save Changes</button>
             </>}
