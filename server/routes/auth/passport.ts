@@ -39,10 +39,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((user: UserData, done) => {
-  // console.log("deserializeUser", user);
-  console.time("deserializeUser");
   done(null, user)
-  console.timeEnd("deserializeUser");
 });
 
 export default passport;

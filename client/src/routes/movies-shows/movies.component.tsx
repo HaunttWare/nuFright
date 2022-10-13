@@ -35,8 +35,6 @@ const Movies = () => {
     setCurrentMoviesLoaded(true);
   }, []);
 
-console.log('in movies' ,currentMovies);
-
 return (
   <div className="cinema-container">
     <h1>Movies</h1>

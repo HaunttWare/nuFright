@@ -143,7 +143,79 @@ const getHorrorShows = (req: Request, res: Response) => {
     });
 };
 
+const likeShow = async (req: Request, res: Response) => {
+  const { userId, isLiked, likedId } = req.body;
+  const { cinemaId } = req.params;
+  // if isLike is true, then create a like
+  if (isLiked) {
+    try {
+      const like = await db.likes.create({
+        data: {
+          userId,
+          cinemaId,
+          isLiked,
+        },
+      });
+      res.status(200).send(like);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+  // if isLike is false, then delete a like
+  else {
+    try {
+      const unlike = await db.likes.delete({
+        where: {
+          id: likedId,
+        },
+      });
+      res.status(200).send(unlike);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+};
+
+const saveShow = async (req: Request, res: Response) => {
+  const { userId, isSaved, savedId } = req.body;
+  const { cinemaId } = req.params;
+  // if isSaved is true, then create a save
+  if (isSaved) {
+    try {
+      const save = await db.saved.create({
+        data: {
+          userId,
+          cinemaId,
+          isSaved,
+        },
+      });
+      res.status(200).send(save);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+  // if isSaved is false, then delete a save
+  else {
+    try {
+      const unsave = await db.saved.delete({
+        where: {
+          id: savedId,
+        },
+      });
+      res.status(200).send(unsave);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+};
+
 export {
   getHorrorShows,
   getShowsFromAPI,
+  likeShow,
+  saveShow,
 }

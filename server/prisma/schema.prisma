@@ -8,36 +8,36 @@ datasource db {
 }
 
 model User {
-  id         String      @id @default(cuid())
+  id         String     @id @default(cuid())
   name       String
-  email      String      @unique
-  createdAt  DateTime    @default(now())
-  googleId   String      @unique
+  email      String     @unique
+  createdAt  DateTime   @default(now())
+  googleId   String     @unique
   photo      String
   Comments   Comments[]
-  followedBy Follows[]   @relation("follower")
-  following  Follows[]   @relation("following")
+  followedBy Follows[]  @relation("follower")
+  following  Follows[]  @relation("following")
   images     Images[]
   liked      Likes[]
-  savedlist  Savedlist[]
+  savedlist  Saved[]
   stories    Stories[]
   Badges     Badges[]
 }
 
 model Cinema {
-  id          String      @id @default(cuid())
+  id          String     @id @default(cuid())
   title       String
   description String
   genres      String
   type        String
   images      String
-  ratings     BooScale[]  @relation("rateCinema")
-  likedBy     Likes[]     @relation("likeCinema")
-  savedBy     Savedlist[] @relation("saveCinema")
+  ratings     BooScale[] @relation("rateCinema")
+  likedBy     Likes[]    @relation("likeCinema")
+  savedBy     Saved[]    @relation("saveCinema")
 }
 
 model Book {
-  id             String      @id @default(cuid())
+  id             String     @id @default(cuid())
   authors        String[]
   book_id        String
   cover          String
@@ -47,34 +47,34 @@ model Book {
   rating         Float
   synopsis       String
   url            String
-  ratings        BooScale[]  @relation("rateBook")
-  likedBy        Likes[]     @relation("likeBook")
-  savedBy        Savedlist[] @relation("saveBook")
+  ratings        BooScale[] @relation("rateBook")
+  likedBy        Likes[]    @relation("likeBook")
+  savedBy        Saved[]    @relation("saveBook")
 }
 
 model Stories {
-  id          String      @id @default(cuid())
+  id          String     @id @default(cuid())
   authorId    String
   title       String
-  story       String      @unique
+  story       String     @unique
   images      String
-  createdAt   DateTime    @default(now())
+  createdAt   DateTime   @default(now())
   description String?
-  author      User        @relation(fields: [authorId], references: [id])
-  ratings     BooScale[]  @relation("rateStory")
-  likedBy     Likes[]     @relation("likeStory")
-  savedBy     Savedlist[] @relation("saveStory")
+  author      User       @relation(fields: [authorId], references: [id])
+  ratings     BooScale[] @relation("rateStory")
+  likedBy     Likes[]    @relation("likeStory")
+  savedBy     Saved[]    @relation("saveStory")
 }
 
 model Images {
-  id      String      @id @default(cuid())
-  image   String      @unique
+  id      String     @id @default(cuid())
+  image   String     @unique
   userId  String
   caption String
-  user    User        @relation(fields: [userId], references: [id])
-  ratings BooScale[]  @relation("rateImage")
-  likedBy Likes[]     @relation("likeImage")
-  savedBy Savedlist[] @relation("saveImage")
+  user    User       @relation(fields: [userId], references: [id])
+  ratings BooScale[] @relation("rateImage")
+  likedBy Likes[]    @relation("likeImage")
+  savedBy Saved[]    @relation("saveImage")
 }
 
 model BooScale {
@@ -94,7 +94,7 @@ model BooScale {
 }
 
 model Haunts {
-  id           String      @id @default(cuid())
+  id           String     @id @default(cuid())
   hauntId      String?
   name         String
   latitude     String
@@ -105,9 +105,9 @@ model Haunts {
   address2     String
   address3     String
   address4     String
-  ratings      BooScale[]  @relation("rateHaunt")
-  likedBy      Likes[]     @relation("likeHaunt")
-  savedBy      Savedlist[] @relation("saveHaunt")
+  ratings      BooScale[] @relation("rateHaunt")
+  likedBy      Likes[]    @relation("likeHaunt")
+  savedBy      Saved[]    @relation("saveHaunt")
 }
 
 model Follows {
@@ -121,7 +121,7 @@ model Follows {
 model Likes {
   id       String   @id @default(cuid())
   userId   String
-  isLiked  Boolean
+  isLiked  Boolean  @default(false)
   hauntId  String?
   cinemaId String?
   bookId   String?
@@ -135,9 +135,10 @@ model Likes {
   user     User     @relation(fields: [userId], references: [id])
 }
 
-model Savedlist {
+model Saved {
   id       String   @id @default(cuid())
   userId   String
+  isSaved  Boolean  @default(false)
   cinemaId String?
   hauntId  String?
   bookId   String?
