@@ -15,6 +15,12 @@ import Gallery from "./routes/gallery/gallery.component";
 import MapBox from "./routes/haunted-houses/Map.component";
 import Authentication from "./routes/authentication/authentication.component";
 import Profile from "./routes/profile/profile.component";
+import { io, Socket, ClientToServerEvents, ServerToClientEvents} from "./socket.client";
+
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
+socket.on("connect", () => {
+  console.log('bois we made it');
+})
 
 const App = () => {
   const dispatch = useDispatch();
