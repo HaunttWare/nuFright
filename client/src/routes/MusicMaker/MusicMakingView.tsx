@@ -4,9 +4,7 @@ const MusicMakingView = () => {
   return (
     <>
     <h2>Make some Spooky tunes!</h2>
-    
     </>
-
   )
 };
 
