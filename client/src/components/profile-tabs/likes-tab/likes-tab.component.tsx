@@ -1,8 +1,30 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../store/user/user.selector";
+
+import MovieTabContent from "../../profile-tabs-content/liked-tab/movie-tab-content/movie-tab-content.component";
+import ShowTabContent from "../../profile-tabs-content/liked-tab/show-tab-content/show-tab-content.compoenent";
 
 const LikesTab = () => {
-  // state to track the current active tab
+  const currentUser = useSelector(selectCurrentUser);
   const [activeTab, setActiveTab] = useState("movies");
+  const [userLikedMovies, setUserLikedMovies] = useState([]);
+  const [userLikedShows, setUserLikedShows] = useState([]);
+  const [userLikedBooks, setUserLikedBooks] = useState([]);
+
+  useEffect(() => {
+    // if currentUser is not null, then fetch the data
+    if (currentUser) {
+      axios
+        .get(`/api/user/${currentUser.id}/liked-movies`)
+        .then((res) => setUserLikedMovies(res.data));
+
+      axios
+        .get(`/api/user/${currentUser.id}/liked-shows`)
+        .then((res) => setUserLikedShows(res.data));
+    }
+  }, [currentUser]);
 
   return (
     <div className="container">
@@ -34,46 +56,10 @@ const LikesTab = () => {
       {/* tab content */}
       <div className="mt-5">
         {activeTab === "movies" && (
-          <div className="d-flex flex-wrap">
-            <div className="card m-2" style={{ width: "18rem" }}>
-              <img
-                src="https://images.unsplash.com/photo-1542733384-8b3b0f3b5f9d?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bW92aWV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-                className="card-img-top"
-                alt="..."
-              />
-              <div className="card-body">
-                <h5 className="card-title">Movie 1</h5>
-                <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" className="btn btn-primary">
-                  Go somewhere
-                </a>
-              </div>
-            </div>
-          </div>
+          <MovieTabContent userLikedMovies={userLikedMovies} />
         )}
         {activeTab === "shows" && (
-          <div className="d-flex flex-wrap">
-            <div className="card m-2" style={{ width: "18rem" }}>
-              <img
-                src="https://images.unsplash.com/photo-1542733384-8b3b0f3b5f9d?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bW92aWV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-                className="card-img-top"
-                alt="..."
-              />
-              <div className="card-body">
-                <h5 className="card-title">Show 1</h5>
-                <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" className="btn btn-primary">
-                  Go somewhere
-                </a>
-              </div>
-            </div>
-          </div>
+          <ShowTabContent userLikedShows={userLikedShows} />
         )}
         {activeTab === "books" && (
           <div className="d-flex flex-wrap">
