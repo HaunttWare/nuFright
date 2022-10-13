@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Badges {
-  id          String   @id
+  id          String   @id @default(cuid())
   name        String
   description String
   badge       String
@@ -18,7 +18,7 @@ model Badges {
 }
 
 model BooScale {
-  id        String   @id
+  id        String   @id @default(cuid())
   userId    String
   rating    Int
   cinemaId  String?
@@ -34,7 +34,7 @@ model BooScale {
 }
 
 model Book {
-  id             String     @id
+  id             String     @id @default(cuid())
   authors        String[]
   book_id        String
   cover          String
@@ -51,7 +51,7 @@ model Book {
 }
 
 model Cinema {
-  id          String     @id
+  id          String     @id @default(cuid())
   title       String
   description String
   genres      String
@@ -64,7 +64,7 @@ model Cinema {
 }
 
 model Comment {
-  id            String    @id
+  id            String    @id @default(cuid())
   message       String
   createdAt     DateTime  @default(now())
   updatedAt     DateTime
@@ -84,7 +84,7 @@ model Comment {
 }
 
 model Follows {
-  id                            String @id
+  id                            String @id @default(cuid())
   userId                        String
   followerId                    String
   User_Follows_followerIdToUser User   @relation("Follows_followerIdToUser", fields: [followerId], references: [id], onDelete: Cascade)
@@ -92,7 +92,7 @@ model Follows {
 }
 
 model Haunts {
-  id           String     @id
+  id           String     @id @default(cuid())
   hauntId      String?
   name         String
   latitude     String
@@ -109,7 +109,7 @@ model Haunts {
 }
 
 model Images {
-  id       String     @id
+  id       String     @id @default(cuid())
   image    String     @unique
   userId   String
   caption  String
@@ -121,7 +121,7 @@ model Images {
 }
 
 model Likes {
-  id       String   @id
+  id       String   @id @default(cuid())
   userId   String
   isLiked  Boolean  @default(false)
   hauntId  String?
@@ -138,7 +138,7 @@ model Likes {
 }
 
 model Saved {
-  id       String   @id
+  id       String   @id @default(cuid())
   userId   String
   isSaved  Boolean  @default(false)
   cinemaId String?
@@ -155,7 +155,7 @@ model Saved {
 }
 
 model Stories {
-  id          String     @id
+  id          String     @id @default(cuid())
   authorId    String
   title       String
   story       String     @unique
@@ -170,7 +170,7 @@ model Stories {
 }
 
 model User {
-  id                               String    @id
+  id                               String    @id @default(cuid())
   name                             String
   email                            String    @unique
   createdAt                        DateTime  @default(now())

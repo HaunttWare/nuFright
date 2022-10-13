@@ -11,7 +11,7 @@ export const getUserLikedBooks = async (req: Request, res: Response) => {
       userId: id,
     },
     include: {
-      book: true,
+      Book: true,
     },
   });
   res.json(likedBooks);
@@ -23,7 +23,7 @@ export const getUserLikedMovies = async (req: Request, res: Response) => {
   const likedMovies = await db.cinema.findMany({
     where: {
       type: "movie",
-      likedBy: {
+      Likes: {
         some: {
           userId: id,
         },
@@ -39,7 +39,7 @@ export const getUserLikedShows = async (req: Request, res: Response) => {
   const likedShows = await db.cinema.findMany({
     where: {
       type: "show",
-      likedBy: {
+      Likes: {
         some: {
           userId: id,
         },
@@ -55,7 +55,7 @@ export const getUserSavedMovies = async (req: Request, res: Response) => {
   const savedMovies = await db.cinema.findMany({
     where: {
       type: "movie",
-      savedBy: {
+      Saved: {
         some: {
           userId: id,
         },
@@ -71,7 +71,7 @@ export const getUserSavedShows = async (req: Request, res: Response) => {
   const savedShows = await db.cinema.findMany({
     where: {
       type: "show",
-      savedBy: {
+      Saved: {
         some: {
           userId: id,
         },
