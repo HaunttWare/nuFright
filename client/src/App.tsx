@@ -21,6 +21,7 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
 socket.on("connect", () => {
   console.log('bois we made it');
 })
+import MusicMakingView from "./routes/MusicMaker/MusicMakingView";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="stories" element={<Stories />} />
         <Route path="gallery" element={<Gallery />} />
         <Route path="map" element={<MapBox />} />
+        <Route path="music" element={<MusicMakingView />} />
         <Route path="auth" element={<Authentication />} />
         <Route path="profile" element={<Profile />} />
       </Route>
