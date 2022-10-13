@@ -4,17 +4,45 @@ import { db } from '../../prisma/utils/db.server';
 const postRating = (req: Request, res: Response) => {
   const { type } = req.params;
   const { userId, horrorId, rating} = req.body;
-  const horrorType = type + "Id";
-  
+
   const rateObj = {
     data: {
       userId,
-      rating
+      rating,
+      cinemaId: null,
+      imagesId: null,
+      hauntsId: null,
+      bookId: null,
+      storiesId: null
     }
   }
-  // rateObj.data[type] = horrorId;
+  switch (type) {
+    case "book":
+      rateObj.data.bookId = horrorId
+      break
+    case "cinema":
+      rateObj.data.cinemaId = horrorId
+      break
+    case "images":
+      rateObj.data.imagesId = horrorId
+      break
+    case "stories":
+      rateObj.data.storiesId = horrorId
+      break
+    case "haunts":
+      rateObj.data.hauntsId = horrorId
+      break
+  }
 
-  db.booScale.create(rateObj);
+  db.booScale.create(rateObj)
+  .then((data) => {
+    console.log('it WOOORRRKKKSSSSS', data);
+    res.sendStatus(201);
+  })
+  .catch((err) => {
+    console.error('error on, it dont work :(\n', err);
+    res.sendStatus(500);
+  })
   
 
 }
