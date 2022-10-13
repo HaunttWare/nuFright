@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 
@@ -6,9 +7,27 @@ import PhotosTab from "../../components/profile-tabs/photos-tab/photos-tab.compo
 import LikesTab from "../../components/profile-tabs/likes-tab/likes-tab.component";
 import SavesTab from "../../components/profile-tabs/saves-tab/saves-tab.component";
 
+export type ImageData = {
+  id: string;
+  image: string;
+  caption: string;
+};
+
 const Profile = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [activeTab, setActiveTab] = useState("photos");
+  const [userImages, setUserImages] = useState<ImageData[]>([]);
+
+  useEffect(() => {
+    if (currentUser) {
+      axios
+        .get(`/api/images/myImages/${currentUser.id}`)
+        .then(({ data }) => {
+          setUserImages(data);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [currentUser]);
 
   return (
     <>
@@ -43,7 +62,7 @@ const Profile = () => {
               <div className="p-4 text-white">
                 <div className="d-flex justify-content-end text-center py-1">
                   <div>
-                    <p className="mb-1 h5">4</p>
+                    <p className="mb-1 h5">{userImages.length}</p>
                     <p className="small text-muted mb-0">Photos</p>
                   </div>
                   <div className="px-3">
@@ -93,7 +112,7 @@ const Profile = () => {
                       activeTab === "photos" ? "show active" : ""
                     }`}
                   >
-                    <PhotosTab />
+                    <PhotosTab userImages={userImages} />
                   </div>
                   <div
                     className={`tab-pane fade ${
