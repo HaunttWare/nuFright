@@ -1,9 +1,33 @@
-import React from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 
+import PhotosTab from "../../components/profile-tabs/photos-tab/photos-tab.component";
+import LikesTab from "../../components/profile-tabs/likes-tab/likes-tab.component";
+import SavesTab from "../../components/profile-tabs/saves-tab/saves-tab.component";
+
+export type ImageData = {
+  id: string;
+  image: string;
+  caption: string;
+};
+
 const Profile = () => {
   const currentUser = useSelector(selectCurrentUser);
+  const [activeTab, setActiveTab] = useState("photos");
+  const [userImages, setUserImages] = useState<ImageData[]>([]);
+
+  useEffect(() => {
+    if (currentUser) {
+      axios
+        .get(`/api/images/myImages/${currentUser.id}`)
+        .then(({ data }) => {
+          setUserImages(data);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [currentUser]);
 
   return (
     <>
@@ -38,7 +62,7 @@ const Profile = () => {
               <div className="p-4 text-white">
                 <div className="d-flex justify-content-end text-center py-1">
                   <div>
-                    <p className="mb-1 h5">4</p>
+                    <p className="mb-1 h5">{userImages.length}</p>
                     <p className="small text-muted mb-0">Photos</p>
                   </div>
                   <div className="px-3">
@@ -50,79 +74,59 @@ const Profile = () => {
                     <p className="small text-muted mb-0">Following</p>
                   </div>
                 </div>
-                <div className="container">
-                  <ul className="nav nav-tabs">
-                    <li className="nav-item">
-                      <a
-                        className="nav-link active"
-                        aria-current="page"
-                        href="#"
-                        style={{ color: "black" }}
-                      >
-                        Photos
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a
-                        className="nav-link"
-                        aria-current="page"
-                        href="#"
-                        style={{ color: "white" }}
-                      >
-                        Liked
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a
-                        className="nav-link"
-                        href="#"
-                        style={{ color: "white" }}
-                      >
-                        Saved
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="card-body p-4 text-white">
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                  <p className="lead fw-normal mb-0">Uploaded photos</p>
-                  <p className="mb-0">
-                    <a href="#!" className="text-muted">
-                      Show all
-                    </a>
-                  </p>
-                </div>
-                <div className="row g-2">
-                  <div className="col mb-2">
-                    <img
-                      src="https://tinyurl.com/4wwv3dxy"
-                      alt="image 1"
-                      className="w-100 rounded-3"
-                    />
+                <ul className="nav nav-tabs">
+                  <li className="nav-item">
+                    <button
+                      className={`nav-link ${
+                        activeTab === "photos" ? "active" : ""
+                      }`}
+                      onClick={() => setActiveTab("photos")}
+                    >
+                      Photos
+                    </button>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      className={`nav-link ${
+                        activeTab === "likes" ? "active" : ""
+                      }`}
+                      onClick={() => setActiveTab("likes")}
+                    >
+                      Likes
+                    </button>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      className={`nav-link ${
+                        activeTab === "saves" ? "active" : ""
+                      }`}
+                      onClick={() => setActiveTab("saves")}
+                    >
+                      Saves
+                    </button>
+                  </li>
+                </ul>
+                <div className="tab-content">
+                  <div
+                    className={`tab-pane fade ${
+                      activeTab === "photos" ? "show active" : ""
+                    }`}
+                  >
+                    <PhotosTab userImages={userImages} />
                   </div>
-                  <div className="col mb-2">
-                    <img
-                      src="https://tinyurl.com/3m7xcfyy"
-                      alt="image 1"
-                      className="w-100 rounded-3"
-                    />
+                  <div
+                    className={`tab-pane fade ${
+                      activeTab === "likes" ? "show active" : ""
+                    }`}
+                  >
+                    <LikesTab />
                   </div>
-                </div>
-                <div className="row g-2">
-                  <div className="col">
-                    <img
-                      src="https://tinyurl.com/4kaap6kv"
-                      alt="image 1"
-                      className="w-100 rounded-3"
-                    />
-                  </div>
-                  <div className="col">
-                    <img
-                      src="https://tinyurl.com/452azerx"
-                      alt="image 1"
-                      className="w-100 rounded-3"
-                    />
+                  <div
+                    className={`tab-pane fade ${
+                      activeTab === "saves" ? "show active" : ""
+                    }`}
+                  >
+                    <SavesTab />
                   </div>
                 </div>
               </div>

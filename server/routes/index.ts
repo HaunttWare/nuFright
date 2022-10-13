@@ -8,6 +8,7 @@ import storyRouter from './stories/stories.router';
 import booksRouter from "./books/books.router";
 import ratingRouter from "./ratings/rating.router";
 import likesRouter  from "./likes/likes.router";
+import showsRouter from "./shows/shows.router";
 
 const rootRouter = express.Router();
 
@@ -16,6 +17,7 @@ rootRouter.use("/user", userRouter);
 rootRouter.use('/images', imageRouter);
 rootRouter.use('/movies', MovieRouter);
 rootRouter.use('/story', storyRouter);
+rootRouter.use('/shows', showsRouter);
 rootRouter.use("/books", booksRouter);
 rootRouter.use('/ratings', ratingRouter);
 rootRouter.use('/likes', likesRouter);

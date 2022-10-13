@@ -1,120 +1,90 @@
-import React, { useEffect, useState } from 'react';
-import { BooScale, Likes, Savedlist } from "@prisma/client";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import axios from 'axios';
+import { MoviesData } from "../../store/movies/movies.action";
 
 type MovieProp = {
-  movie:{
-   id: string,
-   title: string,
-   description: string, 
-   genres: string,
-   type: string,
-   images: string,
-   ratings: BooScale,
-   likedBy: Likes,
-   savedBy: Savedlist
-  }
-}
+  movie: MoviesData;
+};
 
-const EachMovie = ({ movie } : MovieProp) => {
-  const [checkIsLiked, setCheckIsLiked] = useState(false); 
-  const [isSaved, setIsSaved] = useState(false);
+const EachMovie = ({ movie }: MovieProp) => {
   const currentUser = useSelector(selectCurrentUser);
-  console.log('user', currentUser);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [likeId, setLikeId] = useState("");
+  const [saveId, setSaveId] = useState("");
 
-const handleLikeSelect = () => {
-  axios.post('/movies/like', {
-    userId: currentUser.id,
-    cinemaId: movie.id,
-    isLiked: true
-  })
-  .then(() => {
-    setCheckIsLiked(true);
-  })
-  .catch((err) => {
-    console.error(err);
-  })
-}
+  const handleLike = () => {
+    axios
+      .post(`/api/movies/${movie.id}/like`, {
+        userId: currentUser.id,
+        likedId: likeId,
+        isLiked: !isLiked,
+      })
+      .then(({ data }) => {
+        setLikeId(data.id);
+        setIsLiked(!isLiked);
+      })
+      .catch((err) => console.log(err));
+  };
 
-const handleUnlikeSelect = () => {
-setCheckIsLiked(false);
-  axios.delete(`/movies/unlike`, {data: {id: currentUser.id, movieId: movie.id}})
-  .then(() => {
-    setCheckIsLiked(false);
-  })
-  .catch((err) => {
-    console.error(err)
-  });
-}
+  const handleSave = () => {
+    axios
+      .post(`/api/movies/${movie.id}/save`, {
+        userId: currentUser.id,
+        savedId: saveId,
+        isSaved: !isSaved,
+      })
+      .then(({ data }) => {
+        setSaveId(data.id);
+        setIsSaved(!isSaved);
+      })
+      .catch((err) => console.log(err));
+  };
 
-const handleSavedRender = () => {
-  setIsSaved(true);
+  useEffect(() => {
+    if (movie.likedBy) {
+      const liked = movie.likedBy.find(
+        (like) => like.userId === currentUser.id
+      );
+      if (liked) {
+        setIsLiked(true);
+        setLikeId(liked.id);
+      }
+    }
+    if (movie.savedBy) {
+      const saved = movie.savedBy.find(
+        (save) => save.userId === currentUser.id
+      );
+      if (saved) {
+        setIsSaved(true);
+        setSaveId(saved.id);
+      }
+    }
+  }, [movie, currentUser.id]);
 
-}
-const handleUnSaveRender = () => {
- setIsSaved(false);
-}
-
-const isLikedRender = () => {
-  if (checkIsLiked) {
-    return (<button onClick={handleUnlikeSelect}>Unlike</button>)
-  } else {
-    return (<button onClick={handleLikeSelect}>Like</button>)
-  }
-};
-const isSavedRender = () => {
-  if (isSaved) {
-    return (<button onClick={handleUnSaveRender}>Unsave</button>)
-  } else {
-    return (<button>save</button>)
-  }
-};
-// const dislikeRender = () => {
-//   if (isDisliked) {
-//     return (<button>change your mind?</button>)
-//   } else {
-//     return (<button>dislike</button>)
-//   }
-// }
-useEffect(() => {
-
-}, [checkIsLiked])
   return (
-    <div className='container'>
-    <h4>{movie.title}</h4>
-    <h6>{movie.genres}</h6>
-    <img src={movie.images}></img>
-    <p>{movie.description}</p>
-    {isLikedRender()}
-    {isSavedRender()}
-  </div>
-  )
+    <div className="col-md-3 col-sm-6">
+      <div className="card">
+        <img src={movie.images} className="card-img-top" alt="..." />
+        <div className="card-body">
+          <h5 className="card-title">{movie.title}</h5>
+          {/* movie genre */}
+          <p className="card-text">
+            <small className="text-muted">{movie.genres}</small>
+          </p>
+          <p className="card-text">{movie.description}</p>
+          <button className="btn btn-secondary" onClick={handleLike}>
+            {isLiked ? "Unlike" : "Like"}
+          </button>
+          <button className="btn btn-secondary" onClick={handleSave}>
+            {isSaved ? "Unsave" : "Save"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default EachMovie;
-
-
-// I might use this card later on
-// import Card from 'react-bootstrap/Card';
-// import Col from 'react-bootstrap/Col';
-// import Row from 'react-bootstrap/Row';
-// <Row xs={1} md={2} className="g-4">
-//   {Array.from({ length: 2 }).map((_, idx) => (
-  //     <Col>
-//       <Card>
-//         <Card.Img variant="top" src={movie.images} />
-//         <Card.Body>
-//           <Card.Title>{movie.title}</Card.Title>
-//           <Card.Text>
-//             {movie.description}
-//           </Card.Text>
-//           <Card.Text>
-//             {movie.genres}
-//           </Card.Text>
-//         </Card.Body>
-//       </Card>
-//     </Col>
-//   ))}
-// </Row>

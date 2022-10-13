@@ -9,7 +9,7 @@ passport.use(
     {
       clientID: config.GOOGLE_CLIENT_ID,
       clientSecret: config.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       const { id, displayName, emails, photos } = profile;
@@ -39,10 +39,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((user: UserData, done) => {
-  // console.log("deserializeUser", user);
-  console.time("deserializeUser");
   done(null, user)
-  console.timeEnd("deserializeUser");
 });
 
 export default passport;
