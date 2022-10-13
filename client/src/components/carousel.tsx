@@ -3,7 +3,6 @@ import Carousel from 'react-bootstrap/Carousel';
 import { MoviesData } from '../store/movies/movies.action';
 
 const CreepyCarousel = ({ movies }: any) => {
-  console.log(movies);
   return (
     <Carousel>
       <Carousel.Item>
