@@ -5,72 +5,72 @@ import axios from 'axios';
 
 
 
-// let genresFromShowDb = [
-//   {
-//     "id": 10759,
-//     "name": "Action & Adventure"
-//   },
-//   {
-//     "id": 16,
-//     "name": "Animation"
-//   },
-//   {
-//     "id": 35,
-//     "name": "Comedy"
-//   },
-//   {
-//     "id": 80,
-//     "name": "Crime"
-//   },
-//   {
-//     "id": 99,
-//     "name": "Documentary"
-//   },
-//   {
-//     "id": 18,
-//     "name": "Drama"
-//   },
-//   {
-//     "id": 10751,
-//     "name": "Family"
-//   },
-//   {
-//     "id": 10762,
-//     "name": "Kids"
-//   },
-//   {
-//     "id": 9648,
-//     "name": "Mystery"
-//   },
-//   {
-//     "id": 10763,
-//     "name": "News"
-//   },
-//   {
-//     "id": 10764,
-//     "name": "Reality"
-//   },
-//   {
-//     "id": 10765,
-//     "name": "Sci-Fi & Fantasy"
-//   },
-//   {
-//     "id": 10766,
-//     "name": "Soap"
-//   },
-//   {
-//     "id": 10767,
-//     "name": "Talk"
-//   },
-//   {
-//     "id": 10768,
-//     "name": "War & Politics"
-//   },
-//   {
-//     "id": 37,
-//     "name": "Western"
-//   }
-// ];
+let genresFromShowDb = [
+  {
+    "id": 10759,
+    "name": "Action & Adventure"
+  },
+  {
+    "id": 16,
+    "name": "Animation"
+  },
+  {
+    "id": 35,
+    "name": "Comedy"
+  },
+  {
+    "id": 80,
+    "name": "Crime"
+  },
+  {
+    "id": 99,
+    "name": "Documentary"
+  },
+  {
+    "id": 18,
+    "name": "Drama"
+  },
+  {
+    "id": 10751,
+    "name": "Family"
+  },
+  {
+    "id": 10762,
+    "name": "Kids"
+  },
+  {
+    "id": 9648,
+    "name": "Mystery"
+  },
+  {
+    "id": 10763,
+    "name": "News"
+  },
+  {
+    "id": 10764,
+    "name": "Reality"
+  },
+  {
+    "id": 10765,
+    "name": "Sci-Fi & Fantasy"
+  },
+  {
+    "id": 10766,
+    "name": "Soap"
+  },
+  {
+    "id": 10767,
+    "name": "Talk"
+  },
+  {
+    "id": 10768,
+    "name": "War & Politics"
+  },
+  {
+    "id": 37,
+    "name": "Western"
+  }
+];
 
 // const getShowsFromAPI = (req: Request, res: Response) => {
 //   let urls = [
@@ -143,7 +143,79 @@ const getHorrorShows = (req: Request, res: Response) => {
     });
 };
 
+const likeShow = async (req: Request, res: Response) => {
+  const { userId, isLiked, likedId } = req.body;
+  const { cinemaId } = req.params;
+  // if isLike is true, then create a like
+  if (isLiked) {
+    try {
+      const like = await db.likes.create({
+        data: {
+          userId,
+          cinemaId,
+          isLiked,
+        },
+      });
+      res.status(200).send(like);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+  // if isLike is false, then delete a like
+  else {
+    try {
+      const unlike = await db.likes.delete({
+        where: {
+          id: likedId,
+        },
+      });
+      res.status(200).send(unlike);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+};
+
+const saveShow = async (req: Request, res: Response) => {
+  const { userId, isSaved, savedId } = req.body;
+  const { cinemaId } = req.params;
+  // if isSaved is true, then create a save
+  if (isSaved) {
+    try {
+      const save = await db.saved.create({
+        data: {
+          userId,
+          cinemaId,
+          isSaved,
+        },
+      });
+      res.status(200).send(save);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+  // if isSaved is false, then delete a save
+  else {
+    try {
+      const unsave = await db.saved.delete({
+        where: {
+          id: savedId,
+        },
+      });
+      res.status(200).send(unsave);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+};
+
 export {
   getHorrorShows,
-//   getShowsFromAPI,
+ 
+  likeShow,
+  saveShow,
 }
