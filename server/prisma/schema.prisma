@@ -8,20 +8,20 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(cuid())
+  id         String    @id @default(cuid())
   name       String
-  email      String     @unique
-  createdAt  DateTime   @default(now())
-  googleId   String     @unique
+  email      String    @unique
+  createdAt  DateTime  @default(now())
+  googleId   String    @unique
   photo      String
-  Comments   Comments[]
-  followedBy Follows[]  @relation("follower")
-  following  Follows[]  @relation("following")
+  Comment    Comment[]
+  followedBy Follows[] @relation("follower")
+  following  Follows[] @relation("following")
   images     Images[]
   liked      Likes[]
   savedlist  Saved[]
   stories    Stories[]
-  Badges     Badges[]
+  badges     Badges[]
 }
 
 model Cinema {
@@ -32,6 +32,7 @@ model Cinema {
   type        String
   images      String
   ratings     BooScale[] @relation("rateCinema")
+  Comment     Comment[]
   likedBy     Likes[]    @relation("likeCinema")
   savedBy     Saved[]    @relation("saveCinema")
 }
@@ -48,6 +49,7 @@ model Book {
   synopsis       String
   url            String
   ratings        BooScale[] @relation("rateBook")
+  Comment        Comment[]
   likedBy        Likes[]    @relation("likeBook")
   savedBy        Saved[]    @relation("saveBook")
 }
@@ -60,8 +62,9 @@ model Stories {
   images      String
   createdAt   DateTime   @default(now())
   description String?
-  author      User       @relation(fields: [authorId], references: [id])
+  author      User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
   ratings     BooScale[] @relation("rateStory")
+  Comment     Comment[]
   likedBy     Likes[]    @relation("likeStory")
   savedBy     Saved[]    @relation("saveStory")
 }
@@ -71,8 +74,9 @@ model Images {
   image   String     @unique
   userId  String
   caption String
-  user    User       @relation(fields: [userId], references: [id])
+  user    User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   ratings BooScale[] @relation("rateImage")
+  Comment Comment[]
   likedBy Likes[]    @relation("likeImage")
   savedBy Saved[]    @relation("saveImage")
 }
@@ -86,11 +90,11 @@ model BooScale {
   storiesId String?
   imagesId  String?
   hauntsId  String?
-  book      Book?    @relation("rateBook", fields: [bookId], references: [id])
-  cinema    Cinema?  @relation("rateCinema", fields: [cinemaId], references: [id])
-  haunts    Haunts?  @relation("rateHaunt", fields: [hauntsId], references: [id])
-  images    Images?  @relation("rateImage", fields: [imagesId], references: [id])
-  stories   Stories? @relation("rateStory", fields: [storiesId], references: [id])
+  book      Book?    @relation("rateBook", fields: [bookId], references: [id], onDelete: Cascade)
+  cinema    Cinema?  @relation("rateCinema", fields: [cinemaId], references: [id], onDelete: Cascade)
+  haunts    Haunts?  @relation("rateHaunt", fields: [hauntsId], references: [id], onDelete: Cascade)
+  images    Images?  @relation("rateImage", fields: [imagesId], references: [id], onDelete: Cascade)
+  stories   Stories? @relation("rateStory", fields: [storiesId], references: [id], onDelete: Cascade)
 }
 
 model Haunts {
@@ -114,8 +118,8 @@ model Follows {
   id         String @id @default(cuid())
   userId     String
   followerId String
-  follower   User   @relation("follower", fields: [followerId], references: [id])
-  user       User   @relation("following", fields: [userId], references: [id])
+  follower   User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  user       User   @relation("following", fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Likes {
@@ -127,11 +131,11 @@ model Likes {
   bookId   String?
   storyId  String?
   imagesId String?
-  book     Book?    @relation("likeBook", fields: [bookId], references: [id])
-  cinema   Cinema?  @relation("likeCinema", fields: [cinemaId], references: [id])
-  haunt    Haunts?  @relation("likeHaunt", fields: [hauntId], references: [id])
-  images   Images?  @relation("likeImage", fields: [imagesId], references: [id])
-  story    Stories? @relation("likeStory", fields: [storyId], references: [id])
+  book     Book?    @relation("likeBook", fields: [bookId], references: [id], onDelete: Cascade)
+  cinema   Cinema?  @relation("likeCinema", fields: [cinemaId], references: [id], onDelete: Cascade)
+  haunt    Haunts?  @relation("likeHaunt", fields: [hauntId], references: [id], onDelete: Cascade)
+  images   Images?  @relation("likeImage", fields: [imagesId], references: [id], onDelete: Cascade)
+  story    Stories? @relation("likeStory", fields: [storyId], references: [id], onDelete: Cascade)
   user     User     @relation(fields: [userId], references: [id])
 }
 
@@ -144,30 +148,41 @@ model Saved {
   bookId   String?
   storyId  String?
   imagesId String?
-  book     Book?    @relation("saveBook", fields: [bookId], references: [id])
-  cinema   Cinema?  @relation("saveCinema", fields: [cinemaId], references: [id])
-  haunt    Haunts?  @relation("saveHaunt", fields: [hauntId], references: [id])
-  images   Images?  @relation("saveImage", fields: [imagesId], references: [id])
-  story    Stories? @relation("saveStory", fields: [storyId], references: [id])
+  book     Book?    @relation("saveBook", fields: [bookId], references: [id], onDelete: Cascade)
+  cinema   Cinema?  @relation("saveCinema", fields: [cinemaId], references: [id], onDelete: Cascade)
+  haunt    Haunts?  @relation("saveHaunt", fields: [hauntId], references: [id], onDelete: Cascade)
+  images   Images?  @relation("saveImage", fields: [imagesId], references: [id], onDelete: Cascade)
+  story    Stories? @relation("saveStory", fields: [storyId], references: [id], onDelete: Cascade)
   user     User     @relation(fields: [userId], references: [id])
 }
 
 model Badges {
-  id          String   @id
+  id          String   @id @default(cuid())
   name        String
   description String
   badge       String
   createdAt   DateTime @default(now())
   userId      String
-  User        User[]
+  users       User[]
 }
 
-model Comments {
-  id             String     @id
-  comment        String
-  userId         String?
-  topCommentId   String?
-  Comments       Comments?  @relation("CommentsToComments", fields: [topCommentId], references: [id])
-  User           User?      @relation(fields: [userId], references: [id])
-  other_Comments Comments[] @relation("CommentsToComments")
+model Comment {
+  id        String    @id @default(cuid())
+  message   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    String
+  parentId  String?
+  bookId    String?
+  cinemaId  String?
+  imagesId  String?
+  storiesId String?
+  category  String?
+  book      Book?      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  cinema    Cinema?    @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
+  images    Images?    @relation(fields: [imagesId], references: [id], onDelete: Cascade)
+  parent    Comment?  @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
+  stories   Stories?   @relation(fields: [storiesId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  children  Comment[] @relation("ParentChild")
 }
