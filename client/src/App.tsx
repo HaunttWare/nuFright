@@ -19,7 +19,7 @@ import { io, Socket, ClientToServerEvents, ServerToClientEvents} from "./socket.
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
 socket.on("connect", () => {
-  console.log('bois we made it');
+  // console.log('bois we made it');
 })
 import MusicMakingView from "./routes/MusicMaker/MusicMakingView";
 

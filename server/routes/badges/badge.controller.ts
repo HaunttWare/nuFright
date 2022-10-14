@@ -14,7 +14,7 @@ const postBadge = (req: Request, res: Response) => {
     }
   })
     .then((data) => {
-      console.log('badge created', data);
+      // console.log('badge created', data);
       res.sendStatus(201);
     })
     .catch((err) => {

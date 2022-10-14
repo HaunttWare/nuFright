@@ -8,6 +8,7 @@ import storyRouter from './stories/stories.router';
 import booksRouter from "./books/books.router";
 import badgeRouter from "./badges/badge.router";
 import showsRouter from "./shows/shows.router";
+import commentRouter from "./comments/comment.router";
 
 const rootRouter = express.Router();
 
@@ -19,6 +20,7 @@ rootRouter.use('/story', storyRouter);
 rootRouter.use('/shows', showsRouter);
 rootRouter.use("/books", booksRouter);
 rootRouter.use('/badges', badgeRouter);
+rootRouter.use('/comments', commentRouter);
 
 
 export default rootRouter;
