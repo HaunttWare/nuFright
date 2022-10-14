@@ -7,12 +7,12 @@ const CostumesList = () => {
 
     return (
         <div>
-            Costumes Page
-            <>
+            <h1>Costumes</h1>
+            <div className="row">
                 {selection1.map((costume:any, index:number) => {
                     return <CostumeCard name={costume.name} url={costume.url} costumeImg={costume.costumeImg} costumeImg_url={costume.costumeImg_url} key={index} />
                 })}
-            </>
+            </div>
         </div>
     )
 }
