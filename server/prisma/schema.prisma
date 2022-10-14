@@ -170,23 +170,24 @@ model Badges {
 }
 
 model Comment {
-  id            String    @id
-  message       String
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime
-  userId        String
-  parentId      String?
-  bookId        String
-  cinemaId      String
-  imagesId      String
-  storiesId     String
-  Book          Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
-  Cinema        Cinema    @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
-  Images        Images    @relation(fields: [imagesId], references: [id], onDelete: Cascade)
-  Comment       Comment?  @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
-  Stories       Stories   @relation(fields: [storiesId], references: [id], onDelete: Cascade)
-  User          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  other_Comment Comment[] @relation("CommentToComment")
+  id        String    @id @default(cuid())
+  message   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    String
+  parentId  String?
+  bookId    String?
+  cinemaId  String?
+  imagesId  String?
+  storiesId String?
+  category  String?
+  book      Book?      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  cinema    Cinema?    @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
+  images    Images?    @relation(fields: [imagesId], references: [id], onDelete: Cascade)
+  parent    Comment?  @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
+  stories   Stories?   @relation(fields: [storiesId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  children  Comment[] @relation("ParentChild")
 }
 
 model Conversation {
