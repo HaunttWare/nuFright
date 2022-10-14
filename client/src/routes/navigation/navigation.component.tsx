@@ -64,6 +64,11 @@ const Navigation = () => {
                   MusicMaker
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/costumes">
+                  Costumes
+                </Link>
+              </li>
               {currentUser ? (
                 <>
                   {/* an image with a dropdown menu */}
