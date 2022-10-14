@@ -7,7 +7,12 @@ const CostumesList = () => {
         <div>
             Costumes Page
             <>
-                {console.log(selection1)}
+                {selection1.map((costume:any, index:number) => {
+                    return <div key={index}>
+                        <img src={costume.costumeImg}></img>
+                        <p onClick={() => location.href = costume.url}>{costume.name}</p>
+                    </div>
+                })}
             </>
         </div>
     )
