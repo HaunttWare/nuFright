@@ -9,8 +9,6 @@ return (
   <>
   <h1>record your song</h1>
   <AudioRecorder /> 
- 
-
   </>
 
   )
