@@ -3,13 +3,11 @@ import path from "path";
 import cors from "cors";
 import passport from "passport";
 import cookieSession from "cookie-session";
-import { createServer } from "http";
-import { Server } from "socket.io";
-import { ServerToClientEvents, ClientToServerEvents, InterServerEvents, SocketData } from "./sockets";
+import socket from "./socket/index";
+import { createServer} from "http";
 import "./routes/auth/passport";
 
 import rootRouter from "./routes";
-import { Socket } from "engine.io";
 
 const PORT = 3000;
 
@@ -38,27 +36,18 @@ app.use(
   })
 );
 
+//create server and initialize socket
+const server = createServer(app);
+socket(server);
+
+
 app.use("/api", rootRouter);
-
-const httpServer = createServer(app);
-const io = new Server<
-  ClientToServerEvents,
-  ServerToClientEvents,
-  InterServerEvents,
-  SocketData
-  >(httpServer);
-
-io.on("connection", (socket) => {
-  console.log(socket.id);
-})
-
-
 
 // route to handle all other endpoints and server index.html
 app.get("/*", (req: Request, res: Response) => {
   res.sendFile(path.resolve("client", "public", "index.html"));
 });
 
-httpServer.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`⚡[server]: Server is running at http://localhost:${PORT}`);
 });
