@@ -22,7 +22,6 @@ const Shows = () => {
   const getShows = () => {
     axios.get('/api/shows')
       .then(({ data }) => {
-          console.log(data);
           dispatch(setCurrentShows(data));
       })
   };
@@ -31,8 +30,6 @@ const Shows = () => {
     getShows();
     setCurrentShowsLoaded(true);
   }, []);
-
-  console.log('in showssss', currentShows);
 
 return (
   <div className="cinema-container">

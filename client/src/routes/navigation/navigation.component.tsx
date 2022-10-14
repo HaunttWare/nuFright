@@ -59,6 +59,11 @@ const Navigation = () => {
                   Haunts
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/music">
+                  MusicMaker
+                </Link>
+              </li>
               {currentUser ? (
                 <>
                   {/* an image with a dropdown menu */}

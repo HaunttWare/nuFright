@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
+//import text-to-speech component
+import Voice from '../TextToSpeech-components/Voice.component';
 
 const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String, description?: String}, backHandler:Function}) => {
     const currentUser = useSelector(selectCurrentUser);
@@ -61,6 +63,7 @@ const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String
                 <h5 style={{display: 'flex', justifyContent: 'center'}}><b><u>{title}</u></b></h5>
                 <div className='col-6'>by: {username}</div>
                 <div className='col-6' style={{display: 'flex', justifyContent: 'right'}}>published: {props.story.createdAt.slice(0, props.story.createdAt.indexOf('T'))}</div>
+                <Voice text={story.toString()}></Voice>
                 <img src={HauntedHouse} style={{maxWidth: 450, maxHeight: 450}}></img>
                 <div style={{display: 'flex', justifyContent: 'left'}}>{story}</div>
                 <button onClick={() => console.log('Not Yet Implemented')} style={{maxWidth: 150, borderRadius: 50, background: 'black', color: 'lime'}}>Favorite</button>
