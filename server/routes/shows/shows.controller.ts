@@ -126,8 +126,8 @@ let genresFromShowDb = [
 const getHorrorShows = (req: Request, res: Response) => {
   db.cinema.findMany({
     include: {
-      Likes: true,
-      Saved: true,
+      likedBy: true,
+      savedBy: true,
     }
   })
     .then((showsData) => {

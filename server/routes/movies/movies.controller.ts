@@ -145,8 +145,8 @@ const getHorrorMovies = (req: Request, res: Response) => {
   db.cinema
     .findMany({
       include: {
-        Likes: true,
-        Saved: true,
+        likedBy: true,
+        savedBy: true,
       },
     })
     .then((moviesData) => {
