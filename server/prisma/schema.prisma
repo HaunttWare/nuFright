@@ -8,20 +8,23 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(cuid())
-  name       String
-  email      String    @unique
-  createdAt  DateTime  @default(now())
-  googleId   String    @unique
-  photo      String
-  Comment    Comment[]
-  followedBy Follows[] @relation("follower")
-  following  Follows[] @relation("following")
-  images     Images[]
-  liked      Likes[]
-  savedlist  Saved[]
-  stories    Stories[]
-  badges     Badges[]
+  id               String         @id @default(cuid())
+  name             String
+  email            String         @unique
+  createdAt        DateTime       @default(now())
+  googleId         String         @unique
+  photo            String
+  Comment          Comment[]
+  followedBy       Follows[]      @relation("follower")
+  following        Follows[]      @relation("following")
+  images           Images[]
+  liked            Likes[]
+  receivedMessages Message[]      @relation("receiver")
+  sentMessages     Message[]      @relation("sender")
+  savedlist        Saved[]
+  stories          Stories[]
+  badges           Badges[]
+  conversations    Conversation[]
 }
 
 model Cinema {
@@ -173,16 +176,34 @@ model Comment {
   updatedAt DateTime  @updatedAt
   userId    String
   parentId  String?
-  bookId    String?
-  cinemaId  String?
-  imagesId  String?
-  storiesId String?
-  category  String?
-  book      Book?      @relation(fields: [bookId], references: [id], onDelete: Cascade)
-  cinema    Cinema?    @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
-  images    Images?    @relation(fields: [imagesId], references: [id], onDelete: Cascade)
+  bookId    String
+  cinemaId  String
+  imagesId  String
+  storiesId String
+  book      Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  cinema    Cinema    @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
+  images    Images    @relation(fields: [imagesId], references: [id], onDelete: Cascade)
   parent    Comment?  @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
-  stories   Stories?   @relation(fields: [storiesId], references: [id], onDelete: Cascade)
+  stories   Stories   @relation(fields: [storiesId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   children  Comment[] @relation("ParentChild")
+}
+
+model Conversation {
+  createdAt DateTime  @default(now())
+  id        String    @id @default(cuid())
+  messages  Message[]
+  users     User[]
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  senderId       String
+  createdAt      DateTime     @default(now())
+  message        String
+  receiverId     String?
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  receiver       User?        @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  sender         User         @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
 }

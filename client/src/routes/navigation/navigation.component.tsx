@@ -4,14 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { setCurrentUser } from "../../store/user/user.action";
 
-
 const Navigation = () => {
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
 
   const logOutUser = () => {
     dispatch(setCurrentUser(null));
-    window.open("http://localhost:3000/auth/logout", "_self");
+    window.open("http://localhost:3000/api/auth/logout", "_self");
   };
 
   return (
@@ -66,7 +65,11 @@ const Navigation = () => {
               </li>
               {currentUser ? (
                 <>
-                  {/* an image with a dropdown menu */}
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/chat">
+                      Chat
+                    </Link>
+                  </li>
                   <li className="nav-item dropdown">
                     <a
                       className="nav-link dropdown-toggle"
