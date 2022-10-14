@@ -15,13 +15,8 @@ import Gallery from "./routes/gallery/gallery.component";
 import MapBox from "./routes/haunted-houses/Map.component";
 import Authentication from "./routes/authentication/authentication.component";
 import Profile from "./routes/profile/profile.component";
-import { io, Socket, ClientToServerEvents, ServerToClientEvents} from "./socket.client";
-
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
-socket.on("connect", () => {
-  console.log('bois we made it');
-})
 import MusicMakingView from "./routes/MusicMaker/MusicMakingView";
+import Chat from "./routes/chat/chat.component";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -29,8 +24,8 @@ const App = () => {
   useEffect(() => {
     axios
       .get("/api/auth/login/successful")
-      .then(({ data: { user } }) => { 
-        if(user) {
+      .then(({ data: { user } }) => {
+        if (user) {
           dispatch(setCurrentUser(user));
         }
       })
@@ -50,6 +45,7 @@ const App = () => {
         <Route path="music" element={<MusicMakingView />} />
         <Route path="auth" element={<Authentication />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="chat" element={<Chat />} />
       </Route>
     </Routes>
   );
