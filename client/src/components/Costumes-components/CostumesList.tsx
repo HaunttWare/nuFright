@@ -1,5 +1,7 @@
 import React from 'react';
+//import data
 import { selection1 }from './example-data.json';
+import { mens_selection } from './mens-costumes.json';
 //import subcomponents
 import CostumeCard from './CostumeCard';
 
@@ -9,7 +11,7 @@ const CostumesList = () => {
         <div>
             <h1>Costumes</h1>
             <div className="row">
-                {selection1.map((costume:any, index:number) => {
+                {mens_selection.map((costume:any, index:number) => {
                     return <CostumeCard name={costume.name} url={costume.url} costumeImg={costume.costumeImg} costumeImg_url={costume.costumeImg_url} key={index} />
                 })}
             </div>
