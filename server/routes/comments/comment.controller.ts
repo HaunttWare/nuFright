@@ -15,25 +15,14 @@ const COMMENT_SELECT_FIELDS = {
 }
 
 const getComments = (req: Request, res: Response) => {
-  const {params: {id}} = req;
-  
-  db.comment.findMany({
-    where: {id},
-    select: {userId: true},
-  })
-  .then(data => {
-    if (data) {
-      console.log({data});
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(404);
-    }
-  })
+  db.comment.findMany({})
+  .then(results => res.status(200).json(results))
   .catch(() => res.sendStatus(500));
 }
 
 const postComment = (req: Request, res: Response) => {
   const {body: {userId, message, category, horrorId}} = req;
+  console.log(req.params)
   const commentObj = {
     data: {
       message,

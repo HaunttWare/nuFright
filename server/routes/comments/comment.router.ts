@@ -3,7 +3,7 @@ import { postComment, getComments } from './comment.controller';
 
 const commentRouter = express.Router();
 
-commentRouter.post('/', postComment);
+commentRouter.post('/:horrorId', postComment);
 commentRouter.get('/', getComments);
 
 export default commentRouter;
