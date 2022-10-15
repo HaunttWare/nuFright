@@ -70,9 +70,12 @@ const Chat = () => {
   }, [arrivalMessage, currentChat]);
 
   useEffect(() => {
-    socket.current?.emit("addUser", currentUser?.id);
+    if (currentUser) {
+      socket.current?.emit("addUser", currentUser?.id);
+    }
     socket.current?.on("getUsers", (users: onlineUser[]) => {
-      setOnlineUsers(users);
+      console.log("users in getUSer", users);
+      setOnlineUsers(users.filter((user) => user.userId !== currentUser?.id));
     });
   }, [currentUser]);
 
