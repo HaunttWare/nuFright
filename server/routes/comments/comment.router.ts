@@ -3,6 +3,6 @@ import { postComment } from './comment.controller';
 
 const commentRouter = express.Router();
 
-commentRouter.post('/:type', postComment);
+commentRouter.post('/', postComment);
 
 export default commentRouter;
