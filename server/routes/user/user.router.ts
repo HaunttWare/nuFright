@@ -1,9 +1,13 @@
 import express from 'express';
-import {getUserLikedBooks, getUserLikedMovies, getUserLikedShows, getUserSavedMovies, getUserSavedShows} from './user.controller';
+import {getUser, getUserLikedBooks, getUserLikedMovies, getUserLikedShows, getUsers, getUserSavedMovies, getUserSavedShows} from './user.controller';
 
 const userRouter = express.Router();
 
 // userRouter.get('/:id/liked-books', getUserLikedBooks);
+// userRouter.get('/:id', getUser)
+
+// get all users
+userRouter.get('/', getUsers);
 
 userRouter.get('/:id/liked-movies', getUserLikedMovies);
 

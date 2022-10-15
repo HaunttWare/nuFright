@@ -1,6 +1,37 @@
 import { Request, Response } from "express";
 import { db } from "../../prisma/utils/db.server";
 
+export const getUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const user = await db.user.findUnique({
+      where: { id },
+    });
+    res.status(200).json(user);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getUsers = async (req: Request, res: Response) => {
+  const { userIds } = req.query as any;
+console.log(userIds)
+  // get users that match the userIds
+  try {
+    const users = await db.user.findMany({
+      where: {
+        id: {
+          in: userIds,
+        },
+      },
+    });
+    res.status(200).json(users);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 export const getUserLikedBooks = async (req: Request, res: Response) => {
   // Get the user id from the request
   // query the db for the liked books of the user with that id
@@ -80,5 +111,3 @@ export const getUserSavedShows = async (req: Request, res: Response) => {
   });
   res.json(savedShows);
 };
-
-
