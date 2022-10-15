@@ -9,7 +9,6 @@ import Message from "../../components/message/message.component";
 import ChatOnline from "../../components/chat-online/chat-online.component";
 
 import "./chat.styles.css";
-import e from "express";
 
 export type User = {
   id: string;
@@ -51,7 +50,11 @@ const Chat = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    socket.current = io("ws://localhost:3000");
+    const url =
+      process.env.NODE_ENV === "development"
+        ? "ws://localhost:3000"
+        : "ws://34.172.28.149.nip.io:3000";
+    socket.current = io(url);
     socket.current?.on("getMessage", (data: any) => {
       setArrivalMessage({
         conversationId: data.conversationId,
@@ -140,6 +143,8 @@ const Chat = () => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  console.log("conversation", conversations);
+
   return (
     <>
       <div className="messenger">
@@ -151,11 +156,16 @@ const Chat = () => {
             />
             {conversations.length > 0 ? (
               <>
-                {conversations.map((c) => (
-                  <div key={c.id} onClick={() => setCurrentChat(c)}>
-                    <Conversation conversation={c} currentUser={currentUser} />
-                  </div>
-                ))}
+                {conversations.map((c) => {
+                  return (
+                    <div key={c.id} onClick={() => setCurrentChat(c)}>
+                      <Conversation
+                        conversation={c}
+                        currentUser={currentUser}
+                      />
+                    </div>
+                  );
+                })}
               </>
             ) : (
               <div className="noConversations">No conversations yet</div>
