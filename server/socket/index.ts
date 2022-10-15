@@ -27,6 +27,7 @@ const socket = (server: HttpServer) => {
       io.emit("getUsers", users);
     });
 
+
     // send and get message
     socket.on("sendMessage", ({ conversationId, sender, receiverId, message }: any) => {
       const user = getUser(receiverId);
