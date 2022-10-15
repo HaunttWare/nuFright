@@ -21,26 +21,28 @@ const ChatOnline = ({
 }: ChatOnlineProps) => {
   const [otherOnlineUsers, setOtherOnlineUsers] = useState<User[]>([]);
 
-  useEffect(() => {
-    const userIdFilter = onlineUsers
-      .filter((user) => user.userId !== null && user.userId !== currentUserId)
-      .map((user) => user.userId);
+  console.log("onlineUsers", onlineUsers);
 
+  console.log("otherOnlineUsers", otherOnlineUsers);
+
+  useEffect(() => {
     const getOtherOnlineUsers = async () => {
       try {
-        const otherOnlineUsers = await Promise.all(
-          userIdFilter.map(async (userId) => {
-            const res = await axios.get(`/api/user/${userId}`);
-            return res.data;
-          })
-        );
-        setOtherOnlineUsers(otherOnlineUsers);
-      } catch (err) {
-        console.log(err);
+        if (onlineUsers.length > 0) {
+          const { data } = await axios.get("/api/user", {
+            params: {
+              userIds: onlineUsers.map((user) => user.userId),
+            },
+          });
+          console.log("data", data);
+          setOtherOnlineUsers(data);
+        }
+      } catch (error) {
+        console.log(error);
       }
     };
     getOtherOnlineUsers();
-  }, [onlineUsers, currentUserId]);
+  }, [onlineUsers]);
 
   const handleClick = async (user: User) => {
     try {
