@@ -10,6 +10,7 @@ import Home from "./routes/home/home.component";
 import Films from "./routes/movies-shows/films.component";
 import Books from "./routes/books/books.components";
 import Book from "./components/book/book.component";
+import Costumes from './routes/costumes/costumes.component';
 import Stories from "./routes/stories/stories.component";
 import Gallery from "./routes/gallery/gallery.component";
 import MapBox from "./routes/haunted-houses/Map.component";
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="movies-shows" element={<Films />} />
         <Route path="books" element={<Books />} />
         <Route path="books/:bookId" element={<Book />} />
+        <Route path="costumes" element={<Costumes />} />
         <Route path="stories" element={<Stories />} />
         <Route path="gallery" element={<Gallery />} />
         <Route path="map" element={<MapBox />} />
