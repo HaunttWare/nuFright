@@ -1,10 +1,15 @@
 import express from "express";
-import { createConversation, getConversation, getConversationByUserId } from "./conversation.controller";
+import {
+  findOrCreateConversation,
+  getConversation,
+} from "./conversation.controller";
 
 const conversationRouter = express.Router();
 
-conversationRouter.post("/", createConversation);
 conversationRouter.get("/:userId", getConversation);
-conversationRouter.get("/find/:firstUserId/:secondUserId", getConversationByUserId);
+conversationRouter.post(
+  "/find/:firstUserId/:secondUserId",
+  findOrCreateConversation
+);
 
 export default conversationRouter;

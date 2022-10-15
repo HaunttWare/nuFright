@@ -44,7 +44,7 @@ const ChatOnline = ({
 
   const handleClick = async (user: User) => {
     try {
-      const { data } = await axios.get(
+      const { data } = await axios.post(
         `/api/conversations/find/${currentUserId}/${user.id}`
       );
       setCurrentChat(data);
@@ -55,7 +55,7 @@ const ChatOnline = ({
 
   return (
     <div className="chatOnline">
-      {otherOnlineUsers.length > 0 ? (
+      {otherOnlineUsers ? (
         <>
           {otherOnlineUsers.map((user, idx) => (
             <div
