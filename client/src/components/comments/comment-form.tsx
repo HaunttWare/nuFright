@@ -1,21 +1,38 @@
 import React, {useState, ChangeEventHandler} from 'react';
+import axios from 'axios';
 
-const CommentForm = () => {
+type CommentFormProps = {
+  newComment: (message: string) => void;
+}
+
+const CommentForm = ({newComment}: CommentFormProps) => {
 
   const [message, setMessage] = useState<string>()
 
-  const handleSubmit: ChangeEventHandler<HTMLInputElement> = (e) => {
-    e.preventDefault();
-    setMessage(e.target.value)
+  interface HandleChange {
+    handleChange: (
+      selectType: string,
+      event: React.ChangeEvent<HTMLInputElement>) => void;
   }
+
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const {value} = e.target;
+      setMessage(value);
+  }
+
 
   return (
     <form >
       <div className='comment-form-row'>
         <input 
           name='message'
-          onChange={e => setMessage(e.target.value)}
-        />
+          onChange={e => handleChange(e)}
+        ></input>
+        <button
+          type='button'
+          onClick={() => message? newComment(message) : null}
+          // onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+        >Add Comment</button>
       </div>
     </form>
   )
