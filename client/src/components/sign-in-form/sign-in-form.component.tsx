@@ -1,9 +1,13 @@
 import React from "react";
 
 const SignInForm = () => {
-  
   const googleSignIn = () => {
-    window.open("http://34.172.28.149.nip.io:3000/api/auth/google", "_self");
+    const url =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/api/auth/google"
+        : "http://34.172.28.149.nip.io:3000/api/auth/google";
+
+    window.open(url, "_self");
   };
 
   return (
