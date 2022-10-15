@@ -9,6 +9,7 @@ import Message from "../../components/message/message.component";
 import ChatOnline from "../../components/chat-online/chat-online.component";
 
 import "./chat.styles.css";
+import e from "express";
 
 export type User = {
   id: string;
@@ -90,7 +91,7 @@ const Chat = () => {
     if (currentUser) {
       getConversations();
     }
-  }, [currentUser]);
+  }, [currentUser, currentChat]);
 
   useEffect(() => {
     const getMessages = async () => {
