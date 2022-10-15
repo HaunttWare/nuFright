@@ -14,7 +14,7 @@ export const store = configureStore({ // <-- this function creates the store
         movies: moviesReducer,
         shows: showsReducer,
     },
-    middleware: (process.env.NODE_ENV === 'development' ? [logger] : []) // <-- this adds the logger middleware only in development mode
+    // middleware: (process.env.NODE_ENV === 'development' ? [logger] : []) // <-- this adds the logger middleware only in development mode
 });
 
 
