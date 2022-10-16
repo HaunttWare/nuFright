@@ -111,3 +111,21 @@ export const getUserSavedShows = async (req: Request, res: Response) => {
   });
   res.json(savedShows);
 };
+
+export const getUserRatingsNBadges = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const RatingsNBadges = await db.user.findUnique({
+      where: { id },
+      include: {
+        ratings: true,
+        badges: true,
+      }
+    })
+    res.json(RatingsNBadges);
+  } catch (err) {
+    console.error('error getting Ratings and Badges\n', err);
+    res.sendStatus(500);
+  }
+}

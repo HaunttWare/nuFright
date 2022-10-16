@@ -23,6 +23,7 @@ model User {
   sentMessages     Message[]      @relation("sender")
   Playlist         Playlist[]
   savedlist        Saved[]
+  Song             Song[]
   stories          Stories[]
   badges           Badges[]
   conversations    Conversation[]
@@ -219,5 +220,14 @@ model Playlist {
   thumbnail   String
   description String
   url         String?
-  User        User    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  userId      String
+  User        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Song {
+  id       String @id
+  fileData Bytes
+  fileName String
+  userId   String
+  User     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
