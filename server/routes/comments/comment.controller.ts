@@ -1,19 +1,6 @@
 import {Request, Response} from 'express';
 import {db} from '../../prisma/utils/db.server';
 
-const COMMENT_SELECT_FIELDS = {
-  id: true,
-  message: true,
-  parentId: true,
-  createdAt: true,
-  user: {
-    select: {
-      id: true,
-      name: true,
-    },
-  },
-}
-
 const getComments = (req: Request, res: Response) => {
   db.comment.findMany({})
   .then(results => res.status(200).json(results))
@@ -21,31 +8,30 @@ const getComments = (req: Request, res: Response) => {
 }
 
 const postComment = (req: Request, res: Response) => {
-  const {body: {userId, message, category, horrorId}} = req;
-  console.log(req.params)
+  const {body: {userId, message, cinemaId, imagesId, bookId, storiesId, category}, params: {_id}} = req;
+
   const commentObj = {
     data: {
       message,
       userId,
-      cinemaId: null,
-      imagesId: null,
-      bookId: null,
-      storiesId: null
-    },
-    select: COMMENT_SELECT_FIELDS,
+      cinemaId,
+      imagesId,
+      bookId,
+      storiesId,
+    }
   }
   switch (category) {
     case "book":
-     commentObj.data.bookId = horrorId
+     commentObj.data.bookId = _id
       break
     case "cinema":
-     commentObj.data.cinemaId = horrorId
+     commentObj.data.cinemaId = _id
       break
     case "images":
-     commentObj.data.imagesId = horrorId
+     commentObj.data.imagesId = _id
       break
     case "stories":
-     commentObj.data.storiesId = horrorId
+     commentObj.data.storiesId = _id
       break
   }
 
