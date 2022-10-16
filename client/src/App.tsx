@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { setCurrentUser } from "./store/user/user.action";
+import { setBadgeList } from "./store/badges/badges.action";
+import { setRatingList } from "./store/ratings/ratings.action";
 
 import Navigation from "./routes/navigation/navigation.component";
 import Home from "./routes/home/home.component";
@@ -28,6 +30,22 @@ const App = () => {
       .then(({ data: { user } }) => {
         if (user) {
           dispatch(setCurrentUser(user));
+
+          axios.get(`/api/user/${user.id}/ratings-badges`)
+          .then(({data: {badges, ratings}}) => {
+            console.log('badges', badges, "\n\nratings", ratings);
+            dispatch(setRatingList(ratings));
+
+            if (badges.length) {
+              dispatch(setBadgeList(badges));
+            } else {
+              const firstBadge = {}
+            }
+          })
+          .catch((err) => {
+            console.error('error retrieving badges and ratings from backend \n', err);
+          })
+
         }
       })
       .catch((err) => console.log(err));
