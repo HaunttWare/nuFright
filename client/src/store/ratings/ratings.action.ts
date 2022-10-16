@@ -3,11 +3,10 @@ import { createAction } from "../utils/createAction";
 
 
 export type ratingData = {
-  name: String;
-  description: String;
-  badge: String;
+  id: string;
+  rating: number;
 };
 
-export const setBadgeList = (ratingList: ratingData[] | [null]) => {
+export const setRatingList = (ratingList: ratingData[] | [null]) => {
  return createAction(RATING_ACTIONS_TYPES.SET_RATING_LIST, ratingList)
 };
