@@ -123,7 +123,12 @@ export const getUserRatingsNBadges = async (req: Request, res: Response) => {
         badges: true,
       }
     })
-    res.json(RatingsNBadges);
+    res.json({
+      success: true,
+      message: "retrieved user badges and ratings",
+      badges: RatingsNBadges?.badges,
+      ratings: RatingsNBadges?.ratings
+    });
   } catch (err) {
     console.error('error getting Ratings and Badges\n', err);
     res.sendStatus(500);
