@@ -17,7 +17,6 @@ const rootRouter = express.Router();
 
 rootRouter.use("/auth", authRouter);
 rootRouter.use("/user", userRouter);
-
 rootRouter.use('/images', imageRouter);
 rootRouter.use('/movies', MovieRouter);
 rootRouter.use('/story', storyRouter);
@@ -26,16 +25,7 @@ rootRouter.use("/books", booksRouter);
 rootRouter.use('/ratings', ratingRouter);
 rootRouter.use('/likes', likesRouter);
 rootRouter.use('/badges', badgeRouter);
-
-
 rootRouter.use("/conversations", conversationRouter);
 rootRouter.use("/messages", messageRouter);
-
-rootRouter.use("/images", imageRouter);
-rootRouter.use("/movies", MovieRouter);
-rootRouter.use("/story", storyRouter);
-rootRouter.use("/shows", showsRouter);
-rootRouter.use("/books", booksRouter);
-rootRouter.use("/badges", badgeRouter);
 
 export default rootRouter;
