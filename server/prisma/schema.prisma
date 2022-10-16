@@ -14,6 +14,7 @@ model User {
   createdAt        DateTime       @default(now())
   googleId         String         @unique
   photo            String
+  badges           Badges[]
   ratings          BooScale[]
   Comment          Comment[]
   followedBy       Follows[]      @relation("follower")
@@ -26,7 +27,6 @@ model User {
   savedlist        Saved[]
   Song             Song[]
   stories          Stories[]
-  badges           Badges[]
   conversations    Conversation[]
 }
 
@@ -170,7 +170,7 @@ model Badges {
   badge       String
   createdAt   DateTime @default(now())
   userId      String
-  users       User @relation(fields: [userId], references: [id])
+  users       User     @relation(fields: [userId], references: [id])
 }
 
 model Comment {
