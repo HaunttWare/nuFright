@@ -25,6 +25,7 @@ model User {
   stories          Stories[]
   badges           Badges[]
   conversations    Conversation[]
+  playlist Playlist[] 
 }
 
 model Cinema {
@@ -176,15 +177,16 @@ model Comment {
   updatedAt DateTime  @updatedAt
   userId    String
   parentId  String?
-  bookId    String
-  cinemaId  String
-  imagesId  String
-  storiesId String
-  book      Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
-  cinema    Cinema    @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
-  images    Images    @relation(fields: [imagesId], references: [id], onDelete: Cascade)
+  bookId    String?
+  cinemaId  String?
+  imagesId  String?
+  storiesId String?
+  category  String?
+  book      Book?     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  cinema    Cinema?   @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
+  images    Images?   @relation(fields: [imagesId], references: [id], onDelete: Cascade)
   parent    Comment?  @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
-  stories   Stories   @relation(fields: [storiesId], references: [id], onDelete: Cascade)
+  stories   Stories?  @relation(fields: [storiesId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   children  Comment[] @relation("ParentChild")
 }
@@ -206,4 +208,16 @@ model Message {
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   receiver       User?        @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
   sender         User         @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model Playlist {
+  id String @id @default(cuid())
+  videoId String
+  title String
+  thumbnail String
+  description String
+  url String?
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
 }
