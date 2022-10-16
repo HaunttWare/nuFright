@@ -14,6 +14,7 @@ model User {
   createdAt        DateTime       @default(now())
   googleId         String         @unique
   photo            String
+  ratings          BooScale[]
   Comment          Comment[]
   followedBy       Follows[]      @relation("follower")
   following        Follows[]      @relation("following")
@@ -27,7 +28,6 @@ model User {
   stories          Stories[]
   badges           Badges[]
   conversations    Conversation[]
-  ratings         BooScale[]
 }
 
 model Cinema {
@@ -170,7 +170,7 @@ model Badges {
   badge       String
   createdAt   DateTime @default(now())
   userId      String
-  users       User[]
+  users       User @relation(fields: [userId], references: [id])
 }
 
 model Comment {
