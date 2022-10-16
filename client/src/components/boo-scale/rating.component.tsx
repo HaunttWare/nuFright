@@ -1,44 +1,18 @@
 import axios from 'axios';
 import React from 'react';
+import Unrated from "./unrated.component";
+
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import { selectRatingList } from "../../store/ratings/ratings.selector";
 
 const Rating = (id: { id: string; }) => {
   const currentUser = useSelector(selectCurrentUser);
-  
-  const handleRate = (rating: number) => {
-    const horrorId = id.id;
-    axios.post('/api/ratings/images', {
-      userId: currentUser.id,
-      horrorId,
-      rating
-    })
-    .then(({data}) => {
-      console.log('successfully rated image\n', data);
-    })
-    .catch((err) => {
-      console.error('error on rating image\n', err);
-    })
-  }
+  const userRatings = useSelector(selectRatingList);
+  const horrorId = id;
 
   return (
-    <div className="btn-group me-1" role="group" >
-      <button type="button"  className="btn btn-primary" onClick={() => { handleRate(1); }} >
-      <i className="icon bi-star"></i>
-      </button>
-      <button type="button" className="btn btn-primary"onClick={() => { handleRate(2); }} >
-      <i className="icon bi-star"></i>
-      </button>
-      <button type="button" className="btn btn-primary" onClick={() => { handleRate(3); }} >
-      <i className="icon bi-star"></i>
-      </button>
-      <button type="button" className="btn btn-primary" onClick={() => { handleRate(4); }} >
-      <i className="icon bi-star"></i>
-      </button>
-      <button type="button" className="btn btn-primary" onClick={() => { handleRate(5); }} >
-      <i className="icon bi-star"></i>
-      </button>
-    </div>
+    <Unrated id={id.id} />
   )
 };
 
