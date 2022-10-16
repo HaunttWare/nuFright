@@ -10,7 +10,7 @@ const Unrated = (id: {id: string }) => {
   const handleRate = (rating: number) => {
     axios.post('/api/ratings/images', {
       userId: currentUser.id,
-      horrorId: id,
+      horrorId: id.id,
       rating
     })
     .then(({data}) => {
