@@ -39,7 +39,21 @@ const App = () => {
             if (badges.length) {
               dispatch(setBadgeList(badges));
             } else {
-              const firstBadge = {}
+              const name = "It's ALIIIIVEEEE!!"
+              const starterBadge = {
+                id: `${user.id}=${name}`,
+                name,
+                description: "Welcome to nuFright 😈",
+                badge: "dis wur da badge goes"
+              }
+              dispatch(setBadgeList([starterBadge]));
+              axios.post('/api/badges', {
+                userId: user.id,
+                badgeName: starterBadge.name,
+                description: starterBadge.description,
+                badge: starterBadge.name
+              })
+                .catch((err) => console.error('db couldn\'t store first badge', err))
             }
           })
           .catch((err) => {
