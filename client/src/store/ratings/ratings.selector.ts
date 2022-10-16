@@ -1,1 +1,1 @@
-export const selectRatingList = (state: any) => state.rating.ratingList;
+export const selectRatingList = (state: any) => state.ratings.ratingList;

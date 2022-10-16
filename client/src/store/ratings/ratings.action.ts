@@ -8,6 +8,6 @@ export type ratingData = {
   rating: number;
 };
 
-export const setRatingList = (ratingList: ratingData[] | [null]) => {
+export const setRatingList = (ratingList: ratingData[] | []) => {
   return createAction(RATING_ACTIONS_TYPES.SET_RATING_LIST, ratingList)
 };
