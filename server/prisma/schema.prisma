@@ -164,7 +164,7 @@ model Saved {
 }
 
 model Badges {
-  id          String   @id @default(cuid())
+  id          String   @id
   name        String
   description String
   badge       String
