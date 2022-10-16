@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./store/user/user.action";
 import { setBadgeList } from "./store/badges/badges.action";
 import { setRatingList } from "./store/ratings/ratings.action";
+import { badgeToast } from "./components/alerts/badgeAlerts.component";
 
 import Navigation from "./routes/navigation/navigation.component";
 import Home from "./routes/home/home.component";
@@ -23,6 +24,7 @@ import Chat from "./routes/chat/chat.component";
 
 const App = () => {
   const dispatch = useDispatch();
+  const profileBadge = require('../../assets/profile-badge.png').default;
 
   useEffect(() => {
     axios
@@ -54,6 +56,14 @@ const App = () => {
                 badge: starterBadge.name
               })
                 .catch((err) => console.error('db couldn\'t store first badge', err))
+                badgeToast.fire({
+                  titleText: "It's ALIIIIVEEEE!!",
+                  text: "Welcome to nuFright 😈",
+                  imageUrl: profileBadge,
+                  imageAlt: "😈",
+                  imageHeight: "5rem",
+                  imageWidth: "5.6rem"
+                })
             }
           })
           .catch((err) => {
