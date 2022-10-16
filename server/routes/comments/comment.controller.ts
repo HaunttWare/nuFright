@@ -22,16 +22,16 @@ const postComment = (req: Request, res: Response) => {
   }
   switch (category) {
     case "book":
-     commentObj.data.bookId = _id
+     commentObj.data.bookId = _id;
       break
     case "cinema":
-     commentObj.data.cinemaId = _id
+     commentObj.data.cinemaId = _id;
       break
     case "images":
-     commentObj.data.imagesId = _id
+     commentObj.data.imagesId = _id;
       break
     case "stories":
-     commentObj.data.storiesId = _id
+     commentObj.data.storiesId = _id;
       break
   }
 

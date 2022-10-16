@@ -25,16 +25,17 @@ const Comments = (props:any) => {
   const horrorId = props[options].id;
 
   useEffect(() => {
-    axios.get(`/api/comments`)
+    axios.get(`/api/comments/${id}`)
       .then(({data}) => {
         if (data.length) {
           data.map((comment:any) => {
             for (const key in comment) {
               if (comment[key] === horrorId) {
-                setComments((prevComments) => [...prevComments, comment])
+                console.log(comment[key])
               } 
             }
           })
+          // setComments((prevComments) => [...prevComments, comment])
         }
       })
       .catch(err => console.error(err));
@@ -43,11 +44,13 @@ const Comments = (props:any) => {
   // create a new comment
   const newComment = (message: string) => {
     if (id) {
-      axios.post(`/api/comments/${horrorId}`, {userId: id, message})
+      axios.post(`/api/comments/${id}`, {userId: id, message})
       .catch(err => console.error(err));
     }
   }
-  console.log(comments)
+  if (comments.length) {
+    console.log(comments);
+  }
   return comments.length > 0? (
   <div className='container-fluid'>
   <h3>Comments</h3>
