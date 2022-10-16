@@ -4,9 +4,10 @@ import { db } from '../../prisma/utils/db.server';
 const postBadge = (req: Request, res: Response) => {
   const { userId, badgeName, description, badge } = req.body;
   // badge var is image source, temporary
-
+  const id = `${userId}=${badgeName}`;
   db.badges.create({
     data: {
+      id,
       name: badgeName,
       description,
       badge,
