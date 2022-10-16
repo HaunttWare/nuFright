@@ -2,7 +2,6 @@ import axios from 'axios';
 import React from 'react';
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import { image } from '../Gallery-components/galleryProps.component';
 
 const Rating = (id: { id: string; }) => {
   const currentUser = useSelector(selectCurrentUser);
