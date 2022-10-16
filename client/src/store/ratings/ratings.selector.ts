@@ -1,0 +1,1 @@
+export const selectRatingList = (state: any) => state.rating.ratingList;
