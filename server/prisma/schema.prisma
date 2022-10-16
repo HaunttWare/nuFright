@@ -14,6 +14,8 @@ model User {
   createdAt        DateTime       @default(now())
   googleId         String         @unique
   photo            String
+  badges           Badges[]
+  BooScale         BooScale[]
   Comment          Comment[]
   followedBy       Follows[]      @relation("follower")
   following        Follows[]      @relation("following")
@@ -21,9 +23,10 @@ model User {
   liked            Likes[]
   receivedMessages Message[]      @relation("receiver")
   sentMessages     Message[]      @relation("sender")
+  Playlist         Playlist[]
   savedlist        Saved[]
+  Song             Song[]
   stories          Stories[]
-  badges           Badges[]
   conversations    Conversation[]
 }
 
@@ -98,6 +101,7 @@ model BooScale {
   haunts    Haunts?  @relation("rateHaunt", fields: [hauntsId], references: [id], onDelete: Cascade)
   images    Images?  @relation("rateImage", fields: [imagesId], references: [id], onDelete: Cascade)
   stories   Stories? @relation("rateStory", fields: [storiesId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Haunts {
@@ -166,7 +170,7 @@ model Badges {
   badge       String
   createdAt   DateTime @default(now())
   userId      String
-  users       User[]
+  users       User     @relation(fields: [userId], references: [id])
 }
 
 model Comment {
@@ -176,15 +180,16 @@ model Comment {
   updatedAt DateTime  @updatedAt
   userId    String
   parentId  String?
-  bookId    String
-  cinemaId  String
-  imagesId  String
-  storiesId String
-  book      Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
-  cinema    Cinema    @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
-  images    Images    @relation(fields: [imagesId], references: [id], onDelete: Cascade)
+  bookId    String?
+  cinemaId  String?
+  imagesId  String?
+  storiesId String?
+  category  String?
+  book      Book?     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  cinema    Cinema?   @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
+  images    Images?   @relation(fields: [imagesId], references: [id], onDelete: Cascade)
   parent    Comment?  @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
-  stories   Stories   @relation(fields: [storiesId], references: [id], onDelete: Cascade)
+  stories   Stories?  @relation(fields: [storiesId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   children  Comment[] @relation("ParentChild")
 }
@@ -206,4 +211,23 @@ model Message {
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   receiver       User?        @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
   sender         User         @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model Playlist {
+  id          String  @id
+  videoId     String
+  title       String
+  thumbnail   String
+  description String
+  url         String?
+  userId      String
+  User        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Song {
+  id       String @id
+  fileData Bytes
+  fileName String
+  userId   String
+  User     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
