@@ -4,9 +4,15 @@ import { invokeSaveAsDialog } from "recordrtc";
 import RecorderTimer from "./RecorderTimer";
 import { Dropdown } from "react-bootstrap";
 import ReactAudioPlayer from 'react-audio-player';
+import axios from 'axios'
+import { setCurrentUser } from "../../store/user/user.action";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 export const AudioRecorder = () => {
-const [currentBlobs, setCurrentBlobs] = useState([]);
+const [currentBlob, setCurrentBlob] = useState({});
+const [allBlobs, setAllBlobs] = useState([]);
+const currentUser = useSelector(selectCurrentUser);
 
 
   const recorder = useRecorderPermission("audio");
@@ -16,10 +22,24 @@ const [currentBlobs, setCurrentBlobs] = useState([]);
   const stopRecording = async () => {
     await recorder.stopRecording();
     let blob = await recorder.getBlob();
-    setCurrentBlobs(blob);
-    console.log(currentBlobs);
-    invokeSaveAsDialog(blob, `random_name.webm`);
+    setCurrentBlob(blob);
+    console.log(currentBlob);
+    let randomName = prompt('name this sound')
+    invokeSaveAsDialog(blob, `${randomName}.webm`);
   };
+
+  const saveBlobsToDb = () => {
+    axios.post('/api/blobs', {
+      userId: currentUser.id,
+      songs: allBlobs
+    })
+    .then(() => {
+      
+    })
+    .catch((err) => {
+      console.error(err)
+    }) 
+  }
   return (
     <div>
       <Dropdown>

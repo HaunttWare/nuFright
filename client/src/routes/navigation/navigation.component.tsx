@@ -17,7 +17,7 @@ const Navigation = () => {
     <>
       <nav className="navbar navbar-dark navbar-expand-lg bg-danger">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to="/" style={{fontFamily: 'Creepster, cursive'}}>
             NuFright
           </Link>
           <button
@@ -61,6 +61,11 @@ const Navigation = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/music">
                   MusicMaker
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/playlist">
+                  Playlist
                 </Link>
               </li>
               <li className="nav-item">

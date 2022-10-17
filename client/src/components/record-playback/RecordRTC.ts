@@ -9,8 +9,8 @@ export const useRecorderPermission = (
   }, []);
   const getPermissionInitializeRecorder = async () => {
     let stream = await (navigator as any).mediaDevices.getUserMedia({
-      video: true,
       audio: true,
+      // video: true if we ever want access to users webcam permissions
     });
     let recorder = new RecordRTCPromisesHandler(stream, {
       type: recordingType,

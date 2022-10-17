@@ -88,7 +88,7 @@ const e2natrual = () => {
 }
 const Octave: React.FC = () => {
   return (
-    <div>
+    <div style={{ display: 'flex' }}>
       <button className="major" onClick={cnatural}>C</button>
       <div>
       <button className="minor" onClick={csharp}>C#/Db</button>
