@@ -2,6 +2,8 @@ import {Request, Response} from 'express';
 import {db} from '../../prisma/utils/db.server';
 
 const getComments = (req: Request, res: Response) => {
+  const {params: {_id}} = req;
+ 
   db.comment.findMany({})
   .then(results => res.status(200).json(results))
   .catch(() => res.sendStatus(500));
@@ -9,7 +11,7 @@ const getComments = (req: Request, res: Response) => {
 
 const postComment = (req: Request, res: Response) => {
   const {body: {userId, message, cinemaId, imagesId, bookId, storiesId, category}, params: {_id}} = req;
-
+  
   const commentObj = {
     data: {
       message,
@@ -18,6 +20,7 @@ const postComment = (req: Request, res: Response) => {
       imagesId,
       bookId,
       storiesId,
+      category
     }
   }
   switch (category) {
