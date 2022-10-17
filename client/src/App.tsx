@@ -18,8 +18,7 @@ import Authentication from "./routes/authentication/authentication.component";
 import Profile from "./routes/profile/profile.component";
 import MusicMakingView from "./routes/MusicMaker/MusicMakingView";
 import Chat from "./routes/chat/chat.component";
-import PlayList from "./routes/playlists/playlist.component";
-
+import PlayListComp from "./routes/playlists/playlist.component";
 const App = () => {
   const dispatch = useDispatch();
 
@@ -49,7 +48,7 @@ const App = () => {
         <Route path="auth" element={<Authentication />} />
         <Route path="profile" element={<Profile />} />
         <Route path="chat" element={<Chat />} />
-        <Route path="playlist" element={<PlayList />} />
+        <Route path="playlist" element={<PlayListComp />} />
       </Route>
     </Routes>
   );
