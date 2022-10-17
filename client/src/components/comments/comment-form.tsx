@@ -27,11 +27,11 @@ const CommentForm = ({newComment}: CommentFormProps) => {
         <input 
           name='message'
           onChange={e => handleChange(e)}
+          onKeyDown={e => e.key === 'Enter' && message? newComment(message): null}
         ></input>
         <button
           type='button'
           onClick={() => message? newComment(message) : null}
-          // onKeyDown={e => e.key === 'Enter' && handleSubmit()}
         >Add Comment</button>
       </div>
     </form>
