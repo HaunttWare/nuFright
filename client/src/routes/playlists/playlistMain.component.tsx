@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import PlayView from './playview';
+//import PlayView from './playview';
 
 type Video = {
   title: string;
@@ -40,16 +40,14 @@ const PlayListMain = () => {
     });
     setPlaylist([...playlist, data]);
   };
-  // const goToVideoView = async () => {
-  //   try {
 
-  //   }
+  // const goToVideoView = (id: string) => {
+  //   console.log('clickedddddddddddd')
+  //   console.log(id);
+  //   return (
+  //     <PlayView videoId={id}/>
+  //   )
   // }
-  const goToVideoView = (id: string) => {
-    return (
-      <PlayView videoId={id}/>
-    )
-  }
 
   useEffect(() => {
     
@@ -64,18 +62,7 @@ const PlayListMain = () => {
       })
     }
   }, [gotPlaylist]);
-//  useEffect(() => {
-//   if(audioCtx.state === 'running') {
-//     audioCtx.suspend().then(function() {
-//       susresBtn.textContent = 'Resume context';
-//     });
-//   } else if(audioCtx.state === 'suspended') {
-//     audioCtx.resume().then(function() {
-//       susresBtn.textContent = 'Suspend context';
-//     });
-//   }
-//  })
-
+  
   return (
     <div className="container">
       <div className="row">
@@ -85,18 +72,18 @@ const PlayListMain = () => {
             value={currentSearch}
             onChange={handleSearchChange}
             placeholder="type for songs...."
-          />
+            />
           <button onClick={handleSubmit}>BOO!</button>
 
           {videos.map((video: Video) => {
             return (
               <div
-                key={video.videoId}
-                className="card"
-                style={{ width: "18rem", backgroundColor: "black" }}
+              key={video.videoId}
+              className="card"
+              style={{ width: "18rem", backgroundColor: "black" }}
               >
-                {/* <video src="video.mp4"></video> */}
-                <img className="card-top" src={video.thumbnail} />
+                <iframe className="card-top" src={ `https://www.youtube.com/embed/${video.videoId}` } allowFullScreen></iframe>
+                {/* <img className="card-top" src={video.thumbnail} /> */}
                 <div className="card-body">
                   <h5 className="card-title">{video.title}</h5>
                   <p className="card-text">{video.description}</p>
@@ -121,21 +108,22 @@ const PlayListMain = () => {
             playlist.map((video) => {
               return (
                 <div
-                  key={video.videoId}
-                  className="card"
-                  style={{ width: "18rem", backgroundColor: "black" }}
+                key={video.videoId}
+                className="card"
+                style={{ width: "18rem", backgroundColor: "black" }}
                 >
-                  <img className="card-top" src={video.thumbnail}  />
+                   <iframe className="card-top" src={ `https://www.youtube.com/embed/${video.videoId}` } allowFullScreen></iframe>
+                  {/* <img className="card-top" src={video.thumbnail}  /> */}
                   <div className="card-body">
-                    <h5 className="card-title" onClick={() => goToVideoView(video.videoId)} >{video.title}</h5>
+                    <h5 className="card-title" >{video.title}</h5>
                     <p className="card-text" >{video.description}</p>
                   </div>
                 </div>
               );
             })
-          ) : (
+            ) : (
             <h2>You have no videos in your playlist yet lol</h2>
-          )}
+            )}
         </div>
       </div>
     </div>
@@ -143,3 +131,15 @@ const PlayListMain = () => {
 };
 
 export default PlayListMain;
+// Hey John,  might be useful later
+//  useEffect(() => {
+//   if(audioCtx.state === 'running') {
+//     audioCtx.suspend().then(function() {
+//       susresBtn.textContent = 'Resume context';
+//     });
+//   } else if(audioCtx.state === 'suspended') {
+//     audioCtx.resume().then(function() {
+//       susresBtn.textContent = 'Suspend context';
+//     });
+//   }
+//  })
