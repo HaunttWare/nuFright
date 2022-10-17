@@ -12,6 +12,7 @@ import badgeRouter from "./badges/badge.router";
 import showsRouter from "./shows/shows.router";
 import conversationRouter from "./conversation/conversation.router";
 import messageRouter from "./message/message.router";
+import PlaylistRouter from "./playlists/playlists.routes";
 
 const rootRouter = express.Router();
 
@@ -31,11 +32,6 @@ rootRouter.use('/badges', badgeRouter);
 rootRouter.use("/conversations", conversationRouter);
 rootRouter.use("/messages", messageRouter);
 
-rootRouter.use("/images", imageRouter);
-rootRouter.use("/movies", MovieRouter);
-rootRouter.use("/story", storyRouter);
-rootRouter.use("/shows", showsRouter);
-rootRouter.use("/books", booksRouter);
-rootRouter.use("/badges", badgeRouter);
+rootRouter.use("/playlists", PlaylistRouter);
 
 export default rootRouter;
