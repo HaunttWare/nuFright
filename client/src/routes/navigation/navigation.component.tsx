@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { setCurrentUser } from "../../store/user/user.action";
 
-
 const Navigation = () => {
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
@@ -18,7 +17,7 @@ const Navigation = () => {
     <>
       <nav className="navbar navbar-dark navbar-expand-lg bg-danger">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to="/" style={{fontFamily: 'Creepster, cursive'}}>
             NuFright
           </Link>
           <button
@@ -64,9 +63,23 @@ const Navigation = () => {
                   MusicMaker
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/playlist">
+                  Playlist
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/costumes">
+                  Costumes
+                </Link>
+              </li>
               {currentUser ? (
                 <>
-                  {/* an image with a dropdown menu */}
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/chat">
+                      Chat
+                    </Link>
+                  </li>
                   <li className="nav-item dropdown">
                     <a
                       className="nav-link dropdown-toggle"

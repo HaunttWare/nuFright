@@ -8,26 +8,26 @@ datasource db {
 }
 
 model User {
-  id                               String         @id @default(cuid())
-  name                             String
-  email                            String         @unique
-  createdAt                        DateTime       @default(now())
-  googleId                         String         @unique
-  photo                            String
-  badges                           Badges[]
-  BooScale                         BooScale[]
-  Comment                          Comment[]
-  followedBy                       Follows[]      @relation("follower")
-  following                        Follows[]      @relation("following")
-  images                           Images[]
-  liked                            Likes[]
-  Message_Message_receiverIdToUser Message[]      @relation("Message_receiverIdToUser")
-  Message_Message_senderIdToUser   Message[]      @relation("Message_senderIdToUser")
-  Playlist                         Playlist[]
-  savedlist                        Saved[]
-  Song                             Song[]
-  stories                          Stories[]
-  Conversation                     Conversation[]
+  id               String         @id @default(cuid())
+  name             String
+  email            String         @unique
+  createdAt        DateTime       @default(now())
+  googleId         String         @unique
+  photo            String
+  badges           Badges[]
+  ratings          BooScale[]
+  Comment          Comment[]
+  followedBy       Follows[]      @relation("follower")
+  following        Follows[]      @relation("following")
+  images           Images[]
+  liked            Likes[]
+  receivedMessages Message[]      @relation("receiver")
+  sentMessages     Message[]      @relation("sender")
+  playlist         Playlist[]
+  savedlist        Saved[]
+  songs            Song[]
+  stories          Stories[]
+  conversations    Conversation[]
 }
 
 model Cinema {
@@ -88,7 +88,7 @@ model Images {
 }
 
 model BooScale {
-  id        String   @id @default(cuid())
+  id        String   @id
   userId    String
   rating    Int
   cinemaId  String?
@@ -101,7 +101,7 @@ model BooScale {
   haunts    Haunts?  @relation("rateHaunt", fields: [hauntsId], references: [id], onDelete: Cascade)
   images    Images?  @relation("rateImage", fields: [imagesId], references: [id], onDelete: Cascade)
   stories   Stories? @relation("rateStory", fields: [storiesId], references: [id], onDelete: Cascade)
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Haunts {
@@ -164,7 +164,7 @@ model Saved {
 }
 
 model Badges {
-  id          String   @id @default(cuid())
+  id          String   @id
   name        String
   description String
   badge       String
@@ -202,19 +202,19 @@ model Conversation {
 }
 
 model Message {
-  id                            String       @id
-  conversationId                String
-  senderId                      String
-  createdAt                     DateTime     @default(now())
-  message                       String
-  receiverId                    String?
-  Conversation                  Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  User_Message_receiverIdToUser User?        @relation("Message_receiverIdToUser", fields: [receiverId], references: [id], onDelete: Cascade)
-  User_Message_senderIdToUser   User         @relation("Message_senderIdToUser", fields: [senderId], references: [id], onDelete: Cascade)
+  id             String       @id @default(cuid())
+  conversationId String
+  senderId       String
+  createdAt      DateTime     @default(now())
+  message        String
+  receiverId     String?
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  receiver       User?        @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  sender         User         @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
 }
 
 model Playlist {
-  id          String  @id
+  id          String  @id @default(cuid())
   videoId     String
   title       String
   thumbnail   String
@@ -229,5 +229,5 @@ model Song {
   fileData Bytes
   fileName String
   userId   String
-  User     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
