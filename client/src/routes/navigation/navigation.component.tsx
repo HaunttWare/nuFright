@@ -17,7 +17,7 @@ const Navigation = () => {
     <>
       <nav className="navbar navbar-dark navbar-expand-lg bg-danger">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to="/" style={{fontFamily: 'Creepster, cursive'}}>
             NuFright
           </Link>
           <button
