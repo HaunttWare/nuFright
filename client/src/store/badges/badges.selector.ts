@@ -1,0 +1,1 @@
+export const selectBadgeList = (state: any) => state.badges.badgeList;
