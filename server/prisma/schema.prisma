@@ -14,6 +14,8 @@ model User {
   createdAt        DateTime       @default(now())
   googleId         String         @unique
   photo            String
+  badges           Badges[]
+  BooScale         BooScale[]
   Comment          Comment[]
   followedBy       Follows[]      @relation("follower")
   following        Follows[]      @relation("following")
@@ -21,11 +23,11 @@ model User {
   liked            Likes[]
   receivedMessages Message[]      @relation("receiver")
   sentMessages     Message[]      @relation("sender")
+  playlist         Playlist[]
   savedlist        Saved[]
+  songs            Song[]
   stories          Stories[]
-  badges           Badges[]
   conversations    Conversation[]
-  playlist Playlist[] 
 }
 
 model Cinema {
@@ -99,6 +101,7 @@ model BooScale {
   haunts    Haunts?  @relation("rateHaunt", fields: [hauntsId], references: [id], onDelete: Cascade)
   images    Images?  @relation("rateImage", fields: [imagesId], references: [id], onDelete: Cascade)
   stories   Stories? @relation("rateStory", fields: [storiesId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Haunts {
@@ -167,7 +170,7 @@ model Badges {
   badge       String
   createdAt   DateTime @default(now())
   userId      String
-  users       User[]
+  users       User     @relation(fields: [userId], references: [id])
 }
 
 model Comment {
@@ -211,13 +214,20 @@ model Message {
 }
 
 model Playlist {
-  id String @id @default(cuid())
-  videoId String
-  title String
-  thumbnail String
+  id          String  @id @default(cuid())
+  videoId     String
+  title       String
+  thumbnail   String
   description String
-  url String?
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  url         String?
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
+model Song {
+  id       String @id @default(cuid())
+  fileData Bytes
+  fileName String
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -24,12 +24,21 @@ export const getVideos = async (req: Request, res: Response) => {
     console.error(err);
   }
 }
-
+export const getUserPlaylist = async (req: Request, res: Response) => {
+  const userId = req.body;
+  try {
+    const playListData = await db.playlist.findMany({ where: { userId }})
+    res.status(200).send(playListData);
+  }
+  catch(err) {
+    console.error(err);
+  }
+}
 
 export const addToPlaylist = async (req: Request, res: Response) => {
   const { video, userId } = req.body;
   console.log(userId);
-  try {
+  try { 
     const newVideos = await db.playlist.create({
       data: {
         videoId: video.videoId,

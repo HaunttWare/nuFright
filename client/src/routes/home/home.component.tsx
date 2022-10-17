@@ -30,12 +30,12 @@ const Home = () => {
 
   return (
   <div className="container">
-    <h1>Welcome to nuFright</h1>
-    <h2>The one stop shop for all of you freaks out there 😈 </h2><br></br>
-    <h3>Top Shows/Movies</h3>
+    <h1 style={{fontFamily: 'Creepster, cursive' }}>Welcome to nuFright</h1>
+    <h2 style={{fontFamily: 'Creepster, cursive' }} >The one stop shop for all of you freaks out there 😈 </h2><br></br>
+    <h3 style={{fontFamily: 'Creepster, cursive' }}>Top Shows/Movies</h3>
     <CreepyCarousel />
     <br></br>
-    <h3>Top Haunts:</h3>
+    <h3 style={{fontFamily: 'Creepster, cursive' }}>Top Haunts:</h3>
     <Carousel2 /><br></br>
     <h3>Favoirte tales of terror:</h3>
     <Carousel3 /><br></br>
