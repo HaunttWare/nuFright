@@ -26,7 +26,8 @@ const CostumesList = () => {
     return (
         <div>
             <h1>Costumes</h1>
-            <button onClick={switchDisplay} style={{minWidth: 150, borderRadius: '45%', background: 'black', color: 'lime'}}>{select ? "men's costumes" : "women's costumes"}</button>
+            <button onClick={switchDisplay} style={{minWidth: 150, borderTopLeftRadius: '45%', borderBottomLeftRadius: '45%', background: select ? 'black' : '', color: select ? 'lime': '', marginLeft: 5}} disabled={select}>Men's Costumes</button>
+            <button onClick={switchDisplay} style={{minWidth: 150, borderTopRightRadius: '45%', borderBottomRightRadius: '45%', background: select ? '' : 'black', color: select ? '' : 'lime'}} disabled={!select}>Women's Costumes</button>
             <div style={{display: 'inline-flex', float: 'right', marginRight: 5}}>
                 <button disabled={!(index > 0)} onClick={() => switchPage(-1)} style={{minWidth: 45, borderTopLeftRadius: '45%', borderBottomLeftRadius: '45%', background: 'black', color: 'lime'}}>Back</button>
                 <button disabled={!(index <= (select ? mens_selection.length : womens_selection.length))} onClick={() => switchPage(1)} style={{minWidth: 46, borderTopRightRadius: '45%', borderBottomRightRadius: '45%', background: 'black', color: 'lime'}}>Next</button>
