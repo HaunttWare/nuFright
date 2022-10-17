@@ -29,8 +29,8 @@ const CostumesList = () => {
             <button onClick={switchDisplay} style={{minWidth: 150, borderTopLeftRadius: '45%', borderBottomLeftRadius: '45%', background: select ? 'black' : '', color: select ? 'lime': '', marginLeft: 5}} disabled={select}>Men's Costumes</button>
             <button onClick={switchDisplay} style={{minWidth: 150, borderTopRightRadius: '45%', borderBottomRightRadius: '45%', background: select ? '' : 'black', color: select ? '' : 'lime'}} disabled={!select}>Women's Costumes</button>
             <div style={{display: 'inline-flex', float: 'right', marginRight: 5}}>
-                <button disabled={!(index > 0)} onClick={() => switchPage(-1)} style={{minWidth: 45, borderTopLeftRadius: '45%', borderBottomLeftRadius: '45%', background: 'black', color: 'lime'}}>Back</button>
-                <button disabled={!(index <= (select ? mens_selection.length : womens_selection.length))} onClick={() => switchPage(1)} style={{minWidth: 46, borderTopRightRadius: '45%', borderBottomRightRadius: '45%', background: 'black', color: 'lime'}}>Next</button>
+                <button disabled={!(index > 0)} onClick={() => switchPage(-1)} style={{minWidth: 45, borderTopLeftRadius: '45%', borderBottomLeftRadius: '45%', background: !(index > 0) ? '' : 'black', color: !(index > 0) ? '' : 'lime'}}>Back</button>
+                <button disabled={!(index + listLength < (select ? mens_selection.length : womens_selection.length))} onClick={() => switchPage(1)} style={{minWidth: 46, borderTopRightRadius: '45%', borderBottomRightRadius: '45%', background: !(index + listLength < (select ? mens_selection.length : womens_selection.length)) ? '' : 'black', color: !(index + listLength < (select ? mens_selection.length : womens_selection.length)) ? '' : 'lime'}}>Next</button>
             </div>
             <div className="card-group">
                 {(select ? mens_selection : womens_selection).map((costume:any, indexKey:number) => {
