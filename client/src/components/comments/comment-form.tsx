@@ -1,5 +1,4 @@
-import React, {useState, ChangeEventHandler} from 'react';
-import axios from 'axios';
+import React, {useState} from 'react';
 
 type CommentFormProps = {
   newComment: (message: string) => void;

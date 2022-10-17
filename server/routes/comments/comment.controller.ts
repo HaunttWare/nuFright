@@ -2,7 +2,7 @@ import {Request, Response} from 'express';
 import {db} from '../../prisma/utils/db.server';
 
 const getComments = (req: Request, res: Response) => {
-  const {params: {_id}} = req;
+
  
   db.comment.findMany({})
   .then(results => res.status(200).json(results))
@@ -10,36 +10,40 @@ const getComments = (req: Request, res: Response) => {
 }
 
 const postComment = (req: Request, res: Response) => {
-  const {body: {userId, message, cinemaId, imagesId, bookId, storiesId, category}, params: {_id}} = req;
-  
+  const {body: {userId, message, categoryId, type}, params: {_id}} = req;
+ 
+
   const commentObj = {
     data: {
       message,
       userId,
-      cinemaId,
-      imagesId,
-      bookId,
-      storiesId,
-      category
+      cinemaId: null,
+      imagesId: null,
+      bookId: null,
+      storiesId: null
     }
   }
-  switch (category) {
+
+
+  switch (type) {
     case "book":
-     commentObj.data.bookId = _id;
+     commentObj.data.bookId = categoryId;
       break
     case "cinema":
-     commentObj.data.cinemaId = _id;
+     commentObj.data.cinemaId = categoryId;
       break
     case "images":
-     commentObj.data.imagesId = _id;
+     commentObj.data.imagesId = categoryId;
       break
     case "stories":
-     commentObj.data.storiesId = _id;
+     commentObj.data.storiesId = categoryId;
       break
   }
 
+  
+  
   db.comment.create(commentObj)
-  .then(data => res.status(201).json(data))
+  .then(data => res.status(201).json(data.id))
   .catch(() => res.sendStatus(500));
 }
 
