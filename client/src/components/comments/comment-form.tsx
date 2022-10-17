@@ -22,9 +22,12 @@ const CommentForm = ({newComment}: CommentFormProps) => {
 
 
   return (
-    <form >
-      <div className='comment-form-row'>
+      <div className='new-comment'>
         <input 
+          className='form-control form-control-sm'
+          type='text'
+          placeholder='comment here'
+          aria-label='.form-control-sm example'
           name='message'
           onChange={e => handleChange(e)}
           onKeyDown={e => e.key === 'Enter' && message? newComment(message): null}
@@ -32,9 +35,8 @@ const CommentForm = ({newComment}: CommentFormProps) => {
         <button
           type='button'
           onClick={() => message? newComment(message) : null}
-        >Add Comment</button>
+        >Post</button>
       </div>
-    </form>
   )
 }
 
