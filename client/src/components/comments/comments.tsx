@@ -36,8 +36,6 @@ const Comments = ({category, type}: CommentsProps) => {
                 if (comment[`${type}Id`] === category.id) {
                 setComments(prevMessage => [...prevMessage, comment.message]);
               }
-    
-            // }
           });
         }
       })
