@@ -196,9 +196,9 @@ model Comment {
 
 model Conversation {
   createdAt DateTime  @default(now())
-  id        String    @id
-  Message   Message[]
-  User      User[]
+  id        String    @id @default(cuid())
+  messages  Message[]
+  users     User[]
 }
 
 model Message {
