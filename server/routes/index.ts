@@ -13,6 +13,7 @@ import showsRouter from "./shows/shows.router";
 import conversationRouter from "./conversation/conversation.router";
 import messageRouter from "./message/message.router";
 import PlaylistRouter from "./playlists/playlists.routes";
+import commentRouter from './comments/comment.router';
 
 const rootRouter = express.Router();
 
@@ -28,7 +29,7 @@ rootRouter.use('/likes', likesRouter);
 rootRouter.use('/badges', badgeRouter);
 rootRouter.use("/conversations", conversationRouter);
 rootRouter.use("/messages", messageRouter);
-
+rootRouter.use('/comments', commentRouter);
 rootRouter.use("/playlists", PlaylistRouter);
 
 export default rootRouter;
