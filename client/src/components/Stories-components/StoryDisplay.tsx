@@ -57,22 +57,24 @@ const StoryDisplay = (props:{story:{authorId:String, createdAt:String, id:String
 
     return (
         <div className='row' style={{background: 'rgb(220, 53, 69)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <button onClick={() => {!isEditing ? props.backHandler('storyList') : backToDisplayHandler()}} style={{maxWidth: 100, display: 'inline-flex', justifyContent: 'center', background: 'black', color: 'lime', borderRadius: '45%'}}>Back</button>
-            {(currentUser ? currentUser.id : false) === props.story.authorId && !isEditing && <button onClick={() => setIsEditing(!isEditing)}>edit</button>}
+            <div className="text-left" style={{display: 'inline-block', width: isEditing ? '100%' : '50%'}}>
+                <button onClick={() => {!isEditing ? props.backHandler('storyList') : backToDisplayHandler()}} style={{ minWidth: 100, display: 'inline-block', background: 'black', color: 'lime', borderRadius: '45%', float: 'left' }}>Back</button>
+            </div>
+            {(currentUser ? currentUser.id : false) === props.story.authorId && !isEditing && <div className="text-right" style={{display: 'inline-block', width: '50%'}}><button style={{minWidth: 100, background: 'black', color: 'lime', borderRadius: '45%', float: 'right'}} onClick={() => setIsEditing(!isEditing)}>edit</button></div>}
             {!isEditing && <>
                 <h5 style={{display: 'flex', justifyContent: 'center'}}><b><u>{title}</u></b></h5>
                 <div className='col-6'>by: {username}</div>
                 <div className='col-6' style={{display: 'flex', justifyContent: 'right'}}>published: {props.story.createdAt.slice(0, props.story.createdAt.indexOf('T'))}</div>
                 <Voice text={story.toString()}></Voice>
                 <img src={HauntedHouse} style={{maxWidth: 450, maxHeight: 450}}></img>
-                <div style={{display: 'flex', justifyContent: 'left'}}>{story}</div>
+                <div className="row" style={{display: 'flex', justifyContent: 'left'}}>{story.split('\n').map((paragraph:string, index:number) => { return <p className="col-12" key={index}>{paragraph}</p> })}</div>
                 <button onClick={() => console.log('Not Yet Implemented')} style={{maxWidth: 150, borderRadius: 50, background: 'black', color: 'lime'}}>Favorite</button>
             </>}
             {isEditing && <>
                 <h5><b><u>{title}</u></b></h5>
-                <textarea placeholder='description text' value={description?.toString()} onChange={editDescriptionInputHandler}></textarea>
-                <textarea placeholder="story text" value={story.toString()} onChange={editStoryInputHandler}></textarea>
-                <button onClick={editButtonHandler}>Save Changes</button>
+                <textarea placeholder='description text' rows={3} value={description?.toString()} onChange={editDescriptionInputHandler}></textarea>
+                <textarea placeholder="story text" rows={5} value={story.toString()} onChange={editStoryInputHandler}></textarea>
+                <button onClick={editButtonHandler} style={{ maxWidth: 120, borderRadius: '45%', background: 'black', color: 'lime' }}>Save Changes</button>
             </>}
         </div>
     )
