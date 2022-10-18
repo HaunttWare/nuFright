@@ -1,0 +1,3 @@
+export const RATING_ACTIONS_TYPES = {
+  SET_RATING_LIST: "ratings/SET_RATING_LIST"
+};

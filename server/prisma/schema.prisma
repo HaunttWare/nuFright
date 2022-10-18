@@ -15,7 +15,7 @@ model User {
   googleId         String         @unique
   photo            String
   badges           Badges[]
-  BooScale         BooScale[]
+  ratings          BooScale[]
   Comment          Comment[]
   followedBy       Follows[]      @relation("follower")
   following        Follows[]      @relation("following")
@@ -23,9 +23,9 @@ model User {
   liked            Likes[]
   receivedMessages Message[]      @relation("receiver")
   sentMessages     Message[]      @relation("sender")
-  Playlist         Playlist[]
+  playlist         Playlist[]
   savedlist        Saved[]
-  Song             Song[]
+  songs            Song[]
   stories          Stories[]
   conversations    Conversation[]
 }
@@ -88,7 +88,7 @@ model Images {
 }
 
 model BooScale {
-  id        String   @id @default(cuid())
+  id        String   @id
   userId    String
   rating    Int
   cinemaId  String?
@@ -101,7 +101,7 @@ model BooScale {
   haunts    Haunts?  @relation("rateHaunt", fields: [hauntsId], references: [id], onDelete: Cascade)
   images    Images?  @relation("rateImage", fields: [imagesId], references: [id], onDelete: Cascade)
   stories   Stories? @relation("rateStory", fields: [storiesId], references: [id], onDelete: Cascade)
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Haunts {
@@ -164,7 +164,7 @@ model Saved {
 }
 
 model Badges {
-  id          String   @id @default(cuid())
+  id          String   @id
   name        String
   description String
   badge       String
@@ -214,7 +214,7 @@ model Message {
 }
 
 model Playlist {
-  id          String  @id
+  id          String  @id @default(cuid())
   videoId     String
   title       String
   thumbnail   String
@@ -229,5 +229,5 @@ model Song {
   fileData Bytes
   fileName String
   userId   String
-  User     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

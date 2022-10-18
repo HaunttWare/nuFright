@@ -111,3 +111,40 @@ export const getUserSavedShows = async (req: Request, res: Response) => {
   });
   res.json(savedShows);
 };
+
+export const getUserRatingsNBadges = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const RatingsNBadges = await db.user.findUnique({
+      where: { id },
+      include: {
+        ratings: true,
+        badges: true,
+      }
+    })
+    const rateArr = RatingsNBadges?.ratings.map((rating) => {
+      const horrorId = rating.id.split('=')[1];
+      return {
+        id: rating.id,
+        horrorId,
+        rating: rating.rating
+     }
+    })
+    const badgeArr = RatingsNBadges?.badges.map((badge) => ({
+      id: badge.id,
+      name: badge.name,
+      description: badge.description,
+      badge: badge.badge
+    }))
+    res.json({
+      success: true,
+      message: "retrieved user badges and ratings",
+      badges: badgeArr,
+      ratings: rateArr
+    });
+  } catch (err) {
+    console.error('error getting Ratings and Badges\n', err);
+    res.sendStatus(500);
+  }
+}

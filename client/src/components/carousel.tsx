@@ -4,10 +4,10 @@ import { MoviesData } from '../store/movies/movies.action';
 
 const CreepyCarousel = ({ movies }: any) => {
   return (
-    <Carousel>
+    <Carousel className="w-50">
       <Carousel.Item>
         <img
-          className="d-block w-100"
+          className="d-block w-50"
           src="https://image.tmdb.org/t/p/w500//hiaeZKzwsk4y4atFhmncO5KRxeT.jpg"
           alt="First slide"
         />
@@ -18,7 +18,7 @@ const CreepyCarousel = ({ movies }: any) => {
       </Carousel.Item>
       <Carousel.Item>
         <img
-          className="d-block w-100"
+          className="d-block w-50"
           src="https://image.tmdb.org/t/p/w500//pHkKbIRoCe7zIFvqan9LFSaQAde.jpg"
           alt="Second slide"
         />
@@ -30,7 +30,7 @@ const CreepyCarousel = ({ movies }: any) => {
       </Carousel.Item>
       <Carousel.Item>
         <img
-          className="d-block w-100"
+          className="d-block w-50"
           src="https://image.tmdb.org/t/p/w500//zfE0R94v1E8cuKAerbskfD3VfUt.jpg"
           alt="Third slide"
         />
