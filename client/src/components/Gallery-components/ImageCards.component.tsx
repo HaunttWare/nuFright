@@ -1,5 +1,5 @@
 import React from "react";
-import  {galleryProps, imageArr, image}  from "./galleryProps.component";
+import  {galleryProps}  from "./galleryProps.component";
 import ImageCardEntry from './ImageCardEntry.component';
 
 const ImageCards = ({ allImages }: galleryProps) => {
@@ -22,11 +22,4 @@ const ImageCards = ({ allImages }: galleryProps) => {
 
 export default ImageCards;
 
-/* <div class="container text-center">
-  <div class="row row-cols-2">
-    <div class="col">Column</div>
-    <div class="col">Column</div>
-    <div class="col">Column</div>
-    <div class="col">Column</div>
-  </div>
-</div> */
+

@@ -20,7 +20,6 @@ const ImagePost = () => {
         userId: currentUser.id
       };
       await axios.post("/api/images/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } })
-      // setFile(null);
       setCaption("");
     }
     resetKey();

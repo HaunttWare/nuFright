@@ -75,7 +75,9 @@ const getImages = async (req: Request, res: Response) => {
   
 
   try {
-    const images = await db.images.findMany({})
+    const images = await db.images.findMany({
+      include: {user: true}
+    })
     res.status(200).send(images);
 
   } catch (err) {

@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ImagePost from '../../components/Gallery-components/galleryPost.component';
 import ImageCards from '../../components/Gallery-components/ImageCards.component';
- import{ galleryProps, imageArr } from '../../components/Gallery-components/galleryProps.component';
+ import{ imageArr } from '../../components/Gallery-components/galleryProps.component';
 
 
 
