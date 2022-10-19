@@ -5,11 +5,14 @@ const authRouter = express.Router();
 
 authRouter.get("/login/successful", (req, res) => {
   if (req.user) {
+    //user only available in this route
+    console.log("req.user is available: ", req.user);
+
     res.json({
       success: true,
       message: "user has successfully authenticated",
       user: req.user,
-      // cookies: req.cookies
+      // cookies: req.cookies,
     });
   }
 });
@@ -23,7 +26,10 @@ authRouter.get("/login/failed", (req, res) => {
 
 authRouter.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: true,
+  })
 );
 
 authRouter.get(

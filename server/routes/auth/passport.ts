@@ -1,6 +1,5 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { UserData } from "../../../client/src/store/user/user.action";
 import { db } from "../../prisma/utils/db.server";
 import { config } from "../../config";
 
@@ -20,7 +19,7 @@ passport.use(
           where: { googleId: id },
           update: {},
           create: {
-            googleId: id, 
+            googleId: id,
             email,
             name: displayName,
             photo,
@@ -34,12 +33,21 @@ passport.use(
   )
 );
 
-passport.serializeUser((user, done) => {
-  done(null, user);
+passport.serializeUser((user: any, done) => {
+  console.log("serializeUser", user);
+  done(null, user.id as string);
 });
 
-passport.deserializeUser((user: UserData, done) => {
-  done(null, user)
+passport.deserializeUser(async (id: string, done) => {
+  console.log("deserializeUser", id);
+  try {
+    const user = await db.user.findUnique({
+      where: { id },
+    });
+    done(null, user);
+  } catch (error: any) {
+    done(error);
+  }
 });
 
 export default passport;
