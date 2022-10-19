@@ -1,11 +1,11 @@
-import express, { Request, Response } from "express";
 import path from "path";
 import cors from "cors";
+import express, { Request, Response } from "express";
+import session from "express-session";
+import { createServer } from "http";
 import passport from "passport";
-import cookieSession from "cookie-session";
-import socket from "./socket/index";
-import { createServer} from "http";
 import "./routes/auth/passport";
+import socket from "./socket/index";
 
 import rootRouter from "./routes";
 
@@ -18,10 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve("client", "public")));
 
 app.use(
-  cookieSession({
-    name: "session",
-    keys: ["key1"],
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  session({
+    secret: "secretcode",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 },
   })
 );
 
@@ -39,7 +40,6 @@ app.use(
 //create server and initialize socket
 const server = createServer(app);
 socket(server);
-
 
 app.use("/api", rootRouter);
 
