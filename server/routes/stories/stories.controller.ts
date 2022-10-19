@@ -32,22 +32,6 @@ const getAllStories = (req:Request, res:Response) => {
     })
 }
 
-const getName = (req:Request, res:Response) => {
-    const { userId }  = req.params;
-    db.user.findUnique({
-        where: {
-            id: req.body.userId ? req.body.userId : userId,
-        }
-    })
-    .then((result:any) => {
-        res.status(200).send(result.name);
-    })
-    .catch((err:Error) => {
-        console.error(err);
-        res.status(500);
-    })
-}
-
 // POST REQUESTS
 
 const addStory = (req:Request, res:Response) => {
@@ -96,7 +80,6 @@ const editStory = (req:Request, res:Response) => {
 
 export {
     getAllStories,
-    getName,
     addStory,
     editStory,
 }
