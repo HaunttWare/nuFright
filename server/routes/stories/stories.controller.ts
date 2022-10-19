@@ -6,7 +6,24 @@ import { db } from '../../prisma/utils/db.server';
 // GET REQUESTS
 
 const getAllStories = (req:Request, res:Response) => {
-    db.stories.findMany()
+    db.stories.findMany({
+        select: {
+            id: true,
+            title: true,
+            story: true,
+            createdAt: true,
+            description: true,
+            author: {
+                select: {
+                    name: true,
+                }
+            },
+            ratings: true,
+            Comment: true,
+            likedBy: true,
+            savedBy: true,
+        }
+    })
     .then((result:any) => {
         res.status(200).send(result);
     })
