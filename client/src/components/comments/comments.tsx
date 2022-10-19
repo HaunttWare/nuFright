@@ -64,7 +64,7 @@ const Comments = ({category, type}: CommentsProps) => {
   };
 
   return comments.length? (
-    <div className='row text-light py-2' onClick={() => setShowComments(true)}>
+    <div className='row text-light py-2' onClick={() => setShowComments(!showComments)}>
       <div className='col-12 text-center'>
         View all {comments.length} Comments
           {showComments && comments.map((comment: string, i: number) => {
