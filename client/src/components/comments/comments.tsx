@@ -25,6 +25,7 @@ type CommentsProps = {
 const Comments = ({category, type}: CommentsProps) => {
   const [comments, setComments] = useState<string[]>([]);
   const currentUser = useSelector(selectCurrentUser);
+  const [showComments, setShowComments] = useState(false);
   
   const getComments = () => {
 
@@ -62,21 +63,11 @@ const Comments = ({category, type}: CommentsProps) => {
     }
   };
 
-  return comments.length > 1 ? (
-    <div className='row text-light py-2'>
+  return comments.length? (
+    <div className='row text-light py-2' onClick={() => setShowComments(true)}>
       <div className='col-12 text-center'>
-        <button
-          className='btn btn-secondary'
-          type='button'
-          data-bs-toggle='collapse'
-          data-bs-target='#collapseWidthExample'
-          aria-expanded='false'
-          aria-controls='collapseWidthExample'
-        >
-          View all {comments.length} Comments
-        </button>
-        <div className='collapse collapse-horizontal' id='collapseWidthExample'>
-          {comments.map((comment: string, i: number) => {
+        View all {comments.length} Comments
+          {showComments && comments.map((comment: string, i: number) => {
             return (
               <div className='card card-body' key={i}>
                 <div className='card-text' key={i}>
@@ -85,34 +76,6 @@ const Comments = ({category, type}: CommentsProps) => {
               </div>
             );
           })}
-        </div>
-        <CommentForm newComment={newComment} />
-      </div>
-    </div>
-  ) : comments.length === 1? (
-    <div className='row text-light py-2'>
-      <div className='col-12 text-center'>
-        <button
-          className='btn btn-secondary'
-          type='button'
-          data-bs-toggle='collapse'
-          data-bs-target='#collapseWidthExample'
-          aria-expanded='false'
-          aria-controls='collapseWidthExample'
-        >
-          View {comments.length} Comment
-        </button>
-        <div className='collapse collapse-horizontal' id='collapseWidthExample'>
-          {comments.map((comment: string, i: number) => {
-            return (
-              <div className='card card-body' key={i}>
-                <div className='card-text' key={i}>
-                  {comment}
-                </div>
-              </div>
-            );
-          })}
-        </div>
         <CommentForm newComment={newComment} />
       </div>
     </div>
