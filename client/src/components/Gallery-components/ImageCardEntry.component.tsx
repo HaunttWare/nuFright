@@ -8,7 +8,7 @@ const ImageCardEntry = ({ image }: image) => {
       <img src={image.image} className="card-img-top" alt="..."   />
       <div className="card-body">
         <p className="card-text" style={{ color: 'black' }} >{image.caption}</p>
-        <Rating id={image.id} />
+        <Rating id={image.id} type={'image'} />
       </div>
     </div>
   )
