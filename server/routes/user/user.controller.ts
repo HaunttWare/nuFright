@@ -13,24 +13,56 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getUsers = async (req: Request, res: Response) => {
-  const { userIds } = req.query as any;
-console.log(userIds)
-  // get users that match the userIds
+// api/user?search=User
+export const getAllUsers = async (req: Request, res: Response) => {
+  const { search } = req.query;
+
+  //  req.user comes back undefined here
+  console.log("req.user:", req.user);
+
   try {
-    const users = await db.user.findMany({
-      where: {
-        id: {
-          in: userIds,
+    // check if search query is present and return users that match the search query
+    // be case insensitive
+    // dont return the current user
+    if (search) {
+      const users = await db.user.findMany({
+        where: {
+          OR: [
+            { name: { contains: search as string, mode: "insensitive" } },
+            { name: { contains: search as string, mode: "insensitive" } },
+          ],
+          // NOT: { id: currentUser },
         },
-      },
-    });
-    res.status(200).json(users);
+      });
+      res.status(200).json(users);
+    }
+    // if no search query is present, return nothing
+    else {
+      res.status(200).json([]);
+    }
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 };
 
+//This was to get all online users (keep for later)
+// export const getAllUsers = async (req: Request, res: Response) => {
+//   const { userIds } = req.query as any;
+// console.log(userIds)
+//   // get users that match the userIds
+//   try {
+//     const users = await db.user.findMany({
+//       where: {
+//         id: {
+//           in: userIds,
+//         },
+//       },
+//     });
+//     res.status(200).json(users);
+//   } catch (error: any) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 
 export const getUserLikedBooks = async (req: Request, res: Response) => {
   // Get the user id from the request
@@ -121,30 +153,30 @@ export const getUserRatingsNBadges = async (req: Request, res: Response) => {
       include: {
         ratings: true,
         badges: true,
-      }
-    })
+      },
+    });
     const rateArr = RatingsNBadges?.ratings.map((rating) => {
-      const horrorId = rating.id.split('=')[1];
+      const horrorId = rating.id.split("=")[1];
       return {
         id: rating.id,
         horrorId,
-        rating: rating.rating
-     }
-    })
+        rating: rating.rating,
+      };
+    });
     const badgeArr = RatingsNBadges?.badges.map((badge) => ({
       id: badge.id,
       name: badge.name,
       description: badge.description,
-      badge: badge.badge
-    }))
+      badge: badge.badge,
+    }));
     res.json({
       success: true,
       message: "retrieved user badges and ratings",
       badges: badgeArr,
-      ratings: rateArr
+      ratings: rateArr,
     });
   } catch (err) {
-    console.error('error getting Ratings and Badges\n', err);
+    console.error("error getting Ratings and Badges\n", err);
     res.sendStatus(500);
   }
-}
+};
