@@ -18,25 +18,32 @@ type CommentsData = {
 };
 
 type CommentsProps = {
-  category: any,
-  type: string
-}
+  category: any;
+  type: string;
+};
 
-const Comments = ({category, type}: CommentsProps) => {
+const Comments = ({ category, type }: CommentsProps) => {
   const [comments, setComments] = useState<string[]>([]);
   const currentUser = useSelector(selectCurrentUser);
   const [showComments, setShowComments] = useState(false);
-  
-  const getComments = () => {
+  let viewCommentsString;
+  if (comments.length > 1) {
+    viewCommentsString = `View all ${comments.length} Comments`;
+  } else if (comments.length === 1) {
+    viewCommentsString = `View 1 Comment`;
+  } else {
+    viewCommentsString = `No comments`;
+  }
 
+  const getComments = () => {
     axios
       .get(`/api/comments/`)
       .then(({ data }) => {
         if (data.length) {
           data.map((comment: any) => {
-                if (comment[`${type}Id`] === category.id) {
-                setComments(prevMessage => [...prevMessage, comment.message]);
-              }
+            if (comment[`${type}Id`] === category.id) {
+              setComments((prevMessage) => [...prevMessage, comment.message]);
+            }
           });
         }
       })
@@ -46,10 +53,9 @@ const Comments = ({category, type}: CommentsProps) => {
   useEffect(() => {
     getComments();
   }, []);
- 
+
   // create a new comment
   const newComment = (message: string) => {
-
     if (currentUser) {
       axios
         .post(`/api/comments/${category?.id}`, {
@@ -63,11 +69,15 @@ const Comments = ({category, type}: CommentsProps) => {
     }
   };
 
-  return comments.length? (
-    <div className='row text-light py-2' onClick={() => setShowComments(!showComments)}>
+  return comments.length ? (
+    <div
+      className='row text-light py-2'
+      onClick={() => setShowComments(!showComments)}
+    >
       <div className='col-12 text-center'>
-        View all {comments.length} Comments
-          {showComments && comments.map((comment: string, i: number) => {
+        {viewCommentsString}
+        {showComments &&
+          comments.map((comment: string, i: number) => {
             return (
               <div className='card card-body' key={i}>
                 <div className='card-text' key={i}>
@@ -81,8 +91,12 @@ const Comments = ({category, type}: CommentsProps) => {
     </div>
   ) : (
     <>
-      <p>no comments</p>
-      <CommentForm newComment={newComment} />
+      <div className='row text-light py-2'>
+        <div className='col-12 text-center'>
+          {viewCommentsString}
+          <CommentForm newComment={newComment} />
+        </div>
+      </div>
     </>
   );
 };
