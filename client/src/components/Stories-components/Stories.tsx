@@ -6,6 +6,7 @@ import { selectCurrentUser } from "../../store/user/user.selector";
 import Story from './Story';
 import StoryDisplay from './StoryDisplay';
 import WriteStory from './WriteStory';
+import Comments from '../../components/comments/comments';
 
 const StoriesPage = () => {
     const currentUser = useSelector(selectCurrentUser);
@@ -52,7 +53,12 @@ const StoriesPage = () => {
                        </div>
             }))}
             </>
-            {view === 'story' && <StoryDisplay story={selectedStory} backHandler={viewHandler}/>}
+            {view === 'story' && 
+            <>
+            <StoryDisplay story={selectedStory} backHandler={viewHandler}/>
+            <Comments category={selectedStory} type={'stories'} />
+            </>
+            }
             {view === 'write' && <WriteStory backHandler={viewHandler}/>}
         </div>
     );

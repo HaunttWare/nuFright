@@ -3,6 +3,7 @@ import React, {useState, useEffect} from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { ShowData } from "../../store/shows/shows.action";
+import Comments from '../../components/comments/comments';
 
 
 type ShowProp = {
@@ -80,6 +81,7 @@ const EachShow = ({ show }: ShowProp) => {
           <button className="btn btn-secondary" onClick={handleSave}>
             {isSaved ? "Unsave" : "Save"}
           </button>
+          <Comments category={show} type={'cinema'} />
         </div>
       </div>
     </div>
