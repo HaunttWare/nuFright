@@ -60,20 +60,39 @@ const addStory = (req:Request, res:Response) => {
 // UPDATE REQUESTS
 
 const editStory = (req:Request, res:Response) => {
-    db.stories.update({
+    db.stories.findUnique({
         where: {
             id: req.body.id,
-        },
-        data: {
-            story: req.body.newStory,
-            description: req.body.newDescription,
         }
     })
     .then((result:any) => {
-        res.status(200).send(result);
+        if(result) {
+            if(req.body.user === result.authorId) {
+                db.stories.update({
+                    where: {
+                        id: req.body.id,
+                    },
+                    data: {
+                        story: req.body.newStory,
+                        description: req.body.newDescription,
+                    }
+                })
+                .then((result:any) => {
+                    res.status(200).send(result);
+                })
+                .catch((err:Error) => {
+                    console.error(err);
+                    res.sendStatus(500);
+                });
+            } else {
+                res.sendStatus(404);
+            }
+        } else {
+            res.sendStatus(404);
+        }
     })
     .catch((err:Error) => {
-        console.error(err);
+        console.log(err);
         res.sendStatus(500);
     });
 }
