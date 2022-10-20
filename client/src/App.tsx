@@ -89,7 +89,7 @@ const App = () => {
         <Route path="music" element={<MusicMakingView />} />
         <Route path="auth" element={<Authentication />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="chat" element={<Chat />} />
+        <Route path="chats" element={<Chat />} />
         <Route path="playlist" element={<PlayListComp />} />
       </Route>
     </Routes>
