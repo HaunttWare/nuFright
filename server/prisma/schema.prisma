@@ -64,8 +64,8 @@ model Book {
 model Stories {
   id          String     @id @default(cuid())
   authorId    String
-  title       String
-  story       String     @unique
+  title       String     @db.VarChar(300)
+  story       String     @db.VarChar(10000)
   images      String
   createdAt   DateTime   @default(now())
   description String?
