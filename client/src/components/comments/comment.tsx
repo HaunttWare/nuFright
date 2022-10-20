@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {IconBtn} from './iconbtn';
-import {FaHeart, FaReply, FaEdit, FaTrash} from 'react-icons/fa';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faReply, faEdit, faTrash} from '@fortawesome/free-solid-svg-icons'
+import CommentForm from './comment-form';
+
 
 type CommentProps = {
   comment: any;
+  deleteComment: any;
 };
 
 type Users = {
@@ -17,8 +20,11 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
   timeStyle: 'short',
 });
 
-const Comment = ({ comment }: CommentProps) => {
+const Comment = ({ comment, deleteComment }: CommentProps) => {
   const [users, setUsers] = useState<Users>([]);
+  const [edit, setEdit] = useState(false);
+  const [reply, setReply] = useState(false);
+  const [message, setMessage] = useState<string>()
 
   useEffect(() => {
     axios.get('/api/comments/users')
@@ -30,9 +36,13 @@ const Comment = ({ comment }: CommentProps) => {
 
   const user = users.find(user => user.id === comment.userId)
 
+  const handleEdit = (e:any) => {
+    console.log(e.currentTarget)
+  }
+
   return (
     <>
-    <div className='comment'>
+    <div>
       <div className='header'>
         <span className='name'>{user?.name}</span>
         <span className='date'>
@@ -40,12 +50,28 @@ const Comment = ({ comment }: CommentProps) => {
         </span>
         <div className='message'>{comment.message}</div>
         <div className='footer'>
-          {/* <IconBtn Icon={FaHeart} aria-label='Like'>2</IconBtn>
-          <IconBtn Icon={FaReply} aria-label='Reply' />
-          <IconBtn Icon={FaEdit} aria-label='Edit' />
-        <IconBtn Icon={FaTrash} aria-label='Delete' color='red' /> */}
+        <FontAwesomeIcon 
+        icon={faReply}
+        aria-label={reply? 'Cancel Reply' : 'Reply'}
+        onClick={() => setReply(prev => !prev)}
+       
+        />
+        <FontAwesomeIcon
+        icon={faEdit}
+        values={comment.message}
+        aria-label={edit? 'cancel edit' : 'edit'}
+        onClick={(e) => handleEdit(e)}
+        />
+        <FontAwesomeIcon 
+        icon={faTrash}
+        id={comment.id}
+        onClick={e => deleteComment(e)}
+        />
         </div>
       </div>
+      {/* {reply && (
+        <CommentForm newComment={message}/>
+      )} */}
     </div>
   </>
 );
