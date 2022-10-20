@@ -8,26 +8,27 @@ datasource db {
 }
 
 model User {
-  id               String         @id @default(cuid())
-  name             String
-  email            String         @unique
-  createdAt        DateTime       @default(now())
-  googleId         String         @unique
-  photo            String
-  badges           Badges[]
-  ratings          BooScale[]
-  Comment          Comment[]
-  followedBy       Follows[]      @relation("follower")
-  following        Follows[]      @relation("following")
-  images           Images[]
-  liked            Likes[]
-  receivedMessages Message[]      @relation("receiver")
-  sentMessages     Message[]      @relation("sender")
-  playlist         Playlist[]
-  savedlist        Saved[]
-  songs            Song[]
-  stories          Stories[]
-  conversations    Conversation[]
+  id          String     @id @default(cuid())
+  name        String
+  email       String     @unique
+  createdAt   DateTime   @default(now())
+  googleId    String     @unique
+  photo       String
+  badges      Badges[]
+  ratings     BooScale[]
+  Comment     Comment[]
+  followedBy  Follows[]  @relation("follower")
+  following   Follows[]  @relation("following")
+  images      Images[]
+  liked       Likes[]
+  playlist    Playlist[]
+  savedlist   Saved[]
+  songs       Song[]
+  stories     Stories[]
+  chats       Chat[]
+  messages    Message[]
+  readMessage Message[]  @relation("readBy")
+  isAdmin     Chat[]     @relation("groupAdmin")
 }
 
 model Cinema {
@@ -194,23 +195,27 @@ model Comment {
   children  Comment[] @relation("ParentChild")
 }
 
-model Conversation {
-  createdAt DateTime  @default(now())
-  id        String    @id @default(cuid())
-  messages  Message[]
-  users     User[]
+model Chat {
+  id           String    @id @default(cuid())
+  chatName     String
+  isGroupChat  Boolean   @default(false)
+  users        User[]
+  messages     Message[]
+  groupAdmin   User?      @relation("groupAdmin", fields: [groupAdminId], references: [id])
+  groupAdminId String?    @unique
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
 
 model Message {
-  id             String       @id @default(cuid())
-  conversationId String
-  senderId       String
-  createdAt      DateTime     @default(now())
-  message        String
-  receiverId     String?
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  receiver       User?        @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
-  sender         User         @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  chatId    String
+  senderId  String
+  createdAt DateTime @default(now())
+  content   String
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  sender    User     @relation(fields: [senderId], references: [id])
+  readBy    User[]   @relation("readBy")
 }
 
 model Playlist {
