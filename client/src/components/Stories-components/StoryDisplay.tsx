@@ -14,17 +14,21 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
     const [description, setDescription] = useState(props.story.description);
     const [story, setStory] = useState(props.story.story);
     const [sameUser, setSameUser] = useState(currentUser.name === props.story.author.name);
+    const [editClicked, setEditClicked] = useState(false);
 
     //edit related
     const editButtonHandler = () => {
+        setEditClicked(true);
         axios.patch('/api/story/editStory', {id: props.story.id, newStory: story, newDescription: description, user: currentUser.id})
         .then(result => {
             props.story.story = story;
             props.story.description = description;
-            setIsEditing(!isEditing); 
+            setIsEditing(!isEditing);
+            setEditClicked(false); 
         })
         .catch(err => {
             console.error(err);
+            setEditClicked(false);
         });
     };
 
@@ -61,7 +65,8 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
                 <h5><b><u>{title}</u></b></h5>
                 <textarea placeholder='description text' rows={3} value={description?.toString()} onChange={editDescriptionInputHandler}></textarea>
                 <textarea placeholder="story text" rows={5} value={story.toString()} onChange={editStoryInputHandler}></textarea>
-                <button onClick={editButtonHandler} style={{ maxWidth: 120, borderRadius: '45%', background: 'black', color: 'lime' }}>Save Changes</button>
+                <div>{editClicked ? 'saving changes...' : ''}</div>
+                <button disabled={editClicked} onClick={editButtonHandler} style={{ maxWidth: 120, borderRadius: '45%', background: 'black', color: 'lime' }}>Save Changes</button>
             </>}
         </div>
     )
