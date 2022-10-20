@@ -8,11 +8,13 @@ import { moviesReducer } from './movies/movies.reducer';
 import { showsReducer } from './shows/shows.reducer';
 import { ratingsReducer } from './ratings/ratings.reducer';
 import { badgesReducer } from './badges/badges.reducer';
+import { chatReducer } from './chat/chat.reducer';
 
 export const store = configureStore({ // <-- this function creates the store 
     reducer: {
-        user: userReducer, // <-- this sets the user reducer in the store
-        books: booksReducer, // <-- this sets the books reducer in the store
+        user: userReducer,
+        chat: chatReducer,
+        books: booksReducer, 
         movies: moviesReducer,
         shows: showsReducer,
         ratings: ratingsReducer,
