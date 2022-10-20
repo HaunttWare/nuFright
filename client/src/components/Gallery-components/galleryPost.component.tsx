@@ -2,12 +2,14 @@ import React, {useState} from "react";
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import { selectBadgeList } from "../../store/badges/badges.selector";
 
 const ImagePost = ( {setGotImages}: {setGotImages: React.Dispatch<React.SetStateAction<boolean>>} ) => {
   const [file, setFile] = useState<File | null>(null);
   const [caption, setCaption] = useState("")
   const [fileKey, setFileKey] = useState('key');
   const currentUser = useSelector(selectCurrentUser);
+  const userBadges = useSelector(selectBadgeList);
 
   const resetKey = () => { let newKey = Math.random().toString(36); setFileKey(newKey); };
 
@@ -21,6 +23,7 @@ const ImagePost = ( {setGotImages}: {setGotImages: React.Dispatch<React.SetState
       };
       await axios.post("/api/images/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } })
       setCaption("");
+      console.log('current badges', userBadges);
     }
     resetKey();
     setGotImages(false);
