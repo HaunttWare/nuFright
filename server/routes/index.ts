@@ -10,8 +10,8 @@ import ratingRouter from "./ratings/rating.router";
 import likesRouter  from "./likes/likes.router";
 import badgeRouter from "./badges/badge.router";
 import showsRouter from "./shows/shows.router";
-import conversationRouter from "./conversation/conversation.router";
-import messageRouter from "./message/message.router";
+// import conversationRouter from "./conversation/conversation.router";
+// import messageRouter from "./message/message.router";
 import PlaylistRouter from "./playlists/playlists.routes";
 
 const rootRouter = express.Router();
@@ -26,8 +26,8 @@ rootRouter.use("/books", booksRouter);
 rootRouter.use('/ratings', ratingRouter);
 rootRouter.use('/likes', likesRouter);
 rootRouter.use('/badges', badgeRouter);
-rootRouter.use("/conversations", conversationRouter);
-rootRouter.use("/messages", messageRouter);
+// rootRouter.use("/conversations", conversationRouter);
+// rootRouter.use("/messages", messageRouter);
 
 rootRouter.use("/playlists", PlaylistRouter);
 
