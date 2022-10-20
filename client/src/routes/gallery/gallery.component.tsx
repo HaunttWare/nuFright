@@ -27,7 +27,7 @@ const Gallery = () => {
   return (
     <div className="container">
       <h1>Gallery</h1>
-      <ImagePost />
+      <ImagePost setGotImages={setGotImages} />
       {
         allImages ?
           <ImageCards allImages={allImages} />

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 
-const ImagePost = () => {
+const ImagePost = ( {setGotImages}: {setGotImages: React.Dispatch<React.SetStateAction<boolean>>} ) => {
   const [file, setFile] = useState<File | null>(null);
   const [caption, setCaption] = useState("")
   const [fileKey, setFileKey] = useState('key');
@@ -23,6 +23,7 @@ const ImagePost = () => {
       setCaption("");
     }
     resetKey();
+    setGotImages(false);
   }
 
   return (
