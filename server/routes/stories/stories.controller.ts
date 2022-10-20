@@ -37,21 +37,32 @@ const getAllStories = (req:Request, res:Response) => {
 const addStory = (req:Request, res:Response) => {
     let newStory = req.body;
     if(newStory.title && newStory.text && newStory.userId) {
-        db.stories.create({
-            data: {
-                authorId: newStory.userId,
-                title: newStory.title,
-                story: newStory.text,
-                images: newStory.image ? newStory.image : '',
-                description: newStory.description ? newStory.description : '',
+        if(newStory.text.length <= 10000 && (newStory.description ? newStory.description.length <= 300 : true)) {
+            db.stories.create({
+                data: {
+                    authorId: newStory.userId,
+                    title: newStory.title,
+                    story: newStory.text,
+                    images: newStory.image ? newStory.image : '',
+                    description: newStory.description ? newStory.description : '',
+                }
+            })
+            .then((result:any) => {
+                res.sendStatus(200);
+            })
+            .catch((err:Error) => {
+                console.log(err);
+                res.status(500).send(err);
+            });
+        } else {
+            if(newStory.text.length > 10000) {
+                res.status(500).send('story is too long!');
+            } else if(newStory.description) {
+                if(newStory.description.length > 300) {
+                    res.status(500).send('description is too long!');
+                }
             }
-        })
-        .then((result:any) => {
-            res.sendStatus(200);
-        })
-        .catch((err:Error) => {
-            res.status(500).send(err);
-        });
+        }
     } else {
         res.status(500).send('Cannot post story due to missing field(s)');
     }
