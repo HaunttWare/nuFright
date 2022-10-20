@@ -15,10 +15,7 @@ export const getUser = async (req: Request, res: Response) => {
 
 // api/user?search=User
 export const getAllUsers = async (req: Request, res: Response) => {
-  const { search } = req.query;
-
-  //  req.user comes back undefined here
-  console.log("req.user:", req.user);
+  const { search, currentUserId } = req.query;
 
   try {
     // check if search query is present and return users that match the search query
@@ -31,7 +28,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
             { name: { contains: search as string, mode: "insensitive" } },
             { name: { contains: search as string, mode: "insensitive" } },
           ],
-          // NOT: { id: currentUser },
+          NOT: { id: currentUserId as string },
         },
       });
       res.status(200).json(users);
