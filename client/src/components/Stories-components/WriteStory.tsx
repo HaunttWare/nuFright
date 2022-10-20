@@ -26,19 +26,27 @@ const WriteStory = (props:{backHandler: Function}) => {
 
     //publish handler
     const postHandler = () => {
+        //can't reach 3810
+        //can reach 2678, 2846, 2416
         if(title && text && currentUser) {
-            setIsLoading(true);
-            setFormFilled('Posting...');
-            axios.post('/api/story/addStory', {userId: currentUser.id, title: title, text: text, description: desc})
-            .then((result:any) => {
-                props.backHandler('storyList')
-                setIsLoading(false);
-            })
-            .catch((err:Error) => {
-                console.error(err)
-                setIsLoading(false);
-                setFormFilled('Error posting story. Please try again.');
-            });
+            if(text.length <= 10000 && desc.length <= 300) {
+                setIsLoading(true);
+                setFormFilled('Posting...');
+                axios.post('/api/story/addStory', {userId: currentUser.id, title: title, text: text, description: desc})
+                .then((result:any) => {
+                    props.backHandler('storyList')
+                    setIsLoading(false);
+                })
+                .catch((err:Error) => {
+                    console.error(err)
+                    setIsLoading(false);
+                    setFormFilled('Error posting story. Please try again.');
+                });
+            } else if(text.length > 10000) {
+                setFormFilled('Story length cannot exceed 10000 characters!');
+            } else if(desc.length > 300) {
+                setFormFilled('Description cannot exceed 300 characters!');
+            }
         } else {
             setFormFilled('Write in all fields in order to post your story!');
         }
