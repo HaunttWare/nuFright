@@ -4,8 +4,7 @@ import ImageCardEntry from './ImageCardEntry.component';
 
 const ImageCards = ({ allImages }: galleryProps) => {
   return (
-    <div className="container">
-      <div className="row row-cols-3">
+    <div className="d-inline-flex flex-row p-2 flex-wrap row ">
       {
         allImages.map((card) => {
           return (
@@ -15,7 +14,6 @@ const ImageCards = ({ allImages }: galleryProps) => {
           )
         })
         }
-      </div>
     </div>
   )
 }
