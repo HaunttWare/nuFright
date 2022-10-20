@@ -1,6 +1,7 @@
 import { USER_ACTIONS_TYPES } from "./user.types";
 import { createAction } from "../utils/createAction";
 export type UserData = {
+  id?: string;
   googleId: string;
   name: string;
   email: string;
