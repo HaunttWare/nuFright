@@ -1,10 +1,17 @@
 import React from "react";
-import  {galleryProps}  from "./galleryProps.component";
+import { galleryProps } from "./galleryProps.component";
 import ImageCardEntry from './ImageCardEntry.component';
 
 const ImageCards = ({ allImages }: galleryProps) => {
   return (
-    <div className="d-inline-flex flex-row p-2 flex-wrap row ">
+    <div className="
+      d-inline-flex
+      flex-row
+      flex-wrap
+      justify-content-start
+      row-cols-3
+      align-items-center"
+    >
       {
         allImages.map((card) => {
           return (
@@ -13,7 +20,7 @@ const ImageCards = ({ allImages }: galleryProps) => {
             </div>
           )
         })
-        }
+      }
     </div>
   )
 }
