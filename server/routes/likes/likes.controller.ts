@@ -228,7 +228,7 @@ const updateLike = (req: Request, res: Response) => {
 const deleteLike = (req: Request, res: Response) => {
   const { likeId } = req.params
 
-  db.booScale.delete({
+  db.likes.delete({
     where: {
       id: likeId
     },
