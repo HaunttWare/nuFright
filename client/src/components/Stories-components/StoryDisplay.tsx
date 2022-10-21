@@ -13,7 +13,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
     const [title, setTitle] = useState(props.story.title);
     const [description, setDescription] = useState(props.story.description || '');
     const [story, setStory] = useState(props.story.story);
-    const [sameUser, setSameUser] = useState(currentUser.name === props.story.author.name);
+    const [sameUser, setSameUser] = useState(currentUser ? currentUser.name === props.story.author.name : false);
     const [editClicked, setEditClicked] = useState(false);
     const [isLiked, setIsLiked] = useState(props.story.likedBy.some((like:any) => currentUser ? like.userId === currentUser.id : false));
 
@@ -52,14 +52,21 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
         if(!isLiked) {
             axios.post('/api/likes/stories', {userId: currentUser.id, horrorId: props.story.id, isLiked: true})
             .then((result) => {
-                console.log('story liked!');
                 setIsLiked(true);
             })
             .catch((err:Error) => {
-                console.log(err);
+                console.error(err);
             });
         } else {
-            console.log('unlike request here');
+            //find id of like from user
+            let foundLike = props.story.likedBy.filter((like:any) => currentUser.id === like.userId);
+            axios.delete(`/api/likes/${foundLike[0].id}`)
+            .then(result => {
+                setIsLiked(false);
+            })
+            .catch((err:Error) => {
+                console.error(err);
+            });
         }
     }
 
@@ -76,7 +83,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
                 <Voice text={story.toString()}></Voice>
                 <img src={HauntedHouse} style={{maxWidth: 450, maxHeight: 450}}></img>
                 <div className="row" style={{display: 'flex', justifyContent: 'left'}}>{story.split('\n').map((paragraph:string, index:number) => { return <p className="col-12" key={index}>{paragraph}</p> })}</div>
-                <button onClick={likeButtonHandler} style={{maxWidth: 150, borderRadius: 50, background: 'black', color: 'lime'}}>{isLiked ? 'Unlike' : 'Like'}</button>
+                {currentUser && <button onClick={likeButtonHandler} style={{maxWidth: 150, borderRadius: 50, background: 'black', color: 'lime'}}>{isLiked ? 'Unlike' : 'Like'}</button>}
             </>}
             {isEditing && <>
                 <h5><b><u>{title}</u></b></h5>
