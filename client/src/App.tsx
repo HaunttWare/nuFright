@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { setCurrentUser } from "./store/user/user.action";
@@ -22,6 +22,7 @@ import Profile from "./routes/profile/profile.component";
 import MusicMakingView from "./routes/MusicMaker/MusicMakingView";
 import Chat from "./routes/chat/chat.component";
 import PlayListComp from "./routes/playlists/playlist.component";
+import LandingPage from './routes/landingpage/landingpage.component';
 const App = () => {
   const dispatch = useDispatch();
   const profileBadge = require('../../assets/profile-badge.png').default;
@@ -77,8 +78,10 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Navigation />}>
-        <Route index element={<Home />} />
+      <Route path='/welcome' element={<LandingPage />} />
+      <Route path='/' element={<Navigate to='/welcome'/>} />
+      <Route path="/*" element={<Navigation />}>
+        <Route path='home' element={<Home />} />
         <Route path="movies-shows" element={<Films />} />
         <Route path="books" element={<Books />} />
         <Route path="books/:bookId" element={<Book />} />
