@@ -14,12 +14,12 @@ import showsRouter from "./shows/shows.routes";
 // import messageRouter from "./message/message.routes";
 import PlaylistRouter from "./playlists/playlists.routes";
 import SongsRouter from "./songs/songs.routes";
+import commentRouter from './comments/comment.router';
 
 const rootRouter = express.Router();
 
 rootRouter.use("/auth", authRouter);
 rootRouter.use("/user", userRouter);
-
 rootRouter.use('/images', imageRouter);
 rootRouter.use('/movies', MovieRouter);
 rootRouter.use('/story', storyRouter);
@@ -28,11 +28,9 @@ rootRouter.use("/books", booksRouter);
 rootRouter.use('/ratings', ratingRouter);
 rootRouter.use('/likes', likesRouter);
 rootRouter.use('/badges', badgeRouter);
-
-
 // rootRouter.use("/conversations", conversationRouter);
 // rootRouter.use("/messages", messageRouter);
-
+rootRouter.use('/comments', commentRouter);
 rootRouter.use("/playlists", PlaylistRouter);
 rootRouter.use('/songs', SongsRouter)
 

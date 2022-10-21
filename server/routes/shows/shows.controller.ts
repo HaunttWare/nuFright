@@ -72,56 +72,56 @@ let genresFromShowDb = [
   }
 ];
 
-// const getShowsFromAPI = (req: Request, res: Response) => {
-//   let urls = [
-//     `https://api.themoviedb.org/3/discover/tv?api_key=${config.MOVIEDB_API_KEY}&with_genres=9648&page=1`,
-//     `https://api.themoviedb.org/3/discover/tv?api_key=${config.MOVIEDB_API_KEY}&with_genres=9648&page=2`,
-//     `https://api.themoviedb.org/3/discover/tv?api_key=${config.MOVIEDB_API_KEY}&with_genres=9648&page=3`
-//   ];
+const getShowsFromAPI = (req: Request, res: Response) => {
+  let urls = [
+    `https://api.themoviedb.org/3/discover/tv?api_key=${config.MOVIEDB_API_KEY}&with_genres=9648&page=1`,
+    `https://api.themoviedb.org/3/discover/tv?api_key=${config.MOVIEDB_API_KEY}&with_genres=9648&page=2`,
+    `https://api.themoviedb.org/3/discover/tv?api_key=${config.MOVIEDB_API_KEY}&with_genres=9648&page=3`
+  ];
 
-//   const apiReq = urls.map((url) => {
-//     return axios.get(url);
-//   })
+  const apiReq = urls.map((url) => {
+    return axios.get(url);
+  })
 
-//   return Promise.all(apiReq)
-//     .then((results) => {
-//       const allShows = results.map(({ data }) => {
-//         return data.results.flat();
-//       }).flat();
+  return Promise.all(apiReq)
+    .then((results) => {
+      const allShows = results.map(({ data }) => {
+        return data.results.flat();
+      }).flat();
 
-//       const dbShows = allShows.map((show) => {
-//         let matchedGenres = show.genre_ids.map((id: number) => {
-//           for (let i = 0; i < genresFromShowDb.length; i++) {
-//             if (genresFromShowDb[i].id === id) {
-//               return genresFromShowDb[i].name;
-//             }
-//           }
-//         }).join(',');
+      const dbShows = allShows.map((show) => {
+        let matchedGenres = show.genre_ids.map((id: number) => {
+          for (let i = 0; i < genresFromShowDb.length; i++) {
+            if (genresFromShowDb[i].id === id) {
+              return genresFromShowDb[i].name;
+            }
+          }
+        }).join(',');
 
-//         let showObj = {
-//           title: show.name,
-//           description: show.overview,
-//           genres: matchedGenres,
-//           type: 'show',
-//           images: `http://image.tmdb.org/t/p/w500/${show.poster_path}`
-//         }
-//         return showObj;
-//       })
-//       return Promise.all(dbShows.map((element) => {
-//         return db.cinema.createMany({
-//           data: element
-//         });
-//       }));
+        let showObj = {
+          title: show.name,
+          description: show.overview,
+          genres: matchedGenres,
+          type: 'show',
+          images: `http://image.tmdb.org/t/p/w500/${show.poster_path}`
+        }
+        return showObj;
+      })
+      return Promise.all(dbShows.map((element) => {
+        return db.cinema.createMany({
+          data: element
+        });
+      }));
 
-//     })
-//     .then((data) => {
-//       res.sendStatus(200);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.sendStatus(500);
-//     });
-// };
+    })
+    .then((data) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
 
 const getHorrorShows = (req: Request, res: Response) => {
   db.cinema.findMany({
@@ -191,6 +191,7 @@ const saveShow = async (req: Request, res: Response) => {
           isSaved,
         },
       });
+      console.log(save);
       res.status(200).send(save);
     } catch (err) {
       console.error(err);
@@ -215,7 +216,7 @@ const saveShow = async (req: Request, res: Response) => {
 
 export {
   getHorrorShows,
- 
+  getShowsFromAPI,
   likeShow,
   saveShow,
 }

@@ -4,9 +4,9 @@ import { db } from '../../prisma/utils/db.server';
 const postRating = (req: Request, res: Response) => {
   const { type } = req.params;
   const { userId, horrorId, rating} = req.body;
-
+  const id = `${userId}=${horrorId}`;
   const rateObj = {
-    data: {
+      id,
       userId,
       rating,
       cinemaId: null,
@@ -14,27 +14,46 @@ const postRating = (req: Request, res: Response) => {
       hauntsId: null,
       bookId: null,
       storiesId: null
-    }
+  }
+  const rateUpd = {
+      userId,
+      rating,
+      cinemaId: null,
+      imagesId: null,
+      hauntsId: null,
+      bookId: null,
+      storiesId: null
   }
   switch (type) {
     case "book":
-      rateObj.data.bookId = horrorId
+      rateObj.bookId = horrorId
+      rateUpd.bookId = horrorId
       break
     case "cinema":
-      rateObj.data.cinemaId = horrorId
+      rateObj.cinemaId = horrorId
+      rateUpd.cinemaId = horrorId
       break
     case "images":
-      rateObj.data.imagesId = horrorId
+      rateObj.imagesId = horrorId
+      rateUpd.imagesId = horrorId
       break
     case "stories":
-      rateObj.data.storiesId = horrorId
+      rateObj.storiesId = horrorId
+      rateUpd.storiesId = horrorId
       break
     case "haunts":
-      rateObj.data.hauntsId = horrorId
+      rateObj.hauntsId = horrorId
+      rateUpd.hauntsId = horrorId
       break
   }
 
-  db.booScale.create(rateObj)
+  db.booScale.upsert({
+    where: {
+      id: id
+    },
+    update: rateUpd,
+    create: rateObj
+  })
   .then((data) => {
     console.log('it WOOORRRKKKSSSSS', data);
     res.sendStatus(201);

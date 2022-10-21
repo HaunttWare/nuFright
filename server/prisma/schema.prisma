@@ -89,7 +89,7 @@ model Images {
 }
 
 model BooScale {
-  id        String   @id @default(cuid())
+  id        String   @id
   userId    String
   rating    Int
   cinemaId  String?
@@ -102,7 +102,7 @@ model BooScale {
   haunts    Haunts?  @relation("rateHaunt", fields: [hauntsId], references: [id], onDelete: Cascade)
   images    Images?  @relation("rateImage", fields: [imagesId], references: [id], onDelete: Cascade)
   stories   Stories? @relation("rateStory", fields: [storiesId], references: [id], onDelete: Cascade)
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Haunts {
@@ -165,7 +165,7 @@ model Saved {
 }
 
 model Badges {
-  id          String   @id @default(cuid())
+  id          String   @id
   name        String
   description String
   badge       String
@@ -214,7 +214,7 @@ model Playlist {
   description String
   url         String?
   userId      String
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Song {
