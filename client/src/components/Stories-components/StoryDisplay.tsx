@@ -11,7 +11,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
     const [username, setUsername] = useState(props.story.author.name);
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(props.story.title);
-    const [description, setDescription] = useState(props.story.description);
+    const [description, setDescription] = useState(props.story.description || '');
     const [story, setStory] = useState(props.story.story);
     const [sameUser, setSameUser] = useState(currentUser.name === props.story.author.name);
     const [editClicked, setEditClicked] = useState(false);
@@ -43,7 +43,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
     const backToDisplayHandler = () => {
         setIsEditing(!isEditing);
         setStory(props.story.story);
-        setDescription(props.story.description);
+        setDescription(props.story.description || '');
     }
 
     return (
@@ -63,8 +63,10 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
             </>}
             {isEditing && <>
                 <h5><b><u>{title}</u></b></h5>
-                <textarea placeholder='description text' rows={3} value={description?.toString()} onChange={editDescriptionInputHandler}></textarea>
-                <textarea placeholder="story text" rows={5} value={story.toString()} onChange={editStoryInputHandler}></textarea>
+                <textarea placeholder='description text' rows={3} value={description?.toString()} onChange={editDescriptionInputHandler} style={{borderColor: description.length > 300 ? 'red' : ''}}></textarea>
+                <p>{description.length > 300 ? `You are ${description.length - 300} characters over the limit!` : ''}</p>
+                <textarea placeholder="story text" rows={5} value={story.toString()} onChange={editStoryInputHandler} style={{borderColor: story.length > 10000 ? 'red' : ''}}></textarea>
+                <p>{story.length > 10000 ? `You are ${story.length - 10000} characters over the limit!` : ''}</p>
                 <div>{editClicked ? 'saving changes...' : ''}</div>
                 <button disabled={editClicked} onClick={editButtonHandler} style={{ maxWidth: 120, borderRadius: '45%', background: 'black', color: 'lime' }}>Save Changes</button>
             </>}
