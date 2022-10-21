@@ -12,7 +12,7 @@ const StoriesPage = () => {
     const currentUser = useSelector(selectCurrentUser);
     const [view, setView] = useState('storyList');
     const [allStories, setAllStories] = useState([]);
-    const [selectedStory, setSelected] = useState({createdAt: '', id: '', images: '', title: '', story: '', description: '', author:{name:''},});
+    const [selectedStory, setSelected] = useState({createdAt: '', id: '', images: '', title: '', story: '', description: '', author:{name:''}, likedBy:[],});
     const [isLoading, setIsLoading] = useState(true);
 
     //get stories from database
