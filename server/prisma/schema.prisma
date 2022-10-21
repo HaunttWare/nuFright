@@ -233,7 +233,7 @@ model Playlist {
 }
 
 model Song {
-  id       String @id
+  id       String @id @default(cuid())
   fileName String
   userId   String
   fileURL  String
