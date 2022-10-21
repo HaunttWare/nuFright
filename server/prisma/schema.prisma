@@ -15,7 +15,7 @@ model User {
   googleId                     String     @unique
   photo                        String
   badges                       Badges[]
-  BooScale                     BooScale[]
+  ratings                      BooScale[]
   Chat_Chat_groupAdminIdToUser Chat?      @relation("Chat_groupAdminIdToUser")
   Comment                      Comment[]
   followedBy                   Follows[]  @relation("follower")
