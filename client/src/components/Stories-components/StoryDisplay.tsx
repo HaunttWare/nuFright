@@ -15,7 +15,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
     const [story, setStory] = useState(props.story.story);
     const [sameUser, setSameUser] = useState(currentUser.name === props.story.author.name);
     const [editClicked, setEditClicked] = useState(false);
-    console.log(props.story.likedBy);
+    const [isLiked, setIsLiked] = useState(props.story.likedBy.some((like:any) => currentUser ? like.userId === currentUser.id : false));
 
     //edit related
     const editButtonHandler = () => {
@@ -49,13 +49,18 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
 
     //like button handler
     const likeButtonHandler = () => {
-        axios.post('/api/likes/stories', {userId: currentUser.id, horrorId: props.story.id, isLiked: true})
-        .then((result) => {
-            console.log('story liked!');
-        })
-        .catch((err:Error) => {
-            console.log(err);
-        })
+        if(!isLiked) {
+            axios.post('/api/likes/stories', {userId: currentUser.id, horrorId: props.story.id, isLiked: true})
+            .then((result) => {
+                console.log('story liked!');
+                setIsLiked(true);
+            })
+            .catch((err:Error) => {
+                console.log(err);
+            });
+        } else {
+            console.log('unlike request here');
+        }
     }
 
     return (
@@ -71,7 +76,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
                 <Voice text={story.toString()}></Voice>
                 <img src={HauntedHouse} style={{maxWidth: 450, maxHeight: 450}}></img>
                 <div className="row" style={{display: 'flex', justifyContent: 'left'}}>{story.split('\n').map((paragraph:string, index:number) => { return <p className="col-12" key={index}>{paragraph}</p> })}</div>
-                <button onClick={likeButtonHandler} style={{maxWidth: 150, borderRadius: 50, background: 'black', color: 'lime'}}>Like</button>
+                <button onClick={likeButtonHandler} style={{maxWidth: 150, borderRadius: 50, background: 'black', color: 'lime'}}>{isLiked ? 'Unlike' : 'Like'}</button>
             </>}
             {isEditing && <>
                 <h5><b><u>{title}</u></b></h5>
