@@ -1,11 +1,17 @@
 import React from "react";
-import  {galleryProps, imageArr, image}  from "./galleryProps.component";
+import { galleryProps } from "./galleryProps.component";
 import ImageCardEntry from './ImageCardEntry.component';
 
 const ImageCards = ({ allImages }: galleryProps) => {
   return (
-    <div className="container">
-      <div className="row row-cols-3">
+    <div className="
+      d-flex
+      flex-row
+      flex-wrap
+      justify-content-start
+      row-cols-3
+      align-items-center"
+    >
       {
         allImages.map((card) => {
           return (
@@ -14,19 +20,11 @@ const ImageCards = ({ allImages }: galleryProps) => {
             </div>
           )
         })
-        }
-      </div>
+      }
     </div>
   )
 }
 
 export default ImageCards;
 
-/* <div class="container text-center">
-  <div class="row row-cols-2">
-    <div class="col">Column</div>
-    <div class="col">Column</div>
-    <div class="col">Column</div>
-    <div class="col">Column</div>
-  </div>
-</div> */
+

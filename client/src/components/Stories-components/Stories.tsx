@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import Rating from '../../components/boo-scale/rating.component';
 //subcomponents
 import Story from './Story';
 import StoryDisplay from './StoryDisplay';
@@ -56,7 +57,8 @@ const StoriesPage = () => {
             {view === 'story' && 
             <>
             <StoryDisplay story={selectedStory} backHandler={viewHandler}/>
-            <Comments category={selectedStory} type={'stories'} />
+                <Comments category={selectedStory} type={'stories'} />
+                <Rating id={selectedStory.id} type={'stories'} />
             </>
             }
             {view === 'write' && <WriteStory backHandler={viewHandler}/>}

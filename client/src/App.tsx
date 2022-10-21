@@ -20,7 +20,7 @@ import MapBox from "./routes/haunted-houses/Map.component";
 import Authentication from "./routes/authentication/authentication.component";
 import Profile from "./routes/profile/profile.component";
 import MusicMakingView from "./routes/MusicMaker/MusicMakingView";
-//import Chat from "./routes/chat/chat.component";
+// import Chat from "./routes/chat/chat.component";
 import PlayListComp from "./routes/playlists/playlist.component";
 const App = () => {
   const dispatch = useDispatch();

@@ -226,7 +226,7 @@ model Song {
 }
 
 model Chat {
-  id                           String    @id
+  id                           String    @id @default(cuid())
   chatName                     String
   isGroupChat                  Boolean   @default(false)
   groupAdminId                 String?   @unique
