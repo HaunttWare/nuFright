@@ -5,46 +5,200 @@ const postLike = (req: Request, res: Response) => {
   const { type } = req.params;
   const { userId, horrorId, isLiked} = req.body;
 
-  const rateObj = {
-    data: {
-      userId,
-      isLiked,
-      cinemaId: null,
-      imagesId: null,
-      hauntsId: null,
-      bookId: null,
-      storiesId: null
-    }
-  }
+  //check if user has already liked horrorId
   switch (type) {
     case "book":
-      rateObj.data.bookId = horrorId
+      db.likes.findMany({
+        where: {
+          userId: userId,
+          bookId: horrorId,
+        }
+      })
+      .then((result:any) => {
+        if(result.length) {
+          res.send('User has already like this!');
+        } else {
+          const rateObj = {
+            data: {
+              userId,
+              isLiked,
+              cinemaId: null,
+              imagesId: null,
+              hauntId: null,
+              bookId: horrorId,
+              storyId: null
+            }
+          }
+          db.likes.create(rateObj)
+          .then((data) => {
+            console.log('Liking works', data);
+            res.sendStatus(201);
+          })
+          .catch((err) => {
+            console.error('error creating likes\n', err);
+            res.sendStatus(500);
+          })
+        }
+      })
+      .catch((err:Error) => {
+        console.log(err);
+        res.status(500).send(err);
+      });
       break
     case "cinema":
-      rateObj.data.cinemaId = horrorId
+      db.likes.findMany({
+        where: {
+          userId: userId,
+          cinemaId: horrorId,
+        }
+      })
+      .then((result:any) => {
+        if(result.length) {
+          res.send('User has already like this!');
+        } else {
+          const rateObj = {
+            data: {
+              userId,
+              isLiked,
+              cinemaId: horrorId,
+              imagesId: null,
+              hauntId: null,
+              bookId: null,
+              storyId: null
+            }
+          }
+          db.likes.create(rateObj)
+          .then((data) => {
+            console.log('Liking works', data);
+            res.sendStatus(201);
+          })
+          .catch((err) => {
+            console.error('error creating likes\n', err);
+            res.sendStatus(500);
+          })
+        }
+      })
+      .catch((err:Error) => {
+        console.log(err);
+        res.status(500).send(err);
+      });
       break
     case "images":
-      rateObj.data.imagesId = horrorId
+      db.likes.findMany({
+        where: {
+          userId: userId,
+          imagesId: horrorId,
+        }
+      })
+      .then((result:any) => {
+        if(result.length) {
+          res.send('User has already like this!');
+        } else {
+          const rateObj = {
+            data: {
+              userId,
+              isLiked,
+              cinemaId: null,
+              imagesId: horrorId,
+              hauntId: null,
+              bookId: null,
+              storyId: null
+            }
+          }
+          db.likes.create(rateObj)
+          .then((data) => {
+            console.log('Liking works', data);
+            res.sendStatus(201);
+          })
+          .catch((err) => {
+            console.error('error creating likes\n', err);
+            res.sendStatus(500);
+          })
+        }
+      })
+      .catch((err:Error) => {
+        console.log(err);
+        res.status(500).send(err);
+      });
       break
     case "stories":
-      rateObj.data.storiesId = horrorId
+      db.likes.findMany({
+        where: {
+          userId: userId,
+          storyId: horrorId,
+        }
+      })
+      .then((result:any) => {
+        console.log(result);
+        if(result.length) {
+          res.send('User has already like this!');
+        } else {
+          const rateObj = {
+            data: {
+              userId,
+              isLiked,
+              cinemaId: null,
+              imagesId: null,
+              hauntId: null,
+              bookId: null,
+              storyId: horrorId
+            }
+          }
+          db.likes.create(rateObj)
+          .then((data) => {
+            console.log('Liking works', data);
+            res.sendStatus(201);
+          })
+          .catch((err) => {
+            console.error('error creating likes\n', err);
+            res.sendStatus(500);
+          })
+        }
+      })
+      .catch((err:Error) => {
+        console.log(err);
+        res.status(500).send(err);
+      });
       break
     case "haunts":
-      rateObj.data.hauntsId = horrorId
+      db.likes.findMany({
+        where: {
+          userId: userId,
+          hauntId: horrorId,
+        }
+      })
+      .then((result:any) => {
+        if(result.length) {
+          res.send('User has already like this!');
+        } else {
+          const rateObj = {
+            data: {
+              userId,
+              isLiked,
+              cinemaId: null,
+              imagesId: null,
+              hauntId: horrorId,
+              bookId: null,
+              storyId: null
+            }
+          }
+          db.likes.create(rateObj)
+          .then((data) => {
+            console.log('Liking works', data);
+            res.sendStatus(201);
+          })
+          .catch((err) => {
+            console.error('error creating likes\n', err);
+            res.sendStatus(500);
+          })
+        }
+      })
+      .catch((err:Error) => {
+        console.log(err);
+        res.status(500).send(err);
+      });
       break
   }
-
-  db.likes.create(rateObj)
-  .then((data) => {
-    console.log('Liking works', data);
-    res.sendStatus(201);
-  })
-  .catch((err) => {
-    console.error('error creating likes\n', err);
-    res.sendStatus(500);
-  })
-  
-
 }
 
 const updateLike = (req: Request, res: Response) => {
