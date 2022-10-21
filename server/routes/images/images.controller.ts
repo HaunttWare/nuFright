@@ -38,13 +38,13 @@ const uploadImage = async (req: Request, res: Response) => {
   const command = new PutObjectCommand(params.send);
   s3.send(command)
     .then((data) => {
-      console.log('s3 command successful', data);
+      // console.log('s3 command successful', data);
     })
     .catch((err) => {
       console.error('error on s3 send command\n', err);
     })
   
-    const urlCommand = new GetObjectCommand(params.url)
+  const urlCommand = new GetObjectCommand(params.url)
   const url = await getSignedUrl(s3, urlCommand, { expiresIn: ( 4 * 24 * 60 * 60) })
   
    db.images.create({

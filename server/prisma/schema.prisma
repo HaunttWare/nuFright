@@ -214,7 +214,7 @@ model Playlist {
   description String
   url         String?
   userId      String
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Song {
