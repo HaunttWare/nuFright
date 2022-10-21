@@ -196,14 +196,15 @@ model Comment {
 }
 
 model Message {
-  id          String   @id @default(cuid())
-  chatId      String
-  senderId    String
-  createdAt   DateTime @default(now())
-  content     String
-  Chat        Chat     @relation(fields: [chatId], references: [id])
-  sender      User     @relation("sender", fields: [senderId], references: [id])
-  User_readBy User[]   @relation("readBy")
+  id                                 String   @id @default(cuid())
+  chatId                             String
+  senderId                           String
+  createdAt                          DateTime @default(now())
+  content                            String
+  Chat                               Chat     @relation(fields: [chatId], references: [id])
+  sender                             User     @relation("sender", fields: [senderId], references: [id])
+  Chat_Chat_latestMessageIdToMessage Chat?    @relation("Chat_latestMessageIdToMessage")
+  User_readBy                        User[]   @relation("readBy")
 }
 
 model Playlist {
@@ -226,13 +227,15 @@ model Song {
 }
 
 model Chat {
-  id                           String    @id
-  chatName                     String
-  isGroupChat                  Boolean   @default(false)
-  groupAdminId                 String?   @unique
-  createdAt                    DateTime  @default(now())
-  updatedAt                    DateTime
-  User_Chat_groupAdminIdToUser User?     @relation("Chat_groupAdminIdToUser", fields: [groupAdminId], references: [id])
-  Message                      Message[]
-  User_ChatToUser              User[]
+  id                                    String    @id
+  chatName                              String
+  isGroupChat                           Boolean   @default(false)
+  groupAdminId                          String?   @unique
+  createdAt                             DateTime  @default(now())
+  updatedAt                             DateTime
+  latestMessageId                       String?   @unique
+  User_Chat_groupAdminIdToUser          User?     @relation("Chat_groupAdminIdToUser", fields: [groupAdminId], references: [id])
+  Message_Chat_latestMessageIdToMessage Message?  @relation("Chat_latestMessageIdToMessage", fields: [latestMessageId], references: [id])
+  Message                               Message[]
+  User_ChatToUser                       User[]
 }

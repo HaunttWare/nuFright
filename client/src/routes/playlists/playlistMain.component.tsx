@@ -20,6 +20,7 @@ const PlayListMain = () => {
   const [gotPlaylist, setGotPlaylist] = useState(false);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
     setCurrentSearch(e.target.value);
   };
   const handleSubmit = async () => {
@@ -28,13 +29,14 @@ const PlayListMain = () => {
         `/api/playlists/search/${currentSearch}`
       );
       setVideos(data);
+      setCurrentSearch('');
     } catch (err) {
       console.error(err);
     }
   };
 
   const handleSaveToPlaylist = async (video: Video) => {
-    const { data } = await axios.post("/api/playlists/add", {
+    const { data } = await axios.post(`/api/playlists/add/`, {
       video,
       userId: currentUser.id,
     });
@@ -56,6 +58,7 @@ const PlayListMain = () => {
     } else {
       axios.get(`/api/playlists/get/${currentUser.id}`)
       .then((playListData: any) => {
+       
         console.log(playListData);
         setPlaylist(playListData.data);
         setGotPlaylist(true);

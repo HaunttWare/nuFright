@@ -4,7 +4,7 @@ import { addToPlaylist, getVideos, getUserPlaylist } from './playlists.controlle
 const PlaylistRouter = express.Router();
 
 PlaylistRouter.get('/search/:query', getVideos);
-PlaylistRouter.post('/add', addToPlaylist);
+PlaylistRouter.post('/add/', addToPlaylist);
 PlaylistRouter.get('/get/:userId', getUserPlaylist);
 
 export default PlaylistRouter;
