@@ -23,7 +23,6 @@ const [allBlobs, setAllBlobs] = useState<Song[] | []>([]);
 const [areBlobsThere, setAreBlobsThere] = useState(false);
 const currentUser = useSelector(selectCurrentUser);
 
-
 const getBlobs = () => {
   axios.get('/api/songs/getsongs') 
     .then(({ data }) => {
@@ -72,13 +71,11 @@ const getBlobs = () => {
 
       
   };
+  
   const selectBlob = (song: Song) => {
     setCurrentSongURL(song.fileURL);
   }
-  const whichBlobIsSelected = () => {
-    // check current blob that has been set from selection then  return it's url;
-    
-  }
+
  useEffect(() => {
       getBlobs()
         console.log('allblobs→', allBlobs);
