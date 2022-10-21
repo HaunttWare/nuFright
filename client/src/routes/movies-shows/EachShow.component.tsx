@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { ShowData } from "../../store/shows/shows.action";
 import Comments from '../../components/comments/comments';
-
+import Rating from '../../components/boo-scale/rating.component';
 
 type ShowProp = {
   show: ShowData
@@ -81,6 +81,7 @@ const EachShow = ({ show }: ShowProp) => {
           <button className="btn btn-secondary" onClick={handleSave}>
             {isSaved ? "Unsave" : "Save"}
           </button>
+          <Rating id={show.id} type={'cinema'} />
           <Comments category={show} type={'cinema'} />
         </div>
       </div>

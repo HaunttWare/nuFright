@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { MoviesData } from "../../store/movies/movies.action";
 import Comments from '../../components/comments/comments';
+import Rating from '../../components/boo-scale/rating.component';
 
 type MovieProp = {
   movie: MoviesData;
@@ -89,6 +90,7 @@ const EachMovie = ({ movie }: MovieProp) => {
           <button className="btn btn-secondary" onClick={handleSave}>
             {isSaved ? "Unsave" : "Save"}
           </button>
+          <Rating id={movie.id} type={'cinema'} />
           <Comments category={movie} type={'cinema'} />
         </div>
       </div>

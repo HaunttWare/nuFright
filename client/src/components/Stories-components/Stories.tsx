@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import Rating from '../../components/boo-scale/rating.component';
 //subcomponents
 import Story from './Story';
 import StoryDisplay from './StoryDisplay';
@@ -46,7 +47,7 @@ const StoriesPage = () => {
             {view === 'storyList' && <button onClick={() => viewHandler('write', null)} style={{minWidth: 110, maxWidth: 200, background: 'black', color: 'lime', borderRadius: '45%'}}>Write a Story</button>}
             {view === 'storyList' && !allStories.length && <div>Loading...</div>}
             <>
-            {view === 'storyList' && allStories.map(((story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String, description?:String}, index:any) => {
+            {view === 'storyList' && allStories.map(((story:{authorId:String, createdAt:String, id:string, images:any, title:String, story:String, description?:String}, index:any) => {
                 return <div key={index}>
                         <Story test={viewHandler} story={story} key={index} />
                         <br style={{margin: 5}}></br>
@@ -56,7 +57,8 @@ const StoriesPage = () => {
             {view === 'story' && 
             <>
             <StoryDisplay story={selectedStory} backHandler={viewHandler}/>
-            <Comments category={selectedStory} type={'stories'} />
+                <Comments category={selectedStory} type={'stories'} />
+                <Rating id={selectedStory.id} type={'stories'} />
             </>
             }
             {view === 'write' && <WriteStory backHandler={viewHandler}/>}
