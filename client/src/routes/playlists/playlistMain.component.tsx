@@ -73,7 +73,8 @@ const PlayListMain = () => {
             onChange={handleSearchChange}
             placeholder="type for songs...."
             />
-          <button onClick={handleSubmit}>BOO!</button>
+          {/* <button onClick={handleSubmit}>BOO!</button> */}
+          <button className="btn aqua-gradient btn-rounded btn-sm my-0" type="submit" onClick={handleSubmit}>BOO!</button>
 
           {videos.map((video: Video) => {
             return (
