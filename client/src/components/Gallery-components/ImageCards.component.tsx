@@ -5,10 +5,10 @@ import ImageCardEntry from './ImageCardEntry.component';
 const ImageCards = ({ allImages }: galleryProps) => {
   return (
     <div className="
-      d-inline-flex
+      d-flex
       flex-row
       flex-wrap
-      justify-content-start
+      justify-content-between
       row-cols-3
       align-items-center"
     >
