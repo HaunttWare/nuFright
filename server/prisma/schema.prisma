@@ -8,27 +8,26 @@ datasource db {
 }
 
 model User {
-  id                           String     @id @default(cuid())
-  name                         String
-  email                        String     @unique
-  createdAt                    DateTime   @default(now())
-  googleId                     String     @unique
-  photo                        String
-  badges                       Badges[]
-  ratings                      BooScale[]
-  Chat_Chat_groupAdminIdToUser Chat?      @relation("Chat_groupAdminIdToUser")
-  Comment                      Comment[]
-  followedBy                   Follows[]  @relation("follower")
-  following                    Follows[]  @relation("following")
-  images                       Images[]
-  liked                        Likes[]
-  sentMessages                 Message[]  @relation("sender")
-  playlist                     Playlist[]
-  savedlist                    Saved[]
-  songs                        Song[]
-  stories                      Stories[]
-  Chat_ChatToUser              Chat[]
-  Message_readBy               Message[]  @relation("readBy")
+  id               String         @id @default(cuid())
+  name             String
+  email            String         @unique
+  createdAt        DateTime       @default(now())
+  googleId         String         @unique
+  photo            String
+  badges           Badges[]
+  ratings          BooScale[]
+  Comment          Comment[]
+  followedBy       Follows[]      @relation("follower")
+  following        Follows[]      @relation("following")
+  images           Images[]
+  liked            Likes[]
+  receivedMessages Message[]      @relation("receiver")
+  sentMessages     Message[]      @relation("sender")
+  playlist         Playlist[]
+  savedlist        Saved[]
+  songs            Song[]
+  stories          Stories[]
+  conversations    Conversation[]
 }
 
 model Cinema {
@@ -64,8 +63,8 @@ model Book {
 model Stories {
   id          String     @id @default(cuid())
   authorId    String
-  title       String     @db.VarChar(300)
-  story       String     @db.VarChar(10000)
+  title       String
+  story       String     @unique
   images      String
   createdAt   DateTime   @default(now())
   description String?
@@ -195,15 +194,23 @@ model Comment {
   children  Comment[] @relation("ParentChild")
 }
 
+model Conversation {
+  createdAt DateTime  @default(now())
+  id        String    @id @default(cuid())
+  messages  Message[]
+  users     User[]
+}
+
 model Message {
-  id          String   @id @default(cuid())
-  chatId      String
-  senderId    String
-  createdAt   DateTime @default(now())
-  content     String
-  Chat        Chat     @relation(fields: [chatId], references: [id])
-  sender      User     @relation("sender", fields: [senderId], references: [id])
-  User_readBy User[]   @relation("readBy")
+  id             String       @id @default(cuid())
+  conversationId String
+  senderId       String
+  createdAt      DateTime     @default(now())
+  message        String
+  receiverId     String?
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  receiver       User?        @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  sender         User         @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
 }
 
 model Playlist {
@@ -219,20 +226,8 @@ model Playlist {
 
 model Song {
   id       String @id
+  fileData Bytes
   fileName String
   userId   String
-  fileURL  String
   user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Chat {
-  id                           String    @id
-  chatName                     String
-  isGroupChat                  Boolean   @default(false)
-  groupAdminId                 String?   @unique
-  createdAt                    DateTime  @default(now())
-  updatedAt                    DateTime
-  User_Chat_groupAdminIdToUser User?     @relation("Chat_groupAdminIdToUser", fields: [groupAdminId], references: [id])
-  Message                      Message[]
-  User_ChatToUser              User[]
 }

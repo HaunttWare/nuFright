@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecorderPermission } from "./RecordRTC";
 import { invokeSaveAsDialog } from "recordrtc";
 import RecorderTimer from "./RecorderTimer";
@@ -8,58 +8,102 @@ import axios from 'axios'
 import { setCurrentUser } from "../../store/user/user.action";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import { blob } from "stream/consumers";
 
+
+type Song = {
+  fileName: string,
+  fileURL: string,
+  id: string,
+  userId: string
+}
 export const AudioRecorder = () => {
-const [currentBlob, setCurrentBlob] = useState({});
-const [allBlobs, setAllBlobs] = useState([]);
+const [currentSongURL, setCurrentSongURL] = useState('');
+const [allBlobs, setAllBlobs] = useState<Song[] | []>([]);
+const [areBlobsThere, setAreBlobsThere] = useState(false);
 const currentUser = useSelector(selectCurrentUser);
 
-
+const getBlobs = () => {
+  axios.get('/api/songs/getsongs') 
+    .then(({ data }) => {
+      setAllBlobs(data);
+      setAreBlobsThere(true);
+      console.log('data →', allBlobs);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+ 
   const recorder = useRecorderPermission("audio");
   const startRecording = async () => {
     recorder.startRecording();
   };
+  
   const stopRecording = async () => {
     await recorder.stopRecording();
     let blob = await recorder.getBlob();
-    setCurrentBlob(blob);
-    console.log(currentBlob);
-    let randomName = prompt('name this sound')
-    invokeSaveAsDialog(blob, `${randomName}.webm`);
-  };
+    console.log('blob', blob);
+    //setCurrentBlob(blob);
+    let randomName = prompt('name this sound');
+    let savedFile = new File([blob], `${randomName}.webm`, { type: 'audio/webm' });
 
-  const saveBlobsToDb = () => {
-    axios.post('/api/blobs', {
+    console.log('file', savedFile);
+
+    invokeSaveAsDialog(blob, `${randomName}.webm`);
+
+
+    const savedBlob = {
       userId: currentUser.id,
-      songs: allBlobs
-    })
-    .then(() => {
+      song: savedFile,
+      name: `${randomName}.webm`,
+    }
+
+
+    axios.post('/api/songs/savesong', savedBlob, { headers: { "Content-Type": 'multipart/form-data' } })
+      .then((data) => {
+      console.log('post data', data);
+      getBlobs();
+      })
+      .catch((err) => {
+        console.error('error inside songsave post request in frontend', err)
+      });
+
       
-    })
-    .catch((err) => {
-      console.error(err)
-    }) 
+  };
+  
+  const selectBlob = (song: Song) => {
+    setCurrentSongURL(song.fileURL);
   }
+
+ useEffect(() => {
+      getBlobs()
+        console.log('allblobs→', allBlobs);
+ }, [areBlobsThere])
+
+
   return (
     <div>
       <Dropdown>
       <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Dropdown Button
+        Pick a song to play
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        {allBlobs.map((song) => {
+          return (
+            <Dropdown.Item onClick={() => selectBlob(song)} key={song.id}>{song.fileName.slice(0, song.fileName.indexOf('.'))}</Dropdown.Item>
+          )
+        })}
       </Dropdown.Menu>
     </Dropdown>
             <ReactAudioPlayer
-              src=""
+              src={currentSongURL}
               autoPlay
               controls
             /> <br></br>
-      <button onClick={startRecording}> Start recording</button>
-      <button onClick={stopRecording}> Stop recording</button>
+      <button onClick={startRecording} > Start recording</button>
+      <button onClick={stopRecording} > Stop recording</button>
     </div>
   );
 };

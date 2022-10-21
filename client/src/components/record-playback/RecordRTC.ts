@@ -14,8 +14,10 @@ export const useRecorderPermission = (
     });
     let recorder = new RecordRTCPromisesHandler(stream, {
       type: recordingType,
+      mimeType:'audio/webm',
     });
     setRecorder(recorder);
   };
+  console.log('recorder', recorder);
   return recorder;
 };
