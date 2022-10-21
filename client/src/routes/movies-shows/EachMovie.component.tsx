@@ -66,7 +66,7 @@ const EachMovie = ({ movie }: MovieProp) => {
 
   return (
     <div className="col-md-3 col-sm-6">
-      <div className="card">
+      <div className="card" >
         <img src={movie.images} className="card-img-top" alt="..." />
         <div className="card-body">
           <h5 className="card-title">{movie.title}</h5>

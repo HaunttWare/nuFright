@@ -1,18 +1,19 @@
 import express from "express";
 
-import authRouter from "./auth/auth.router";
-import userRouter from "./user/user.router";
-import imageRouter from "./images/images.router";
-import MovieRouter from "./movies/movies.router";
-import storyRouter from "./stories/stories.router";
-import booksRouter from "./books/books.router";
+import authRouter from "./auth/auth.routes";
+import userRouter from "./user/user.routes";
+import imageRouter from "./images/images.routes";
+import MovieRouter from "./movies/movies.routes";
+import storyRouter from "./stories/stories.routes";
+import booksRouter from "./books/books.routes";
 import ratingRouter from "./ratings/rating.router";
-import likesRouter  from "./likes/likes.router";
-import badgeRouter from "./badges/badge.router";
-import showsRouter from "./shows/shows.router";
-import conversationRouter from "./conversation/conversation.router";
-import messageRouter from "./message/message.router";
+import likesRouter  from "./likes/likes.routes";
+import badgeRouter from "./badges/badge.routes";
+import showsRouter from "./shows/shows.routes";
+// import conversationRouter from "./conversation/conversation.routes";
+// import messageRouter from "./message/message.routes";
 import PlaylistRouter from "./playlists/playlists.routes";
+import SongsRouter from "./songs/songs.routes";
 
 const rootRouter = express.Router();
 
@@ -29,9 +30,10 @@ rootRouter.use('/likes', likesRouter);
 rootRouter.use('/badges', badgeRouter);
 
 
-rootRouter.use("/conversations", conversationRouter);
-rootRouter.use("/messages", messageRouter);
+// rootRouter.use("/conversations", conversationRouter);
+// rootRouter.use("/messages", messageRouter);
 
 rootRouter.use("/playlists", PlaylistRouter);
+rootRouter.use('/songs', SongsRouter)
 
 export default rootRouter;
