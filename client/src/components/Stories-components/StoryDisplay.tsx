@@ -16,6 +16,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
     const [sameUser, setSameUser] = useState(currentUser ? currentUser.name === props.story.author.name : false);
     const [editClicked, setEditClicked] = useState(false);
     const [isLiked, setIsLiked] = useState(props.story.likedBy.some((like:any) => currentUser ? like.userId === currentUser.id : false));
+    const [numLikes, setNumLikes] = useState(props.story.likedBy.length);
 
     //edit related
     const editButtonHandler = () => {
@@ -53,6 +54,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
             axios.post('/api/likes/stories', {userId: currentUser.id, horrorId: props.story.id, isLiked: true})
             .then((result) => {
                 setIsLiked(true);
+                setNumLikes(numLikes + 1);
             })
             .catch((err:Error) => {
                 console.error(err);
@@ -63,6 +65,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
             axios.delete(`/api/likes/${foundLike[0].id}`)
             .then(result => {
                 setIsLiked(false);
+                setNumLikes(numLikes - 1);
             })
             .catch((err:Error) => {
                 console.error(err);
@@ -80,6 +83,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
                 <h5 style={{display: 'flex', justifyContent: 'center'}}><b><u>{title}</u></b></h5>
                 <div className='col-6'>by: {username}</div>
                 <div className='col-6' style={{display: 'flex', justifyContent: 'right'}}>published: {props.story.createdAt.slice(0, props.story.createdAt.indexOf('T'))}</div>
+                <div>{numLikes} Like{numLikes > 1 || numLikes === 0 ? 's' : ''}</div>
                 <Voice text={story.toString()}></Voice>
                 <img src={HauntedHouse} style={{maxWidth: 450, maxHeight: 450}}></img>
                 <div className="row" style={{display: 'flex', justifyContent: 'left'}}>{story.split('\n').map((paragraph:string, index:number) => { return <p className="col-12" key={index}>{paragraph}</p> })}</div>
