@@ -5,7 +5,7 @@ import { selectCurrentUser } from "../../store/user/user.selector";
 //import text-to-speech component
 import Voice from '../TextToSpeech-components/Voice.component';
 
-const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, title:String, story:String, description?: String, author:{name:string},}, backHandler:Function}) => {
+const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, title:String, story:String, description?: String, author:{name:string}, likedBy:any}, backHandler:Function}) => {
     const currentUser = useSelector(selectCurrentUser);
     const HauntedHouse = require('../../../../assets/haunted-house.jpg').default;
     const [username, setUsername] = useState(props.story.author.name);
@@ -15,6 +15,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
     const [story, setStory] = useState(props.story.story);
     const [sameUser, setSameUser] = useState(currentUser.name === props.story.author.name);
     const [editClicked, setEditClicked] = useState(false);
+    console.log(props.story.likedBy);
 
     //edit related
     const editButtonHandler = () => {
@@ -46,6 +47,17 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
         setDescription(props.story.description || '');
     }
 
+    //like button handler
+    const likeButtonHandler = () => {
+        axios.post('/api/likes/stories', {userId: currentUser.id, horrorId: props.story.id, isLiked: true})
+        .then((result) => {
+            console.log('story liked!');
+        })
+        .catch((err:Error) => {
+            console.log(err);
+        })
+    }
+
     return (
         <div className='row' style={{background: 'rgb(220, 53, 69)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <div className="text-left" style={{display: 'inline-block', width: isEditing || !sameUser ? '100%' : '50%'}}>
@@ -59,7 +71,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
                 <Voice text={story.toString()}></Voice>
                 <img src={HauntedHouse} style={{maxWidth: 450, maxHeight: 450}}></img>
                 <div className="row" style={{display: 'flex', justifyContent: 'left'}}>{story.split('\n').map((paragraph:string, index:number) => { return <p className="col-12" key={index}>{paragraph}</p> })}</div>
-                <button onClick={() => console.log('Not Yet Implemented')} style={{maxWidth: 150, borderRadius: 50, background: 'black', color: 'lime'}}>Favorite</button>
+                <button onClick={likeButtonHandler} style={{maxWidth: 150, borderRadius: 50, background: 'black', color: 'lime'}}>Like</button>
             </>}
             {isEditing && <>
                 <h5><b><u>{title}</u></b></h5>
