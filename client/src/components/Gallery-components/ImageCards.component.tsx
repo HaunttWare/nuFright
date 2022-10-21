@@ -8,7 +8,7 @@ const ImageCards = ({ allImages }: galleryProps) => {
       d-flex
       flex-row
       flex-wrap
-      justify-content-between
+      justify-content-start
       row-cols-3
       align-items-center"
     >
