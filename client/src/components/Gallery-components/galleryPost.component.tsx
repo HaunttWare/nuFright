@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectBadgeList } from "../../store/badges/badges.selector";
 import { Badges } from ".prisma/client";
+import { badgeToast } from "../alerts/badgeAlerts.component";
 
 const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const uploadImgBadge = require('../../../../assets/img-badge.png').default;
@@ -12,7 +13,6 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
   const [fileKey, setFileKey] = useState('key');
   const currentUser = useSelector(selectCurrentUser);
   const userBadges = useSelector(selectBadgeList);
-
   const resetKey = () => { let newKey = Math.random().toString(36); setFileKey(newKey); };
 
   const submit = async (e: React.SyntheticEvent) => {
@@ -24,8 +24,7 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
         userId: currentUser.id
       };
       await axios.post("/api/images/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } })
-      let hasUploadBadge = userBadges.some((badge: Badges) => { return badge.id === `${currentUser.id}=Shutter` })
-      if (!hasUploadBadge) {
+      if (userBadges.some((badge: Badges) => { return badge.id === `${currentUser.id}=Shutter` })) {
         axios.post('api/badges', {
           userId: currentUser.id,
           badgeName: "Shutter",
@@ -38,6 +37,14 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
           .catch((err) => {
             console.error('error on creating badge client-side\n', err);
           })
+        badgeToast.fire({
+          titleText: "Shutter",
+          text: "Upload an image to the gallery",
+          imageUrl: uploadImgBadge,
+          imageAlt: "",
+          imageHeight: "5rem",
+          imageWidth: "5.6rem"
+        });
       }
 
       setCaption("");
