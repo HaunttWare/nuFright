@@ -8,26 +8,27 @@ datasource db {
 }
 
 model User {
-  id               String         @id @default(cuid())
-  name             String
-  email            String         @unique
-  createdAt        DateTime       @default(now())
-  googleId         String         @unique
-  photo            String
-  badges           Badges[]
-  ratings          BooScale[]
-  Comment          Comment[]
-  followedBy       Follows[]      @relation("follower")
-  following        Follows[]      @relation("following")
-  images           Images[]
-  liked            Likes[]
-  receivedMessages Message[]      @relation("receiver")
-  sentMessages     Message[]      @relation("sender")
-  playlist         Playlist[]
-  savedlist        Saved[]
-  songs            Song[]
-  stories          Stories[]
-  conversations    Conversation[]
+  id          String     @id @default(cuid())
+  name        String
+  email       String     @unique
+  createdAt   DateTime   @default(now())
+  googleId    String     @unique
+  photo       String
+  badges      Badges[]
+  ratings     BooScale[]
+  isAdmin     Chat?      @relation("groupAdmin")
+  Comment     Comment[]
+  followedBy  Follows[]  @relation("follower")
+  following   Follows[]  @relation("following")
+  images      Images[]
+  liked       Likes[]
+  messages    Message[]
+  playlist    Playlist[]
+  savedlist   Saved[]
+  songs       Song[]
+  stories     Stories[]
+  chats       Chat[]
+  readMessage Message[]  @relation("readBy")
 }
 
 model Cinema {
@@ -63,8 +64,8 @@ model Book {
 model Stories {
   id          String     @id @default(cuid())
   authorId    String
-  title       String
-  story       String     @unique
+  title       String     @db.VarChar(300)
+  story       String     @db.VarChar(10000)
   images      String
   createdAt   DateTime   @default(now())
   description String?
@@ -194,23 +195,30 @@ model Comment {
   children  Comment[] @relation("ParentChild")
 }
 
-model Conversation {
-  createdAt DateTime  @default(now())
-  id        String    @id @default(cuid())
-  messages  Message[]
-  users     User[]
+model Chat {
+  id              String    @id @default(cuid())
+  chatName        String
+  isGroupChat     Boolean   @default(false)
+  users           User[]
+  messages        Message[]
+  latestMessageId String?   @unique
+  latestMessage   Message?  @relation("latestMessage", fields: [latestMessageId], references: [id])
+  groupAdmin      User?     @relation("groupAdmin", fields: [groupAdminId], references: [id])
+  groupAdminId    String?   @unique
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
 
 model Message {
-  id             String       @id @default(cuid())
-  conversationId String
-  senderId       String
-  createdAt      DateTime     @default(now())
-  message        String
-  receiverId     String?
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  receiver       User?        @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
-  sender         User         @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+  id            String   @id @default(cuid())
+  chatId        String
+  senderId      String
+  createdAt     DateTime @default(now())
+  content       String
+  latestMessage Chat?    @relation("latestMessage")
+  chat          Chat     @relation(fields: [chatId], references: [id])
+  sender        User     @relation(fields: [senderId], references: [id])
+  readBy        User[]   @relation("readBy")
 }
 
 model Playlist {
@@ -226,8 +234,8 @@ model Playlist {
 
 model Song {
   id       String @id
-  fileData Bytes
   fileName String
   userId   String
+  fileURL  String
   user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
