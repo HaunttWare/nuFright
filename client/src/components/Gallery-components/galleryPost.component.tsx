@@ -5,6 +5,7 @@ import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectBadgeList } from "../../store/badges/badges.selector";
 import { Badges } from ".prisma/client";
 import { badgeToast } from "../alerts/badgeAlerts.component";
+import Swal from 'sweetalert2';
 
 const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const uploadImgBadge = require('../../../../assets/img-badge.png').default;
@@ -55,12 +56,55 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
   }
 
   return (
+    <div>
     <form onSubmit={(e) => { submit(e) }}>
       <input onChange={e => setFile(e.target.files![0])} type="file" accept="image/*" key={fileKey}></input>
       <input value={caption} onChange={(event) => setCaption(event.target.value)} type="text" placeholder='Caption'></input>
       <button type="submit">Submit</button>
-    </form>
+      </form>
+    </div>
   )
 };
 
 export default ImagePost;
+
+
+
+// const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetStateAction<boolean>> }) => {
+//   const uploadImgBadge = require('../../../../assets/img-badge.png').default;
+//   const currentUser = useSelector(selectCurrentUser);
+//   const userBadges = useSelector(selectBadgeList);
+
+//   const uploadImage = async () => {
+//     const { value: file } = await Swal.fire({
+//       title: 'Select image',
+//       input: 'file',
+//       inputAttributes: {
+//         'accept': 'image/*',
+//         'aria-label': 'Upload your profile picture'
+//       }
+//     })
+    
+//     if (file) {
+//       const reader = new FileReader()
+//       reader.onload = (e) => {
+//         Swal.fire({
+//           title: 'Your uploaded picture',
+//           imageUrl: e.target.result,
+//           imageAlt: 'The uploaded picture'
+//         })
+//       }
+//       reader.readAsDataURL(file)
+//     }
+//   }
+
+//   return (
+//     <div>
+//     <button className="btn btn-danger" onClick={() => {console.log('hiya')}} >
+//       <i className="fa-solid fa-upload"></i>
+//       </button>
+//     </div>
+//   )
+// };
+
+// export default ImagePost;
