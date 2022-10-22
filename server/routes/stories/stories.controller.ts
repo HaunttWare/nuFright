@@ -11,6 +11,7 @@ const getAllStories = (req:Request, res:Response) => {
             id: true,
             title: true,
             story: true,
+            images: true,
             createdAt: true,
             description: true,
             author: {
@@ -86,6 +87,7 @@ const editStory = (req:Request, res:Response) => {
                     data: {
                         story: req.body.newStory,
                         description: req.body.newDescription,
+                        images: req.body.image,
                     }
                 })
                 .then((result:any) => {
