@@ -6,6 +6,8 @@ import { selectBadgeList } from "../../store/badges/badges.selector";
 import { Badges } from ".prisma/client";
 import { badgeToast } from "../alerts/badgeAlerts.component";
 import Swal from 'sweetalert2';
+import { useDispatch } from "react-redux";
+import { setBadgeList } from "../../store/badges/badges.action";
 
 // const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetStateAction<boolean>> }) => {
 //   const uploadImgBadge = require('../../../../assets/img-badge.png').default;
@@ -75,6 +77,7 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
   const uploadImgBadge = require('../../../../assets/img-badge.png').default;
   const currentUser = useSelector(selectCurrentUser);
   const userBadges = useSelector(selectBadgeList);
+  const dispatch = useDispatch();
 
   const uploadImage = async () => {
     const { value: file } = await Swal.fire({
@@ -107,7 +110,6 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
         .then(() => {
           const reader = new FileReader()
           reader.onload = (e) => {
-            console.log('onload argument', e.target?.result);
             Swal.fire({
               title: 'Your uploaded picture',
               imageUrl: (e.target?.result as string || ''),
@@ -120,7 +122,35 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
           }
           reader.readAsDataURL(file)
           setGotImages(false);
-      })
+        })
+        .then( () => {
+          if (!userBadges.some((badge: Badges) => { return badge.id === `${currentUser.id}=Shutter` })) {
+            axios.post('api/badges', {
+              userId: currentUser.id,
+              badgeName: "Shutter",
+              description: "upload an image to the gallery",
+              badge: "Shutter"
+            })
+              .then(({data}) => {
+                console.log('created badge from client', data);
+                let updBadge = [...userBadges, data];
+                dispatch(setBadgeList(updBadge));
+              })
+              .catch((err) => {
+                console.error('error on creating badge client-side\n', err);
+              })
+            setTimeout(() => {
+              badgeToast.fire({
+                titleText: "Shutter",
+                text: "Upload an image to the gallery",
+                imageUrl: uploadImgBadge,
+                imageAlt: "",
+                imageHeight: "5rem",
+                imageWidth: "5.6rem"
+              });
+            }, 2500)
+          }
+        })
         .catch(err => {
           console.error('error on uploading image from client', err);
           Swal.fire({
@@ -131,7 +161,7 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
             color: '#fff',
             showCancelButton: false
           })
-      })
+        })
 
     } else {
       Swal.fire({

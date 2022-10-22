@@ -12,11 +12,17 @@ const postBadge = (req: Request, res: Response) => {
       description,
       badge,
       userId,
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      badge: true
     }
   })
     .then((data) => {
       // console.log('badge created', data);
-      res.sendStatus(201);
+      res.status(201).send(data);
     })
     .catch((err) => {
       console.error('error posting badge\n', err);
