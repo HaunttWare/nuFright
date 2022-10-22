@@ -19,33 +19,60 @@ const Shows = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const getShows = () => {
-    axios.get('/api/shows')
-      .then(({ data }) => {
-          dispatch(setCurrentShows(data));
-      })
-  };
+  // const getShows = () => {
+  //   axios.get('/api/shows')
+  //     .then(({ data }) => {
+  //         dispatch(setCurrentShows(data));
+  //     })
+  // };
 
   useEffect(() => {
-    getShows();
+    // getShows();
     setCurrentShowsLoaded(true);
   }, []);
 
 return (
-  <div className="cinema-container">
-    <h1>Shows</h1>
-    { PagesOfShows?.map((show: ShowData, i: number) => {
-      return (
-        <EachShow key={`${show} @ ${i}`} show={show} />
-      )
-    }) }
-    <br></br>
-    <Pagination 
-      booksPerPage={showsPerPage}
-      totalBooks={currentShows.length}
-      paginate={paginate}
-    />
-  </div>
+  <>
+  {currentShows.length ? (currentShows.map((show: ShowData) => (
+      <div className='movie_card' id='bright'>
+        <div className='info_section'>
+          <div className='movie_header'>
+            <img
+              className='locandina'
+              src={show.images}
+            />
+            <h1>{show.title}</h1>
+            <h4>add director and year here</h4>
+            <span className='minutes'>add show length here</span>
+            <p className='type'>{show.genres}</p>
+          </div>
+          <div className='movie_desc'>
+            <p className='text'>{show.description}</p>
+          </div>
+          <div className='movie_social'>
+            <ul>
+              <li>
+                <i className='fa-solid fa-share-nodes'></i>
+              </li>
+              <li>
+                <i className='fa-solid fa-heart'></i>
+              </li>
+              <li>
+                <i className='fa-solid fa-message'></i>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className='blur_back bright_back'></div>
+      </div>
+    ))) : (
+    <div className='d-flex justify-content-center'>
+      <div className='spinner-border' role='status'>
+        <span className='sr-only'>Loading...</span>
+      </div>
+    </div>
+  )}
+</>
 )
 };
 

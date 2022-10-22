@@ -37,31 +37,28 @@ const Comment = ({ comment, deleteComment }: CommentProps) => {
   const user = users.find(user => user.id === comment.userId)
 
   const handleEdit = (e:any) => {
-    console.log(e.currentTarget)
+    console.log(e.currentTarget.id)
   }
 
   return (
     <>
     <div>
       <div className='header'>
-        <span className='name'>{user?.name}</span>
-        <span className='date'>
+        <span className='row'>{user?.name}</span>
+        <span className='col'>
           {dateFormatter.format(Date.parse(comment.createdAt))}
         </span>
         <div className='message'>{comment.message}</div>
         <div className='footer'>
-        <FontAwesomeIcon 
+        {/* <FontAwesomeIcon 
         icon={faReply}
-        aria-label={reply? 'Cancel Reply' : 'Reply'}
-        onClick={() => setReply(prev => !prev)}
-       
-        />
-        <FontAwesomeIcon
+        /> */}
+        {/* <FontAwesomeIcon
         icon={faEdit}
-        values={comment.message}
+        id={comment.message}
         aria-label={edit? 'cancel edit' : 'edit'}
         onClick={(e) => handleEdit(e)}
-        />
+        /> */}
         <FontAwesomeIcon 
         icon={faTrash}
         id={comment.id}

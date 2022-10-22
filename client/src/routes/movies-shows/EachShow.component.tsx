@@ -7,7 +7,7 @@ import Comments from '../../components/comments/comments';
 
 
 type ShowProp = {
-  show: ShowData
+  show: ShowData;
 };
 const EachShow = ({ show }: ShowProp) => {
   const currentUser = useSelector(selectCurrentUser);
@@ -81,7 +81,10 @@ const EachShow = ({ show }: ShowProp) => {
           <button className="btn btn-secondary" onClick={handleSave}>
             {isSaved ? "Unsave" : "Save"}
           </button>
-          <Comments category={show} type={'cinema'} />
+          <Comments 
+          category={show} 
+          type={'cinema'} 
+          />
         </div>
       </div>
     </div>

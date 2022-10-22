@@ -89,7 +89,10 @@ const EachMovie = ({ movie }: MovieProp) => {
           <button className="btn btn-secondary" onClick={handleSave}>
             {isSaved ? "Unsave" : "Save"}
           </button>
-          <Comments category={movie} type={'cinema'} />
+          <Comments 
+          category={movie} 
+          type={'cinema'} 
+          />
         </div>
       </div>
     </div>

@@ -8,6 +8,8 @@ import StoryDisplay from './StoryDisplay';
 import WriteStory from './WriteStory';
 import Comments from '../../components/comments/comments';
 
+
+
 const StoriesPage = () => {
     const currentUser = useSelector(selectCurrentUser);
     const [view, setView] = useState('storyList');
@@ -56,7 +58,10 @@ const StoriesPage = () => {
             {view === 'story' && 
             <>
             <StoryDisplay story={selectedStory} backHandler={viewHandler}/>
-            <Comments category={selectedStory} type={'stories'} />
+            <Comments 
+            category={selectedStory} 
+            type={'stories'} 
+            />
             </>
             }
             {view === 'write' && <WriteStory backHandler={viewHandler}/>}

@@ -1,47 +1,48 @@
-import React, {useEffect} from "react";
-import CreepyCarousel from "../../components/carousel";
-import { useSelector } from "react-redux";
-import { setCurrentMovies, MoviesData } from "../../store/movies/movies.action";
-import { selectCurrentMovies } from "../../store/movies/movies.selector";
-import { useDispatch } from "react-redux";
-import axios from "axios";
-import Carousel2 from "../../components/carousel2";
-import Carousel3 from "../../components/carousel3";
+import React, { useEffect, useState } from 'react';
+import CreepyCarousel from '../../components/carousel/carousel';
+import { useSelector } from 'react-redux';
+import { setCurrentMovies, MoviesData } from '../../store/movies/movies.action';
+import { selectCurrentMovies } from '../../store/movies/movies.selector';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import './home.style.scss';
+import { setCurrentShows, ShowData } from '../../store/shows/shows.action';
+import { selectCurrentShows } from '../../store/shows/shows.selector';
+
+type TopFilms = ShowData & MoviesData
 
 const Home = () => {
-  const currentMovies = useSelector(selectCurrentMovies);
+  const movies = useSelector(selectCurrentMovies);
+  const shows = useSelector(selectCurrentShows)
   const dispatch = useDispatch();
+  const [topFilms, setTopFilms] = useState<TopFilms[]>([])
 
-  const getMovies = () => {
-    axios.get('/api/movies')
-      .then(({ data }) => {
-        data.forEach((movie: MoviesData) => {
-          if (movie.type === 'movie') {
-            dispatch(setCurrentMovies(data.slice(0, 5)));
-          }
-        })
-      })
-  };  
+  const getContents = async () => {
+    try {
+      const movieData = await axios.get('/api/movies');
+      dispatch(setCurrentMovies(movieData.data));
+      const showData = await axios.get('/api/shows');
+      dispatch(setCurrentShows(showData.data));
+      setTopFilms([...movieData.data.slice(0, 3), ...showData.data.slice(0, 3)])
+    } catch (err) {
+      console.log('error fetching film content', err);
+    }
+  };
 
   useEffect(() => {
-    getMovies();
+    getContents();
   }, []);
-
-
+ 
   return (
-  <div className="container">
-    <h1 style={{fontFamily: 'Creepster, cursive' }}>Welcome to nuFright</h1>
-    <h2 style={{fontFamily: 'Creepster, cursive' }} >The one stop shop for all of you freaks out there 😈 </h2><br></br>
-    <h3 style={{fontFamily: 'Creepster, cursive' }}>Top Shows/Movies</h3>
-    <CreepyCarousel />
-    <br></br>
-    <h3 style={{fontFamily: 'Creepster, cursive' }}>Top Haunts:</h3>
-    <Carousel2 /><br></br>
-    <h3>Favoirte tales of terror:</h3>
-    <Carousel3 /><br></br>
-  </div>
-
-  )
-  };
+    <div
+      className='vh-100 d-flex justify-content-center align-items-center'
+      style={{
+        width: '100%',
+      }}
+    >
+      <CreepyCarousel contents={topFilms} />
+    </div>
+  );
+};
 
 export default Home;
