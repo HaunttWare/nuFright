@@ -7,7 +7,7 @@ const badgeToast = mySwal.mixin({
   toast: true,
   position: 'top',
   background: '#181a1b',
-  timer: 2500,
+  timer: 5000,
   timerProgressBar: true,
   showConfirmButton: false,
   color: '#fff'
