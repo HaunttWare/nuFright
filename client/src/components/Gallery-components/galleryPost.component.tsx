@@ -80,6 +80,9 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
     const { value: file } = await Swal.fire({
       title: 'Select image',
       input: 'file',
+      color: '#fff',
+      confirmButtonColor: '#dd6b55',
+      background: '#181a1b',
       inputAttributes: {
         'accept': 'image/*',
         'aria-label': 'Upload your profile picture'
@@ -89,6 +92,9 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
       title: "Add a caption",
       input: "text",
       inputLabel: "caption here",
+      color: '#fff',
+      confirmButtonColor: '#dd6b55',
+      background: '#181a1b'
     })
 
     if (file && caption) {
@@ -105,17 +111,25 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
             Swal.fire({
               title: 'Your uploaded picture',
               imageUrl: (e.target?.result as string || ''),
-              imageAlt: 'The uploaded picture'
+              imageAlt: 'The uploaded picture',
+              background: '#181a1b',
+              color: '#fff',
+              showConfirmButton: false,
+              timer: 1500
             })
           }
           reader.readAsDataURL(file)
+          setGotImages(false);
       })
         .catch(err => {
           console.error('error on uploading image from client', err);
           Swal.fire({
             title: "Something went wrong",
             text: "try again later",
-            icon: "error"
+            icon: "error",
+            background: '#181a1b',
+            color: '#fff',
+            showCancelButton: false
           })
       })
 
@@ -123,7 +137,10 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
       Swal.fire({
         title: "Something's not right",
         text: "Did you forget your caption?",
-        icon: "error"
+        icon: "error",
+        background: '#181a1b',
+        color: '#fff',
+        showCancelButton: false
       })
     }
   }
