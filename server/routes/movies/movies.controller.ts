@@ -84,62 +84,62 @@ let genresFromMovieDb = [
   },
 ];
 
-// const getMoviesFromAPI = (req: Request, res: Response) => {
-//   let urls = [
-//     `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=1`,
-//     `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=2`,
-//     `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=3`,
-//     `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=4`,
-//   ];
-//   const apiReq = urls.map((url) => {
-//     return axios.get(url);
-//   });
+const getMoviesFromAPI = (req: Request, res: Response) => {
+  let urls = [
+    `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=1`,
+    `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=2`,
+    `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=3`,
+    `https://api.themoviedb.org/3/discover/movie?api_key=${config.MOVIEDB_API_KEY}&with_genres=27&page=4`,
+  ];
+  const apiReq = urls.map((url) => {
+    return axios.get(url);
+  });
 
-//   return Promise.all(apiReq)
-//     .then((results) => {
-//       const allMovies = results
-//         .map(({ data }) => {
-//           return data.results.flat();
-//         })
-//         .flat();
+  return Promise.all(apiReq)
+    .then((results) => {
+      const allMovies = results
+        .map(({ data }) => {
+          return data.results.flat();
+        })
+        .flat();
 
-//       const dbMovies = allMovies.map((movie) => {
-//         // helper function to find the genres by id
-//         let matchedGenres = movie.genre_ids
-//           .map((id: number) => {
-//             for (let i = 0; i < genresFromMovieDb.length; i++) {
-//               if (genresFromMovieDb[i].id === id) {
-//                 return genresFromMovieDb[i].name;
-//               }
-//             }
-//           })
-//           .join(",");
+      const dbMovies = allMovies.map((movie) => {
+        // helper function to find the genres by id
+        let matchedGenres = movie.genre_ids
+          .map((id: number) => {
+            for (let i = 0; i < genresFromMovieDb.length; i++) {
+              if (genresFromMovieDb[i].id === id) {
+                return genresFromMovieDb[i].name;
+              }
+            }
+          })
+          .join(",");
 
-//         let movieObj = {
-//           title: movie.title,
-//           description: movie.overview,
-//           genres: matchedGenres,
-//           type: "movie",
-//           images: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
-//         };
-//         return movieObj;
-//       });
-//       return Promise.all(
-//         dbMovies.map((element) => {
-//           return db.cinema.createMany({
-//             data: element,
-//           });
-//         })
-//       );
-//     })
-//     .then((data) => {
-//       res.sendStatus(200);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.sendStatus(500);
-//     });
-// };
+        let movieObj = {
+          title: movie.title,
+          description: movie.overview,
+          genres: matchedGenres,
+          type: "movie",
+          images: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
+        };
+        return movieObj;
+      });
+      return Promise.all(
+        dbMovies.map((element) => {
+          return db.cinema.createMany({
+            data: element,
+          });
+        })
+      );
+    })
+    .then((data) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
 
 const getHorrorMovies = (req: Request, res: Response) => {
   db.cinema
@@ -231,4 +231,4 @@ const saveMovie = async (req: Request, res: Response) => {
   }
 };
 
-export { getHorrorMovies, likeMovie, saveMovie };
+export { getHorrorMovies, likeMovie, saveMovie, getMoviesFromAPI };
