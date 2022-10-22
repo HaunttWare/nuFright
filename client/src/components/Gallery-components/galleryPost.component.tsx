@@ -9,69 +9,6 @@ import Swal from 'sweetalert2';
 import { useDispatch } from "react-redux";
 import { setBadgeList } from "../../store/badges/badges.action";
 
-// const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetStateAction<boolean>> }) => {
-//   const uploadImgBadge = require('../../../../assets/img-badge.png').default;
-//   const [file, setFile] = useState<File | null>(null);
-//   const [caption, setCaption] = useState("")
-//   const [fileKey, setFileKey] = useState('key');
-//   const currentUser = useSelector(selectCurrentUser);
-//   const userBadges = useSelector(selectBadgeList);
-//   const resetKey = () => { let newKey = Math.random().toString(36); setFileKey(newKey); };
-
-//   const submit = async (e: React.SyntheticEvent) => {
-//     e.preventDefault();
-//     if (file) {
-//       const data = {
-//         image: file,
-//         caption: caption,
-//         userId: currentUser.id
-//       };
-//       await axios.post("/api/images/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } })
-//       if (!userBadges.some((badge: Badges) => { return badge.id === `${currentUser.id}=Shutter` })) {
-//         console.log('hi')
-//         axios.post('api/badges', {
-//           userId: currentUser.id,
-//           badgeName: "Shutter",
-//           description: "upload an image to the gallery",
-//           badge: "Shutter"
-//         })
-//           .then((data) => {
-//             console.log('created badge from client', data);
-//           })
-//           .catch((err) => {
-//             console.error('error on creating badge client-side\n', err);
-//           })
-//         badgeToast.fire({
-//           titleText: "Shutter",
-//           text: "Upload an image to the gallery",
-//           imageUrl: uploadImgBadge,
-//           imageAlt: "",
-//           imageHeight: "5rem",
-//           imageWidth: "5.6rem"
-//         });
-//       }
-
-//       setCaption("");
-//       console.log('current badges', userBadges);
-//     }
-//     resetKey();
-//     setGotImages(false);
-//   }
-
-//   return (
-//     <div>
-//     <form onSubmit={(e) => { submit(e) }}>
-//       <input onChange={e => setFile(e.target.files![0])} type="file" accept="image/*" key={fileKey}></input>
-//       <input value={caption} onChange={(event) => setCaption(event.target.value)} type="text" placeholder='Caption'></input>
-//       <button type="submit">Submit</button>
-//       </form>
-//     </div>
-//   )
-// };
-
-// export default ImagePost;
-
-
 
 const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const uploadImgBadge = require('../../../../assets/img-badge.png').default;
