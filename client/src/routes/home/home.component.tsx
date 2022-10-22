@@ -5,7 +5,6 @@ import { setCurrentMovies, MoviesData } from '../../store/movies/movies.action';
 import { selectCurrentMovies } from '../../store/movies/movies.selector';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import './home.style.scss';
 import { setCurrentShows, ShowData } from '../../store/shows/shows.action';
 import { selectCurrentShows } from '../../store/shows/shows.selector';
 
