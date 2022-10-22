@@ -81,7 +81,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
             {(currentUser ? currentUser.name : false) === props.story.author.name && !isEditing && <div className="text-right" style={{display: 'inline-block', width: '50%'}}><button style={{minWidth: 100, background: 'black', color: 'lime', borderRadius: '45%', float: 'right'}} onClick={() => setIsEditing(!isEditing)}>edit</button></div>}
             {!isEditing && <>
                 <h5 style={{display: 'flex', justifyContent: 'center'}}><b><u>{title}</u></b></h5>
-                <div className='col-6'>by: {username}</div>
+                <div className='col-6' style={{display: 'flex', justifyContent: 'left'}}>by: {username}</div>
                 <div className='col-6' style={{display: 'flex', justifyContent: 'right'}}>published: {props.story.createdAt.slice(0, props.story.createdAt.indexOf('T'))}</div>
                 <div>{numLikes} Like{numLikes > 1 || numLikes === 0 ? 's' : ''}</div>
                 <Voice text={story.toString()}></Voice>
