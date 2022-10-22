@@ -1,3 +1,10 @@
+import axios from "axios";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setChats } from "../../store/chat/chat.action";
+import { selectChats } from "../../store/chat/chat.selector";
+import { selectCurrentUser } from "../../store/user/user.selector";
+
 import {
   Box,
   Button,
@@ -13,14 +20,9 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentUser } from "../../store/user/user.selector";
-import { ChatData, setChats } from "../../store/chat/chat.action";
 
 import { User } from "../side-drawer/side-drawer.component";
-import { selectChats } from "../../store/chat/chat.selector";
-import axios from "axios";
+
 import UserListItem from "../user-list-item/user-list-item.component";
 import UserBadgeItem from "../user-list-item/user-badge-item.component";
 
@@ -31,16 +33,16 @@ type GroupChatModalProps = {
 const GroupChatModal = ({ children }: GroupChatModalProps) => {
   const chats = useSelector(selectChats);
   const currentUser = useSelector(selectCurrentUser);
-  const dispatch = useDispatch();
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState("");
-  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<User[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
 
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const dispatch = useDispatch();
 
   const handleSearch = async (query: string) => {
     setSearch(query);
@@ -54,7 +56,6 @@ const GroupChatModal = ({ children }: GroupChatModalProps) => {
           currentUserId: currentUser.id,
         },
       });
-      console.log(data);
       setLoading(false);
       setSearchResults(data);
     } catch (error) {
@@ -87,7 +88,6 @@ const GroupChatModal = ({ children }: GroupChatModalProps) => {
         userIds: selectedUsers.map((user) => user.id),
         currentUserId: currentUser.id,
       });
-      console.log(data);
       dispatch(setChats([...chats, data]));
       onClose();
       toast({
@@ -98,14 +98,14 @@ const GroupChatModal = ({ children }: GroupChatModalProps) => {
         position: "bottom",
       });
     } catch (error) {
-        toast({
-            title: "Something went wrong",
-            description: "Failed to create the group chat",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-            position: "bottom",
-        });
+      toast({
+        title: "Something went wrong",
+        description: "Failed to create the group chat",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
     }
   };
 
@@ -133,7 +133,7 @@ const GroupChatModal = ({ children }: GroupChatModalProps) => {
   return (
     <>
       <span onClick={onOpen}>{children}</span>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader fontSize="35px" display="flex" justifyContent="center">
@@ -156,7 +156,6 @@ const GroupChatModal = ({ children }: GroupChatModalProps) => {
               />
             </FormControl>
 
-            {/* selected users */}
             <Box width="100%" display="flex" flexWrap="wrap">
               {selectedUsers.map((user) => (
                 <UserBadgeItem
@@ -167,7 +166,6 @@ const GroupChatModal = ({ children }: GroupChatModalProps) => {
               ))}
             </Box>
 
-            {/* render searched users */}
             {loading ? (
               <p>Loading...</p>
             ) : (
@@ -184,7 +182,7 @@ const GroupChatModal = ({ children }: GroupChatModalProps) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" onClick={handleSubmit}>
+            <Button colorScheme="red" onClick={handleSubmit}>
               Create Chat
             </Button>
           </ModalFooter>
