@@ -26,19 +26,27 @@ const WriteStory = (props:{backHandler: Function}) => {
 
     //publish handler
     const postHandler = () => {
+        //can't reach 3810
+        //can reach 2678, 2846, 2416
         if(title && text && currentUser) {
-            setIsLoading(true);
-            setFormFilled('Posting...');
-            axios.post('/api/story/addStory', {userId: currentUser.id, title: title, text: text, description: desc})
-            .then((result:any) => {
-                props.backHandler('storyList')
-                setIsLoading(false);
-            })
-            .catch((err:Error) => {
-                console.error(err)
-                setIsLoading(false);
-                setFormFilled('Error posting story. Please try again.');
-            });
+            if(text.length <= 10000 && desc.length <= 300) {
+                setIsLoading(true);
+                setFormFilled('Posting...');
+                axios.post('/api/story/addStory', {userId: currentUser.id, title: title, text: text, description: desc})
+                .then((result:any) => {
+                    props.backHandler('storyList')
+                    setIsLoading(false);
+                })
+                .catch((err:Error) => {
+                    console.error(err)
+                    setIsLoading(false);
+                    setFormFilled('Error posting story. Please try again.');
+                });
+            } else if(text.length > 10000) {
+                setFormFilled('Story length cannot exceed 10000 characters!');
+            } else if(desc.length > 300) {
+                setFormFilled('Description cannot exceed 300 characters!');
+            }
         } else {
             setFormFilled('Write in all fields in order to post your story!');
         }
@@ -48,9 +56,12 @@ const WriteStory = (props:{backHandler: Function}) => {
         <div id='write_story'>
             <button onClick={() => props.backHandler('storyList')} style={{background: 'black', color: 'lime', borderRadius: '45%', minWidth: 50}}>Back</button>
             <br style={{margin: 5}}></br>
-            <input placeholder='Write your title here...' onChange={titleHandler} value={title} style={{width: '100%', display: 'block', marginBottom: 5}}></input>
-            <textarea rows={3} placeholder="Write your description here..." onChange={descriptionHandler} value={desc} style={{width: '100%', display: 'block', marginBottom: 5}}></textarea>
-            <textarea rows={5} placeholder='Write your story here...' onChange={textHandler} value={text} style={{width: '100%', display: 'block', marginBottom: 5}}></textarea>
+            <input placeholder='Write your title here...' onChange={titleHandler} value={title} style={{width: '100%', display: 'block', marginBottom: 5, borderColor: title.length > 3000 ? 'red' : ''}}></input>
+            <p>{title.length > 3000 ? `You are ${title.length - 3000} characters over the limit!` : ''}</p>
+            <textarea rows={3} placeholder="Write your description here..." onChange={descriptionHandler} value={desc} style={{width: '100%', display: 'block', marginBottom: 5, borderColor: desc.length > 300 ? 'red' : ''}}></textarea>
+            <p>{desc.length > 300 ? `You are ${desc.length - 300} characters over the limit!` : ''}</p>
+            <textarea rows={5} placeholder='Write your story here...' onChange={textHandler} value={text} style={{width: '100%', display: 'block', marginBottom: 5, borderColor: text.length > 10000 ? 'red' : ''}}></textarea>
+            <p>{text.length > 10000 ? `You are ${text.length - 10000} characters over the limit!` : ''}</p>
             <p><b>{formFilled}</b></p>
             <button disabled={isLoading} onClick={postHandler} style={{background: 'black', color: 'lime', borderRadius: '45%', minWidth: 50}}>Post</button>
         </div>

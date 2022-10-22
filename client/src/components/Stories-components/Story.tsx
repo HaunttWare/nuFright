@@ -1,7 +1,7 @@
 import React from 'react';
 import { textSpanContainsPosition } from 'typescript';
 
-const Story = (props:{ test:any, story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String, description?: String}, key:any }) => {
+const Story = (props:{ test:any, story:{createdAt:String, id:String, images:any, title:String, story:String, description?: String}, key:any }) => {
     const HauntedHouse = require('../../../../assets/haunted-house.jpg').default;
 
     return (

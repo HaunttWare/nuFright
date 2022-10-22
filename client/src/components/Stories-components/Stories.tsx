@@ -13,14 +13,14 @@ const StoriesPage = () => {
     const currentUser = useSelector(selectCurrentUser);
     const [view, setView] = useState('storyList');
     const [allStories, setAllStories] = useState([]);
-    const [selectedStory, setSelected] = useState({authorId: '', createdAt: '', id: '', images: '', title: '', story: '', description: ''});
+    const [selectedStory, setSelected] = useState({createdAt: '', id: '', images: '', title: '', story: '', description: '', author:{name:''}, likedBy:[],});
     const [isLoading, setIsLoading] = useState(true);
 
     //get stories from database
     const updateStoryList = () => {
         axios.get('/api/story/allStories')
         .then(result => {
-            setAllStories(result.data.reverse());
+            setAllStories(result.data.sort((a:any, b:any) => a.createdAt < b.createdAt));
         })
         .catch((err:Error) => console.error(err));
     }
