@@ -5,7 +5,7 @@ const likesRouter = express.Router();
 
 likesRouter.post('/:type', postLike);
 likesRouter.put('/', updateLike);
-likesRouter.delete('/', deleteLike);
+likesRouter.delete('/:likeId', deleteLike);
 
 
 export default likesRouter;

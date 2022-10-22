@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import Rating from '../../components/boo-scale/rating.component';
 //subcomponents
 import Story from './Story';
 import StoryDisplay from './StoryDisplay';
@@ -14,14 +15,14 @@ const StoriesPage = () => {
     const currentUser = useSelector(selectCurrentUser);
     const [view, setView] = useState('storyList');
     const [allStories, setAllStories] = useState([]);
-    const [selectedStory, setSelected] = useState({authorId: '', createdAt: '', id: '', images: '', title: '', story: '', description: ''});
+    const [selectedStory, setSelected] = useState({createdAt: '', id: '', images: '', title: '', story: '', description: '', author:{name:''}, likedBy:[],});
     const [isLoading, setIsLoading] = useState(true);
 
     //get stories from database
     const updateStoryList = () => {
         axios.get('/api/story/allStories')
         .then(result => {
-            setAllStories(result.data.reverse());
+            setAllStories(result.data.sort((a:any, b:any) => a.createdAt < b.createdAt));
         })
         .catch((err:Error) => console.error(err));
     }
@@ -58,10 +59,8 @@ const StoriesPage = () => {
             {view === 'story' && 
             <>
             <StoryDisplay story={selectedStory} backHandler={viewHandler}/>
-            <Comments 
-            category={selectedStory} 
-            type={'stories'} 
-            />
+                <Comments category={selectedStory} type={'stories'} />
+                <Rating id={selectedStory.id} type={'stories'} />
             </>
             }
             {view === 'write' && <WriteStory backHandler={viewHandler}/>}

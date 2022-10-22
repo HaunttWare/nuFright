@@ -1,14 +1,14 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 
 
-const Rated = ({ id, score, setScore }: { id: string; score: number; setScore: React.Dispatch<React.SetStateAction<number>> } ) => {
+const Rated = ( {id, score, setScore, type}:{ id: string; score: number; setScore: React.Dispatch<React.SetStateAction<number>>; type: string; }) => {
   const currentUser = useSelector(selectCurrentUser);
 
   const handleRate = (rating: number) => {
-    axios.post('/api/ratings/images', {
+    axios.post(`/api/ratings/images${type}`, {
       userId: currentUser.id,
       horrorId: id,
       rating
