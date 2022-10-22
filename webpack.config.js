@@ -1,9 +1,9 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  devtool: 'eval-source-map',
+  devtool: 'source-map',
   entry: './client/src/index.tsx', 
   output: {
     path: path.join(__dirname, 'client/public/build'),
@@ -26,8 +26,18 @@ module.exports = {
           use: ["ts-loader"],
       },
       {
-          test: /\.(css|scss)$/,
-          use: ["style-loader", "css-loader"],
+          test: /\.(sc|sa|c)ss$/,
+          use: ["style-loader", {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          }, {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            }
+          }],
       },
       {
           test: /\.(jpg|jpeg|png|gif|mp3|svg)$/,
@@ -36,11 +46,15 @@ module.exports = {
     ],
   },
   stats: {
+    loggingDebug:['sass-loader'],
     errorDetails: true
   },
   plugins: [
     new Dotenv({
       systemvars: true,
+    }),
+    new MiniCssExtractPlugin({
+      filename:'[name].css',
     })
   ]
 };

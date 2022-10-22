@@ -7,7 +7,7 @@ import Comments from '../../components/comments/comments';
 import Rating from '../../components/boo-scale/rating.component';
 
 type ShowProp = {
-  show: ShowData
+  show: ShowData;
 };
 const EachShow = ({ show }: ShowProp) => {
   const currentUser = useSelector(selectCurrentUser);
