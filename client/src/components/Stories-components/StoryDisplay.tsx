@@ -17,14 +17,16 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
     const [editClicked, setEditClicked] = useState(false);
     const [isLiked, setIsLiked] = useState(props.story.likedBy.some((like:any) => currentUser ? like.userId === currentUser.id : false));
     const [numLikes, setNumLikes] = useState(props.story.likedBy.length);
+    const [image, setImage] = useState(props.story.images);
 
     //edit related
     const editButtonHandler = () => {
         setEditClicked(true);
-        axios.patch('/api/story/editStory', {id: props.story.id, newStory: story, newDescription: description, user: currentUser.id})
+        axios.patch('/api/story/editStory', {id: props.story.id, newStory: story, newDescription: description, user: currentUser.id, image: image})
         .then(result => {
             props.story.story = story;
             props.story.description = description;
+            props.story.images = image;
             setIsEditing(!isEditing);
             setEditClicked(false); 
         })
@@ -40,6 +42,10 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
 
     const editStoryInputHandler = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
         setStory(e.target.value);
+    }
+
+    const editImageInputHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setImage(e.target.value);
     }
 
     const backToDisplayHandler = () => {
@@ -85,7 +91,7 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
                 <div className='col-6' style={{display: 'flex', justifyContent: 'right'}}>published: {props.story.createdAt.slice(0, props.story.createdAt.indexOf('T'))}</div>
                 <div>{numLikes} Like{numLikes > 1 || numLikes === 0 ? 's' : ''}</div>
                 <Voice text={story.toString()}></Voice>
-                <img src={HauntedHouse} style={{maxWidth: 450, maxHeight: 450}}></img>
+                <img src={props.story.images ? props.story.images : HauntedHouse} style={{maxWidth: 450, maxHeight: 450}}></img>
                 <div className="row" style={{display: 'flex', justifyContent: 'left'}}>{story.split('\n').map((paragraph:string, index:number) => { return <p className="col-12" key={index}>{paragraph}</p> })}</div>
                 {currentUser && <button onClick={likeButtonHandler} style={{maxWidth: 150, borderRadius: 50, background: 'black', color: 'lime'}}>{isLiked ? 'Unlike' : 'Like'}</button>}
             </>}
@@ -95,8 +101,10 @@ const StoryDisplay = (props:{story:{createdAt:String, id:String, images:any, tit
                 <p>{description.length > 300 ? `You are ${description.length - 300} characters over the limit!` : ''}</p>
                 <textarea placeholder="story text" rows={5} value={story.toString()} onChange={editStoryInputHandler} style={{borderColor: story.length > 10000 ? 'red' : ''}}></textarea>
                 <p>{story.length > 10000 ? `You are ${story.length - 10000} characters over the limit!` : ''}</p>
+                <input placeholder='image url' value={image} onChange={editImageInputHandler} style={{marginBottom: 5}}></input>
+                {image ? <img src={image} style={{maxWidth: '100px', maxHeight: '100px'}}></img> : <div></div>}
                 <div>{editClicked ? 'saving changes...' : ''}</div>
-                <button disabled={editClicked} onClick={editButtonHandler} style={{ maxWidth: 120, borderRadius: '45%', background: 'black', color: 'lime' }}>Save Changes</button>
+                <button disabled={editClicked} onClick={editButtonHandler} style={{ maxWidth: 150, borderRadius: '45%', background: 'black', color: 'lime' }}>Save Changes</button>
             </>}
         </div>
     )
