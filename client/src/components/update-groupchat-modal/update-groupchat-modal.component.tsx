@@ -216,6 +216,7 @@ const UpdateGroupChatModal = ({ fetchMessages }: UpdateGroupChatModalProps) => {
                 <UserBadgeItem
                   key={user.id}
                   user={user}
+                  admin={selectedChat.groupAdminId}
                   handleFunc={() => handleRemoveFromGroup(user)}
                 />
               ))}
