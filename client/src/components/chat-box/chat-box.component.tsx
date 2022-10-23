@@ -1,10 +1,10 @@
-import { Box } from "@chakra-ui/react";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectFetchAgain,
-  selectSelectedChat,
-} from "../../store/chat/chat.selector";
+
+import { useSelector } from "react-redux";
+import { selectSelectedChat } from "../../store/chat/chat.selector";
+
+import { Box } from "@chakra-ui/react";
+
 import SingleChat from "../single-chat/single-chat.component";
 
 const ChatBox = () => {
