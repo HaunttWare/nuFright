@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectFetchAgain,
@@ -30,9 +31,12 @@ import {
 import { User } from "../side-drawer/side-drawer.component";
 import UserBadgeItem from "../user-list-item/user-badge-item.component";
 import UserListItem from "../user-list-item/user-list-item.component";
-import axios from "axios";
 
-const UpdateGroupChatModal = () => {
+type UpdateGroupChatModalProps = {
+  fetchMessages: () => void;
+};
+
+const UpdateGroupChatModal = ({ fetchMessages }: UpdateGroupChatModalProps) => {
   const fetchAgain = useSelector(selectFetchAgain);
   const selectedChat = useSelector(selectSelectedChat);
   const currentUser = useSelector(selectCurrentUser);
@@ -42,7 +46,6 @@ const UpdateGroupChatModal = () => {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
-
   const [renameLoading, setRenameLoading] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -94,6 +97,7 @@ const UpdateGroupChatModal = () => {
         isClosable: true,
       });
     }
+    setGroupChatName("");
   };
 
   const handleRemoveFromGroup = async (userToRemove: User) => {
@@ -102,7 +106,7 @@ const UpdateGroupChatModal = () => {
       userToRemove.id !== currentUser.id
     ) {
       toast({
-        title: "Only group admin can add users",
+        title: "Only group admin can remove users",
         status: "error",
         duration: 3000,
         position: "bottom",
@@ -120,9 +124,10 @@ const UpdateGroupChatModal = () => {
       });
 
       userToRemove.id === currentUser.id
-        ? dispatch(setSelectedChat(data))
+        ? dispatch(setSelectedChat(null))
         : dispatch(setSelectedChat(data));
       dispatch(setFetchAgain(!fetchAgain));
+      fetchMessages();
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
@@ -135,6 +140,7 @@ const UpdateGroupChatModal = () => {
         isClosable: true,
       });
     }
+    setGroupChatName("");
   };
 
   const handleRename = async () => {
@@ -148,12 +154,14 @@ const UpdateGroupChatModal = () => {
       dispatch(setSelectedChat(data));
       dispatch(setFetchAgain(!fetchAgain));
       setRenameLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       setRenameLoading(false);
       toast({
         title: "Error renaming group chat",
+        description: error.response.data.message,
         status: "error",
-        duration: 2000,
+        duration: 3000,
+        position: "bottom",
         isClosable: true,
       });
     }
@@ -172,7 +180,6 @@ const UpdateGroupChatModal = () => {
           currentUserId: currentUser.id,
         },
       });
-      console.log(data);
       setLoading(false);
       setSearchResults(data);
     } catch (error) {
@@ -203,7 +210,7 @@ const UpdateGroupChatModal = () => {
             {selectedChat.chatName}
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody display="flex" flexDirection="column" alignItems="center">
             <Box display="flex" flexWrap="wrap" width="100%" pb={3}>
               {selectedChat.users.map((user: User) => (
                 <UserBadgeItem
@@ -240,7 +247,7 @@ const UpdateGroupChatModal = () => {
             {loading ? (
               <Spinner size="lg" />
             ) : (
-              searchResults.map((user: User) => (
+              searchResults?.map((user: User) => (
                 <UserListItem
                   key={user.id}
                   user={user}
