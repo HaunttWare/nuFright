@@ -34,12 +34,10 @@ passport.use(
 );
 
 passport.serializeUser((user: any, done) => {
-  console.log("serializeUser", user);
   done(null, user.id as string);
 });
 
 passport.deserializeUser(async (id: string, done) => {
-  console.log("deserializeUser", id);
   try {
     const user = await db.user.findUnique({
       where: { id },

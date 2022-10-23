@@ -5,14 +5,10 @@ const authRouter = express.Router();
 
 authRouter.get("/login/successful", (req, res) => {
   if (req.user) {
-    //user only available in this route
-    console.log("req.user is available: ", req.user);
-
     res.json({
       success: true,
       message: "user has successfully authenticated",
       user: req.user,
-      // cookies: req.cookies,
     });
   }
 });
