@@ -16,3 +16,8 @@ export const selectFetchAgain = createSelector(
   [selectChatReducer],
   (chat) => chat.fetchAgain
 );
+
+export const selectNotification = createSelector(
+  [selectChatReducer],
+  (chat) => chat.notification
+);
