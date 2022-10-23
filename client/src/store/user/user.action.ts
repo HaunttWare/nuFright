@@ -9,5 +9,11 @@ export type UserData = {
 };
 
 export const setCurrentUser = (
-  user: UserData | null // <-- this function sets the user in the store
-) => createAction(USER_ACTIONS_TYPES.SET_CURRENT_USER, user); // <-- this function creates the action object
+  user: UserData | null 
+) => createAction(USER_ACTIONS_TYPES.SET_CURRENT_USER, user); 
+
+export const setFollowingList = (following: UserData[]) =>
+  createAction(USER_ACTIONS_TYPES.SET_FOLLOWING_LIST, following);
+
+export const setFollowerList = (followers: UserData[]) =>
+  createAction(USER_ACTIONS_TYPES.SET_FOLLOWER_LIST, followers);
