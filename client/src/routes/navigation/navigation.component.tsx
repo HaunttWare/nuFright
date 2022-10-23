@@ -76,7 +76,7 @@ const Navigation = () => {
               {currentUser ? (
                 <>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/chat">
+                    <Link className="nav-link" to="/chats">
                       Chat
                     </Link>
                   </li>
