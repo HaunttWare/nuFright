@@ -1,4 +1,10 @@
-import { ViewIcon } from "@chakra-ui/icons";
+import axios from "axios";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectCurrentUser,
+  selectFollowingList,
+} from "../../store/user/user.selector";
 import {
   IconButton,
   Image,
@@ -11,16 +17,62 @@ import {
   ModalOverlay,
   useDisclosure,
   Button,
+  useToast,
 } from "@chakra-ui/react";
-import React from "react";
+
+import { ViewIcon } from "@chakra-ui/icons";
+
+import { setFollowingList, UserData } from "../../store/user/user.action";
 
 type ProfileModalProps = {
   children?: React.ReactNode;
-  user: any;
+  user: UserData;
 };
 
 const ProfileModal = ({ user, children }: ProfileModalProps) => {
+  const currentUser = useSelector(selectCurrentUser);
+  const followingList = useSelector(selectFollowingList);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
+  const toast = useToast();
+
+  const followUser = async (userToFollow: UserData) => {
+    try {
+      const { data } = await axios.post(`/api/user/follow/${userToFollow.id}`, {
+        currentUserId: currentUser.id,
+        isFollowing: true,
+      });
+      if (data.isFollowing === true) {
+        dispatch(setFollowingList([...followingList, userToFollow]));
+        toast({
+          title: "User followed",
+          description: `You are now following ${userToFollow.name}`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+      } else {
+        dispatch(
+          setFollowingList(
+            followingList.filter(
+              (user: UserData) => user.id !== userToFollow.id
+            )
+          )
+        );
+        toast({
+          title: "User unfollowed",
+          description: `You are no longer following ${userToFollow.name}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -41,11 +93,11 @@ const ProfileModal = ({ user, children }: ProfileModalProps) => {
             {user.name}
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody 
+          <ModalBody
             display="flex"
             flexDirection="column"
             alignItems="center"
-            justifyContent="center"
+            justifyContent="space-between"
           >
             <Image
               borderRadius="full"
@@ -57,7 +109,13 @@ const ProfileModal = ({ user, children }: ProfileModalProps) => {
               Email: {user.email}
             </Text>
 
-            <Button>Follow</Button>
+            <Button onClick={() => followUser(user)}>
+              {followingList.find(
+                (followingUser: UserData) => followingUser.id === user.id
+              )
+                ? "Unfollow"
+                : "Follow"}
+            </Button>
           </ModalBody>
         </ModalContent>
       </Modal>
