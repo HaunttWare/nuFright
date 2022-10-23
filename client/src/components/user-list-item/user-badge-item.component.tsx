@@ -1,14 +1,17 @@
+import React from "react";
+
 import { CloseIcon } from "@chakra-ui/icons";
 import { Badge } from "@chakra-ui/react";
-import React from "react";
+
 import { User } from "../side-drawer/side-drawer.component";
 
 type UserBadgeItemProps = {
   user: User;
+  admin: string;
   handleFunc: () => void;
 };
 
-const UserBadgeItem = ({ user, handleFunc }: UserBadgeItemProps) => {
+const UserBadgeItem = ({ user, handleFunc, admin }: UserBadgeItemProps) => {
   return (
     <Badge
       px={2}
@@ -23,6 +26,7 @@ const UserBadgeItem = ({ user, handleFunc }: UserBadgeItemProps) => {
       onClick={handleFunc}
     >
       {user.name}
+      {admin === user.id && <span> ( Admin ) </span>}
       <CloseIcon pl={1} />
     </Badge>
   );
