@@ -22,11 +22,16 @@ export const accessChat = async (req: Request, res: Response) => {
     include: {
       users: true,
       messages: true,
+      latestMessage: {
+        include: {
+          sender: true,
+        },
+      },
     },
   });
 
   if (chat) {
-    return res.status(200).json({ chat });
+    return res.status(200).json(chat);
   } else {
     const newChat = await db.chat.create({
       data: {
@@ -39,10 +44,15 @@ export const accessChat = async (req: Request, res: Response) => {
       include: {
         users: true,
         messages: true,
+        latestMessage: {
+          include: {
+            sender: true,
+          },
+        },
       },
     });
 
-    return res.status(200).json({ chat: newChat });
+    return res.status(200).json(newChat);
   }
 };
 
@@ -61,6 +71,11 @@ export const fetchChats = async (req: Request, res: Response) => {
       include: {
         users: true,
         messages: true,
+        latestMessage: {
+          include: {
+            sender: true,
+          },
+        },
       },
     });
 
@@ -105,6 +120,11 @@ export const createGroupChat = async (req: Request, res: Response) => {
       users: true,
       groupAdmin: true,
       messages: true,
+      latestMessage: {
+        include: {
+          sender: true,
+        },
+      },
     },
   });
 
@@ -125,6 +145,11 @@ export const renameGroup = async (req: Request, res: Response) => {
       users: true,
       groupAdmin: true,
       messages: true,
+      latestMessage: {
+        include: {
+          sender: true,
+        },
+      },
     },
   });
 
@@ -153,6 +178,11 @@ export const addToGroup = async (req: Request, res: Response) => {
       users: true,
       groupAdmin: true,
       messages: true,
+      latestMessage: {
+        include: {
+          sender: true,
+        },
+      },
     },
   });
 
@@ -181,6 +211,11 @@ export const removeFromGroup = async (req: Request, res: Response) => {
       users: true,
       groupAdmin: true,
       messages: true,
+      latestMessage: {
+        include: {
+          sender: true,
+        },
+      },
     },
   });
 
