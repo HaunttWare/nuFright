@@ -1,5 +1,18 @@
 body {
+  margin: 0;
   background-color: #181a1b;
   color: #fff;
-  font-family: 'Creepster', cursive;
+  font-family: "Creepster", cursive;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #181a1b;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #181a1b;
 }
