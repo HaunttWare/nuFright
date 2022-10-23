@@ -56,7 +56,7 @@ const ScrollableChat = ({ messages }: ScrollableChatProps) => {
                   idx,
                   currentUser.id
                 ),
-                marginTop: isSameUser(messages, message, idx, currentUser.id)
+                marginTop: isSameUser(messages, message, idx)
                   ? 3
                   : 10,
               }}
