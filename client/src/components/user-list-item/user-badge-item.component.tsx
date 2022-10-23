@@ -7,7 +7,7 @@ import { User } from "../side-drawer/side-drawer.component";
 
 type UserBadgeItemProps = {
   user: User;
-  admin: string;
+  admin?: string;
   handleFunc: () => void;
 };
 
