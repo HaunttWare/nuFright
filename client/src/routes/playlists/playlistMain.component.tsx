@@ -43,13 +43,9 @@ const PlayListMain = () => {
     setPlaylist([...playlist, data]);
   };
 
-  // const goToVideoView = (id: string) => {
-  //   console.log('clickedddddddddddd')
-  //   console.log(id);
-  //   return (
-  //     <PlayView videoId={id}/>
-  //   )
-  // }
+  const handleDeletePlaylistEntry = async (video: Video) => {
+    const { data } = await axios.delete(`/api/playlists/delete/${video.videoId}`);
+  }
 
   useEffect(() => {
     
