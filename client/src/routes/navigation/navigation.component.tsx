@@ -15,9 +15,14 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className="navbar navbar-dark navbar-expand-lg bg-danger">
+      <nav 
+      className="navbar navbar-dark navbar-expand-lg"
+      style={{
+        background: 'transparent'
+      }}
+      >
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/" style={{fontFamily: 'Creepster, cursive'}}>
+          <Link className="navbar-brand" to="/home" style={{fontFamily: 'Creepster, cursive'}}>
             NuFright
           </Link>
           <button

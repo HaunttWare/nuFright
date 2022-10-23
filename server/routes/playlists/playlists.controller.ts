@@ -25,7 +25,7 @@ export const getVideos = async (req: Request, res: Response) => {
   }
 }
 export const getUserPlaylist = async (req: Request, res: Response) => {
-  const userId = req.body;
+  const {userId} = req.params;
   try {
     const playListData = await db.playlist.findMany({ where: { userId }})
     res.status(200).send(playListData);

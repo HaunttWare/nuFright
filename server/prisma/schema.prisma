@@ -78,7 +78,7 @@ model Stories {
 
 model Images {
   id      String     @id @default(cuid())
-  image   String     @unique
+  image   String    
   userId  String
   caption String
   user    User       @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -234,7 +234,7 @@ model Playlist {
 }
 
 model Song {
-  id       String @id
+  id       String @id @default(cuid())
   fileName String
   userId   String
   fileURL  String
