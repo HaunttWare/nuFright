@@ -13,14 +13,10 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
-// api/user?search=User
 export const getAllUsers = async (req: Request, res: Response) => {
   const { search, currentUserId } = req.query;
 
   try {
-    // check if search query is present and return users that match the search query
-    // be case insensitive
-    // dont return the current user
     if (search) {
       const users = await db.user.findMany({
         where: {
@@ -32,9 +28,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
         },
       });
       res.status(200).json(users);
-    }
-    // if no search query is present, return nothing
-    else {
+    } else {
       res.status(200).json([]);
     }
   } catch (error: any) {
@@ -42,29 +36,85 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
-//This was to get all online users (keep for later)
-// export const getAllUsers = async (req: Request, res: Response) => {
-//   const { userIds } = req.query as any;
-// console.log(userIds)
-//   // get users that match the userIds
-//   try {
-//     const users = await db.user.findMany({
-//       where: {
-//         id: {
-//           in: userIds,
-//         },
-//       },
-//     });
-//     res.status(200).json(users);
-//   } catch (error: any) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
+export const followUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const { currentUserId, isFollowing } = req.body;
+
+  try {
+    const isFollowing = await db.follows.findFirst({
+      where: {
+        followerId: currentUserId,
+        followingId: userId,
+      },
+    });
+
+    if (isFollowing) {
+      await db.follows.delete({
+        where: {
+          id: isFollowing.id,
+        },
+      });
+      res.status(200).json({ isFollowing: false });
+    } else {
+      const follow = await db.follows.create({
+        data: {
+          followerId: currentUserId,
+          followingId: userId,
+          isFollowing: true,
+        },
+        include: {
+          follower: true,
+          following: true,
+        },
+      });
+      res.send(follow);
+    }
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getFollowers = async (req: Request, res: Response) => {
+  const { currentUserId } = req.params;
+
+  try {
+    const followers = await db.follows.findMany({
+      where: {
+        followingId: currentUserId,
+      },
+      select: {
+        follower: true,
+      },
+    });
+
+    const followersList = followers.map((follower) => follower.follower);
+    res.status(200).json(followersList);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getFollowing = async (req: Request, res: Response) => {
+  const { currentUserId } = req.params;
+
+  try {
+    const following = await db.follows.findMany({
+      where: {
+        followerId: currentUserId,
+      },
+      select: {
+        following: true,
+      },
+    });
+
+    const followingUsers = following.map((follow) => follow.following);
+    res.status(200).json(followingUsers);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 export const getUserLikedBooks = async (req: Request, res: Response) => {
-  // Get the user id from the request
-  // query the db for the liked books of the user with that id
-  // return the books
   const { id } = req.params;
   const likedBooks = await db.likes.findMany({
     where: {
