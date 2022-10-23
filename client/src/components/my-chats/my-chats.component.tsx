@@ -6,6 +6,7 @@ import {
   setChats,
   setSelectedChat,
 } from "../../store/chat/chat.action";
+
 import {
   selectChats,
   selectFetchAgain,
@@ -13,17 +14,19 @@ import {
 } from "../../store/chat/chat.selector";
 import { selectCurrentUser } from "../../store/user/user.selector";
 
+import { getSenderName } from "../../config/chatLogics";
+
 import { AddIcon } from "@chakra-ui/icons";
 import { Box, useToast, Button, Stack, Text } from "@chakra-ui/react";
+
 import ChatLoading from "../chat-loading/chat-loading.component";
-import { getSenderName } from "../../config/chatLogics";
 import GroupChatModal from "../groupchat-modal/groupchat-moda.component";
 
 const MyChats = () => {
   const currentUser = useSelector(selectCurrentUser);
   const chats = useSelector(selectChats);
   const selectedChat = useSelector(selectSelectedChat);
-  const fetchAgain = useSelector(selectFetchAgain)
+  const fetchAgain = useSelector(selectFetchAgain);
   const dispatch = useDispatch();
 
   const [loggedUser, setLoggedUser] = useState(null);
@@ -37,7 +40,7 @@ const MyChats = () => {
           currentUserId: currentUser.id,
         },
       });
-      console.log(data);
+
       dispatch(setChats(data));
     } catch (error) {
       toast({
@@ -65,7 +68,7 @@ const MyChats = () => {
       alignItems="center"
       p={3}
       bg="white"
-      width={{ base: "100%", md: "30%" }}
+      width={{ base: "100%", md: "31%" }}
       borderRadius="lg"
       boxShadow="md"
       borderWidth="1px"
@@ -81,14 +84,13 @@ const MyChats = () => {
       >
         My Chats
         <GroupChatModal>
-        <Button
-          display="flex"
-          fontSize={{ base: "18px", md: "20px", lg: "18px" }}
-          rightIcon={<AddIcon />}
-        >
-          New Group Chat
-        </Button>
-
+          <Button
+            display="flex"
+            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+            rightIcon={<AddIcon />}
+          >
+            New Group Chat
+          </Button>
         </GroupChatModal>
       </Box>
 
@@ -118,7 +120,7 @@ const MyChats = () => {
                     ? "black"
                     : "gray.500"
                 }
-                p={3}
+                px={3}
                 py={2}
                 borderRadius="lg"
                 key={chat.id}
@@ -128,6 +130,14 @@ const MyChats = () => {
                     ? getSenderName(loggedUser, chat.users)
                     : chat.chatName}
                 </Text>
+                {chat.latestMessage && (
+                  <Text fontSize="xs">
+                    <b>{chat.latestMessage.sender.name} : </b>
+                    {chat.latestMessage.content.length > 50
+                      ? chat.latestMessage.content.substring(0, 51) + "..."
+                      : chat.latestMessage.content}
+                  </Text>
+                )}
               </Box>
             ))}
           </Stack>
