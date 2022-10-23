@@ -1,7 +1,7 @@
 import path from "path";
 import cors from "cors";
 import express, { Request, Response } from "express";
-import session from "express-session";
+import cookieSession from "cookie-session";
 import { createServer } from "http";
 import passport from "passport";
 import "./routes/auth/passport";
@@ -18,11 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve("client", "public")));
 
 app.use(
-  session({
-    secret: "secretcode",
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 },
+  cookieSession({
+    name: "session",
+    keys: ["key1", "key2"],
+    maxAge: 24 * 60 * 60 * 1000,
   })
 );
 
