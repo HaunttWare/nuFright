@@ -21,6 +21,7 @@ import { Box, useToast, Button, Stack, Text } from "@chakra-ui/react";
 
 import ChatLoading from "../chat-loading/chat-loading.component";
 import GroupChatModal from "../groupchat-modal/groupchat-moda.component";
+import SideDrawer from "../side-drawer/side-drawer.component";
 
 const MyChats = () => {
   const currentUser = useSelector(selectCurrentUser);
@@ -83,6 +84,7 @@ const MyChats = () => {
         alignItems="center"
       >
         My Chats
+        <SideDrawer />
         <GroupChatModal>
           <Button
             display="flex"

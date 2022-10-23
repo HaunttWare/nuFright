@@ -21,7 +21,6 @@ import Costumes from "./routes/costumes/costumes.component";
 import Stories from "./routes/stories/stories.component";
 import Gallery from "./routes/gallery/gallery.component";
 import MapBox from "./routes/haunted-houses/Map.component";
-import Authentication from "./routes/authentication/authentication.component";
 import Profile from "./routes/profile/profile.component";
 import MusicMakingView from "./routes/MusicMaker/MusicMakingView";
 import Chat from "./routes/chat/chat.component";
@@ -116,15 +115,14 @@ const App = () => {
       <Route path='/' element={<Navigate to='/welcome'/>} />
       <Route path="/*" element={<Navigation />}>
         <Route path='home' element={<Home />} />
-        <Route path="movies-shows" element={<Films />} />
+        <Route path="cinema" element={<Films />} />
         <Route path="books" element={<Books />} />
         <Route path="books/:bookId" element={<Book />} />
         <Route path="costumes" element={<Costumes />} />
         <Route path="stories" element={<Stories />} />
         <Route path="gallery" element={<Gallery />} />
-        <Route path="map" element={<MapBox />} />
-        <Route path="music" element={<MusicMakingView />} />
-        <Route path="auth" element={<Authentication />} />
+        <Route path="find-haunts" element={<MapBox />} />
+        <Route path="sounds" element={<MusicMakingView />} />
         <Route path="profile" element={<Profile />} />
         <Route path="chats" element={<Chat />} />
         <Route path="playlist" element={<PlayListComp />} />

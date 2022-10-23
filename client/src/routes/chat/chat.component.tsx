@@ -4,7 +4,6 @@ import { selectCurrentUser } from "../../store/user/user.selector";
 
 import { Box } from "@chakra-ui/layout";
 
-import SideDrawer from "../../components/side-drawer/side-drawer.component";
 import MyChats from "../../components/my-chats/my-chats.component";
 import ChatBox from "../../components/chat-box/chat-box.component";
 
@@ -13,7 +12,6 @@ const Chat = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      {currentUser && <SideDrawer />}
       <Box
         display="flex"
         justifyContent="space-between"
