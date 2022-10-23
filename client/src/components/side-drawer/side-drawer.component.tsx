@@ -2,6 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import { setNotification, Notification } from "../../store/chat/chat.action";
+import { selectNotification } from "../../store/chat/chat.selector";
+import { selectChats } from "../../store/chat/chat.selector";
+
+import { getSenderName } from "../../config/chatLogics";
+
 import {
   ChatData,
   setChats,
@@ -29,12 +35,13 @@ import {
   useToast,
   Spinner,
 } from "@chakra-ui/react";
-
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
-import ProfileModal from "../profile-modal/profile-modal.component";
+
 import ChatLoading from "../chat-loading/chat-loading.component";
 import UserListItem from "../user-list-item/user-list-item.component";
-import { selectChats } from "../../store/chat/chat.selector";
+
+// @ts-ignore
+import NotificationBadge, { Effect } from "react-notification-badge";
 
 export type User = {
   id: string;
@@ -47,6 +54,7 @@ export type User = {
 const SideDrawer = () => {
   const currentUser = useSelector(selectCurrentUser);
   const chats = useSelector(selectChats);
+  const notifications = useSelector(selectNotification);
   const dispatch = useDispatch();
 
   const [search, setSearch] = useState("");
@@ -101,14 +109,13 @@ const SideDrawer = () => {
       });
 
       if (!chats.find((chat: ChatData) => chat.id === data.id)) {
-        setChats([...chats, data]);
+        setChats([data, ...chats]);
       }
 
       dispatch(setSelectedChat(data));
       setLoadingChat(false);
       onClose();
     } catch (error: any) {
-      setLoadingChat(false);
       toast({
         title: "Error fetching chat",
         description: error.message,
@@ -123,10 +130,10 @@ const SideDrawer = () => {
   return (
     <>
       <Box display="flex">
-        <Tooltip label="Search Users to chat" hasArrow placement="bottom">
+        <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
             <i className="fas fa-search"></i>
-            <Text display={{ base: "none", md: "flex" }} px="4">
+            <Text display={{ base: "none", md: "flex" }} px={4}>
               Search User
             </Text>
           </Button>
@@ -134,9 +141,38 @@ const SideDrawer = () => {
         <div>
           <Menu>
             <MenuButton p={1}>
+              <NotificationBadge
+                count={notifications.length}
+                effect={Effect.SCALE}
+              />
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
-            {/* <MenuList></MenuList> */}
+            <MenuList pl={2}>
+              {!notifications.length && "No new notifications"}
+              {notifications.map((notif: Notification) => (
+                <MenuItem
+                  key={notif.id}
+                  onClick={() => {
+                    dispatch(setSelectedChat(notif.chat));
+                    dispatch(
+                      setNotification(
+                        notifications.filter(
+                          (n: Notification) => n.id !== notif.id
+                        )
+                      )
+                    );
+                  }}
+                >
+                  {
+                    notif.chat.isGroupChat ? (
+                      notif.quantity > 1 ? ( `${notif.quantity} New messages in ${notif.chat.chatName}`) : (`New message in ${notif.chat.chatName}`)
+                    ) : (
+                      notif.quantity > 1 ? (`${notif.quantity} New messages from ${getSenderName(currentUser, notif.chat.users)}`) : (`New message from ${getSenderName(currentUser, notif.chat.users)}`)
+                    )
+                  }
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -148,9 +184,7 @@ const SideDrawer = () => {
               />
             </MenuButton>
             <MenuList>
-              <ProfileModal user={currentUser}>
-                <MenuItem>My Profile</MenuItem>
-              </ProfileModal>
+              <MenuItem>My Profile</MenuItem>
               <MenuDivider />
               <MenuItem>Logout</MenuItem>
             </MenuList>
