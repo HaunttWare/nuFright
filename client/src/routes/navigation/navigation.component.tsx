@@ -41,6 +41,7 @@ import { getSenderName } from "../../config/chatLogics";
 
 import MobileNav from "./movbile-navigation.component";
 import DesktopNav from "./desktop-navigation.component";
+import axios from "axios";
 
 export interface NavItem {
   label: string;
@@ -98,15 +99,6 @@ const Navigation = () => {
     navigate(path);
   };
 
-  const googleSignIn = () => {
-    window.open("http://localhost:3000/api/auth/google", "_self");
-  };
-
-  const logOutUser = () => {
-    dispatch(setCurrentUser(null));
-    window.open("http://localhost:3000/api/auth/logout", "_self");
-  };
-
   return (
     <>
       <Box>
@@ -160,11 +152,13 @@ const Navigation = () => {
           >
             {!currentUser ? (
               <Button
+                as={"a"}
+                href="/api/auth/google"
                 fontSize={"sm"}
                 fontWeight={400}
                 bg={"white"}
                 color="black"
-                onClick={googleSignIn}
+                
               >
                 <GoogleIcon boxSize="5" pr={2} />
                 Sign In
@@ -232,7 +226,7 @@ const Navigation = () => {
                       My Profile
                     </MenuItem>
                     <MenuDivider />
-                    <MenuItem onClick={logOutUser}>Logout</MenuItem>
+                    <MenuItem onClick={() => dispatch(setCurrentUser(null))} as="a" href='/api/auth/logout'>Logout</MenuItem>
                   </MenuList>
                 </Menu>
               </Box>
