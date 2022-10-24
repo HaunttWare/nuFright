@@ -4,7 +4,12 @@ import { Request, Response } from 'express';
 import { resolveModuleName } from 'typescript';
 import { config } from '../../config';
 import { db } from '../../prisma/utils/db.server';
-
+type Video = {
+  title: string;
+  thumbnail: string;
+  description: string;
+  videoId: string;
+};
 export const getVideos = async (req: Request, res: Response) => {
   const { query } = req.params;
   try {
@@ -27,7 +32,7 @@ export const getVideos = async (req: Request, res: Response) => {
   }
 }
 export const getUserPlaylist = async (req: Request, res: Response) => {
-  const { userId }= req.params;
+  const {userId} = req.params;
   try {
     const playListData = await db.playlist.findMany({ where:{ userId } })
     res.status(200).send(playListData);
@@ -59,10 +64,13 @@ export const addToPlaylist = async (req: Request, res: Response) => {
 }
 
 export const deletePlaylistEntry = async (req: Request, res: Response) => {
-  const { video, userId } = req.body;
+  const { videoId } = req.params;
   try {
-    const deletion = await db.playlist.delete({ where: { videoId: video.videoId }})
+    const deletion = await db.playlist.delete({ where: { id: videoId }})
+    res.send(deletion).status(200);
+
   } catch (err) {
     console.error(err);
+    res.sendStatus(500);
   }
 }
