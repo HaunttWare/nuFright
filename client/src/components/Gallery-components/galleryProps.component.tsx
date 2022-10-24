@@ -1,15 +1,15 @@
 // imports for types
-import { Images } from ".prisma/client";
+import { Images, User } from ".prisma/client";
 //defining types for props
-type imageArr = Images[];
+type imageArr = (Images & { user: User;})[];
 // when passing down individual image
 interface image {
-  image: Images
+  image: Images & { user: User;}
 }
 
 //props passed down in gallery components
 interface galleryProps {
-  allImages: imageArr,
+  allImages: (Images & { user: User;})[],
   setAllImages?: React.Dispatch<React.SetStateAction<imageArr | null>>,
 }
 

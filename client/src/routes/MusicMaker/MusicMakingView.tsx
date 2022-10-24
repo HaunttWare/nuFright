@@ -1,13 +1,15 @@
 import React from 'react';
-import Octave from '../../Octave';
-
+import { isDotDotDotToken } from 'typescript';
+import Octave from './Octave';
+import RecordingApp from '../../components/record-playback/RecordingApp';
+import './octave.styles.css';
 const MusicMakingView = () => {
   return (
     <>
     <h2>Make some Spooky tunes!</h2>
-    <div>
+    <RecordingApp />
+    <div style={{ display: 'flex'}}>
     <Octave />
-
     </div>
     </>
   )

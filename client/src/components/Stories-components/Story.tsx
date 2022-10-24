@@ -1,18 +1,30 @@
 import React from 'react';
 import { textSpanContainsPosition } from 'typescript';
+import "./stories.styles.css";
 
-const Story = (props:{ test:any, story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String, description?: String}, key:any }) => {
+const Story = (props:{ test:any, story:{createdAt:String, id:String, images:any, title:String, story:String, description?: String}, key:any }) => {
     const HauntedHouse = require('../../../../assets/haunted-house.jpg').default;
 
     return (
-        <div className="row" style={{background: 'rgb(220, 53, 69)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <h5 style={{display: 'inline-flex', justifyContent: 'center'}} ><b onClick={() => props.test('story', props.story)} style={{cursor: 'pointer'}}><u>{props.story.title}</u></b></h5>
-            <img src={HauntedHouse} style={{maxHeight: 450, maxWidth: 450, overflow: 'hidden'}}></img>
-            <div style={{display: 'flex', justifyContent: 'center'}}>
-                {props.story.description ? props.story.description : props.story.story.slice(0, 100) + '...'}
+        <div className="card single_post">
+        <div className="body">
+            <div className="img-post">
+                <img className="d-block img-fluid" src={props.story.images ? props.story.images : HauntedHouse}  alt="First slide"/>
             </div>
-            <button onClick={() => props.test('story', props.story)} style={{maxWidth: 250, borderRadius: '45%', background: 'black', color: 'lime'}}>Read More</button>
+            <h3><a href="blog-details.html">{props.story.title}</a></h3>
+            <p> {props.story.description ? props.story.description : props.story.story.slice(0, 100) + '...'}</p>
         </div>
+        <div className="footer">
+            <div className="actions">
+                <span onClick={() => props.test('story', props.story)} className="btn btn-outline-secondary">Continue Reading</span>
+            </div>
+            <ul className="stats">
+                <li><a href="#" className="fa fa-heart">5</a></li>
+                <li><a href="#" className="fa fa-comment">10</a></li>
+            </ul>
+        </div>
+    </div>
+
     )
 }
 

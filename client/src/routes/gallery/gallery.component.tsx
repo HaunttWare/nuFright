@@ -3,7 +3,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ImagePost from '../../components/Gallery-components/galleryPost.component';
 import ImageCards from '../../components/Gallery-components/ImageCards.component';
- import{ galleryProps, imageArr } from '../../components/Gallery-components/galleryProps.component';
+ import{ imageArr } from '../../components/Gallery-components/galleryProps.component';
+ import Comments from '../../components/comments/comments';
 
 
 
@@ -27,7 +28,7 @@ const Gallery = () => {
   return (
     <div className="container">
       <h1>Gallery</h1>
-      <ImagePost />
+      <ImagePost setGotImages={setGotImages} />
       {
         allImages ?
           <ImageCards allImages={allImages} />
@@ -36,6 +37,7 @@ const Gallery = () => {
             <span className="visually-hidden">Loading...</span>
           </div>
       }
+      {/* <Comments allImages={allImages} /> */}
     </div>
   );
 }
