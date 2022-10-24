@@ -1,6 +1,6 @@
 import React from 'react';
 import { textSpanContainsPosition } from 'typescript';
-import "./stories.styles.css";
+import "./story.styles.css";
 
 const Story = (props:{ test:any, story:{createdAt:String, id:String, images:any, title:String, story:String, description?: String, author: {name: string}, likedBy: any, Comment: any}, key:any }) => {
     const HauntedHouse = require('../../../../assets/haunted-house.jpg').default;
