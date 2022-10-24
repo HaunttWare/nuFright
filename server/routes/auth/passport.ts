@@ -37,10 +37,10 @@ passport.serializeUser((user: any, done) => {
   done(null, user.id as string);
 });
 
-passport.deserializeUser(async (id: string, done) => {
+passport.deserializeUser(async (id: any, done) => {
   try {
     const user = await db.user.findUnique({
-      where: { id },
+      where: { id: id.id },
     });
     done(null, user);
   } catch (error: any) {

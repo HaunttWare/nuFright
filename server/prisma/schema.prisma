@@ -78,7 +78,7 @@ model Stories {
 
 model Images {
   id      String     @id @default(cuid())
-  image   String    
+  image   String     @unique
   userId  String
   caption String
   user    User       @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -126,9 +126,9 @@ model Follows {
   id          String  @id @default(cuid())
   followerId  String
   followingId String
+  isFollowing Boolean @default(false)
   follower    User    @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
   following   User    @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
-  isFollowing Boolean @default(false)
 }
 
 model Likes {
@@ -200,14 +200,14 @@ model Chat {
   id              String    @id @default(cuid())
   chatName        String
   isGroupChat     Boolean   @default(false)
-  users           User[]
-  messages        Message[]
-  latestMessageId String?   @unique
-  latestMessage   Message?  @relation("latestMessage", fields: [latestMessageId], references: [id])
-  groupAdmin      User?     @relation("groupAdmin", fields: [groupAdminId], references: [id])
   groupAdminId    String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+  latestMessageId String?   @unique
+  groupAdmin      User?     @relation("groupAdmin", fields: [groupAdminId], references: [id])
+  latestMessage   Message?  @relation("latestMessage", fields: [latestMessageId], references: [id])
+  messages        Message[]
+  users           User[]
 }
 
 model Message {
@@ -216,9 +216,9 @@ model Message {
   senderId      String
   createdAt     DateTime @default(now())
   content       String
-  latestMessage Chat?    @relation("latestMessage")
   chat          Chat     @relation(fields: [chatId], references: [id])
   sender        User     @relation(fields: [senderId], references: [id])
+  latestMessage Chat?    @relation("latestMessage")
   readBy        User[]   @relation("readBy")
 }
 

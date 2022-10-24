@@ -3,8 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-//import PlayView from './playview';
-
+import './playlist.styles.css';
 type Video = {
   id: string;
   title: string;
@@ -102,7 +101,7 @@ const PlayListMain = () => {
 
                   <a
                     href="#"
-                    className="btn btn-primary"
+                    className="btn"
                     onClick={() => {
                       handleSaveToPlaylist(video);
                     }}
