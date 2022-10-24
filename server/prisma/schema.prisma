@@ -16,10 +16,10 @@ model User {
   photo       String
   badges      Badges[]
   ratings     BooScale[]
-  isAdmin     Chat?      @relation("groupAdmin")
+  isAdmin     Chat[]     @relation("groupAdmin")
   Comment     Comment[]
-  followedBy  Follows[]  @relation("follower")
-  following   Follows[]  @relation("following")
+  following   Follows[]  @relation("follower")
+  followers   Follows[]  @relation("following")
   images      Images[]
   liked       Likes[]
   messages    Message[]
@@ -123,11 +123,12 @@ model Haunts {
 }
 
 model Follows {
-  id         String @id @default(cuid())
-  userId     String
-  followerId String
-  follower   User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
-  user       User   @relation("following", fields: [userId], references: [id], onDelete: Cascade)
+  id          String  @id @default(cuid())
+  followerId  String
+  followingId String
+  follower    User    @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User    @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+  isFollowing Boolean @default(false)
 }
 
 model Likes {
@@ -199,14 +200,14 @@ model Chat {
   id              String    @id @default(cuid())
   chatName        String
   isGroupChat     Boolean   @default(false)
-  groupAdminId    String?   @unique
+  users           User[]
+  messages        Message[]
+  latestMessageId String?   @unique
+  latestMessage   Message?  @relation("latestMessage", fields: [latestMessageId], references: [id])
+  groupAdmin      User?     @relation("groupAdmin", fields: [groupAdminId], references: [id])
+  groupAdminId    String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  latestMessageId String?   @unique
-  groupAdmin      User?     @relation("groupAdmin", fields: [groupAdminId], references: [id])
-  latestMessage   Message?  @relation("latestMessage", fields: [latestMessageId], references: [id])
-  messages        Message[]
-  users           User[]
 }
 
 model Message {
@@ -215,9 +216,9 @@ model Message {
   senderId      String
   createdAt     DateTime @default(now())
   content       String
+  latestMessage Chat?    @relation("latestMessage")
   chat          Chat     @relation(fields: [chatId], references: [id])
   sender        User     @relation(fields: [senderId], references: [id])
-  latestMessage Chat?    @relation("latestMessage")
   readBy        User[]   @relation("readBy")
 }
 

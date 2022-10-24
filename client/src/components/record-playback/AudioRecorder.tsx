@@ -8,7 +8,7 @@ import axios from 'axios'
 import { setCurrentUser } from "../../store/user/user.action";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import { blob } from "stream/consumers";
+
 
 
 type Song = {
@@ -71,7 +71,7 @@ const getBlobs = () => {
 
       
   };
-  
+
   const selectBlob = (song: Song) => {
     setCurrentSongURL(song.fileURL);
   }
@@ -92,7 +92,10 @@ const getBlobs = () => {
       <Dropdown.Menu>
         {allBlobs.map((song) => {
           return (
-            <Dropdown.Item onClick={() => selectBlob(song)} key={song.id}>{song.fileName.slice(0, song.fileName.indexOf('.'))}</Dropdown.Item>
+            <Dropdown.Item
+             onClick={() => selectBlob(song)} 
+             key={song.id}>{song.fileName.slice(0, song.fileName.indexOf('.'))}
+             </Dropdown.Item>
           )
         })}
       </Dropdown.Menu>
