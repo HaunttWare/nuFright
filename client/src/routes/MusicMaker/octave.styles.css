@@ -1,3 +1,10 @@
+header {
+  text-align: center;
+}
+h2 {
+  display: inline-block;
+  color: white;
+}
 :root {
   --natural-key-width: 48px;
   --natural-key-height: 200px;
@@ -32,12 +39,6 @@
 
 .key-sharp + .key-natural {
   margin-left: calc(-1 * var(--sharp-key-width));
-}
-header {
-  text-align: center;
-}
-h2 {
-  display: inline-block;
 }
 .key-natural.active::after,
 .key-sharp.active::after {

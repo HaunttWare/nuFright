@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import PlayListMain from "./playlistMain.component";
 import { is } from "immer/dist/internal";
-
+import './playlist.styles.css';
 
 const PlayListComp = () => {
   const currentUser = useSelector(selectCurrentUser);

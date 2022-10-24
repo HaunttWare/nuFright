@@ -8,7 +8,7 @@ import axios from 'axios'
 import { setCurrentUser } from "../../store/user/user.action";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-
+import './recorder.styles.css';
 
 
 type Song = {
@@ -85,7 +85,7 @@ const getBlobs = () => {
   return (
     <div>
       <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
+      <Dropdown.Toggle variant="dark" id="dropdown-basic">
         Pick a song to play
       </Dropdown.Toggle>
 
@@ -105,8 +105,9 @@ const getBlobs = () => {
               autoPlay
               controls
             /> <br></br>
-      <button onClick={startRecording} > Start recording</button>
-      <button onClick={stopRecording} > Stop recording</button>
+            <button type="button" className="btn btn-outline-danger" onClick={startRecording}>RECORD</button>
+            <button type="button" className="btn btn-outline-primary" onClick={stopRecording}>STOP</button>
+    
     </div>
   );
 };
