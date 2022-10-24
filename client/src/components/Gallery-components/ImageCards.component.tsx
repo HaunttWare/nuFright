@@ -4,23 +4,14 @@ import ImageCardEntry from './ImageCardEntry.component';
 
 const ImageCards = ({ allImages }: galleryProps) => {
   return (
-    <div className="
-      d-flex
-      flex-row
-      flex-wrap
-      justify-content-start
-      row-cols-3
-      align-items-center"
-    >
-      {
-        allImages.map((card) => {
-          return (
-            <div className="col" >
-              <ImageCardEntry image={card} />
-            </div>
-          )
-        })
-      }
+    <div className="row">
+      {allImages.map((image, index) => {
+        return (
+          <div className="col-4" key={index}>
+            <ImageCardEntry image={image} />
+          </div>
+        );
+      })}
     </div>
   )
 }
