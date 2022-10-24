@@ -15,7 +15,7 @@ const StoriesPage = () => {
     const currentUser = useSelector(selectCurrentUser);
     const [view, setView] = useState('storyList');
     const [allStories, setAllStories] = useState([]);
-    const [selectedStory, setSelected] = useState({createdAt: '', id: '', images: '', title: '', story: '', description: '', author:{name:''}, likedBy:[],});
+    const [selectedStory, setSelected] = useState({createdAt: '', id: '', images: '', title: '', story: '', description: '', author:{name:''}, likedBy:[], Comment:[]});
     const [isLoading, setIsLoading] = useState(true);
 
     //get stories from database
@@ -50,7 +50,7 @@ const StoriesPage = () => {
 
             {view === 'storyList' && !allStories.length && <div>Loading...</div>}
             <>
-            {view === 'storyList' && allStories.map(((story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String, description?:String}, index:any) => {
+            {view === 'storyList' && allStories.map(((story:{authorId:String, createdAt:String, id:String, images:any, title:String, story:String, description?:String, author:{name:string}, likedBy:any, Comment: any}, index:any) => {
                 return <div key={index}>
                         <Story test={viewHandler} story={story} key={index} />
                         <br style={{margin: 5}}></br>
