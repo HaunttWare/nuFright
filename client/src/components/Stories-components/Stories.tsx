@@ -45,7 +45,7 @@ const StoriesPage = () => {
     }
 
     return (
-        <div id="stories_page" style={{color: 'white'}}>
+        <div id="stories_page" style={{color: view !== 'write' ? 'white' : 'black'}}>
             {view === 'storyList' && <button onClick={() => viewHandler('write', null)} className="btn btn-danger" style={{color: 'white', marginBottom: 5}}>Write a Story</button>}
 
             {view === 'storyList' && !allStories.length && <div>Loading...</div>}
