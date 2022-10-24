@@ -1,15 +1,10 @@
-import { prisma } from '@prisma/client';
+
 import axios from 'axios';
 import { Request, Response } from 'express';
 import { resolveModuleName } from 'typescript';
 import { config } from '../../config';
 import { db } from '../../prisma/utils/db.server';
-type Video = {
-  title: string;
-  thumbnail: string;
-  description: string;
-  videoId: string;
-};
+
 export const getVideos = async (req: Request, res: Response) => {
   const { query } = req.params;
   try {
