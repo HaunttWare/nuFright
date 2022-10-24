@@ -114,8 +114,8 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
 
   return (
     <div>
-      <button className="btn btn-danger" onClick={uploadImage} >
-        <i className="fa-solid fa-upload"></i>
+      <button className="btn btn-danger mb-3" onClick={uploadImage} >
+        Upload an image <i className="fa-solid fa-upload"></i>
       </button>
     </div>
   )

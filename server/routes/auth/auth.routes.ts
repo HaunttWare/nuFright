@@ -9,7 +9,6 @@ authRouter.get("/login/successful", (req, res) => {
       success: true,
       message: "user has successfully authenticated",
       user: req.user,
-      // cookies: req.cookies
     });
   }
 });
@@ -23,7 +22,10 @@ authRouter.get("/login/failed", (req, res) => {
 
 authRouter.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: true,
+  })
 );
 
 authRouter.get(

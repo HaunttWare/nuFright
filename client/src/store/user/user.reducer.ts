@@ -1,19 +1,39 @@
+import { UserData } from "./user.action";
 import { USER_ACTIONS_TYPES } from "./user.types";
 
-const INITIAL_STATE = { // <-- this object contains the initial state
-    currentUser: null,
+type UserState = {
+  currentUser: UserData | null;
+  following: UserData[];
+  followers: UserData[];
 };
 
-export const userReducer = (state = INITIAL_STATE, action: any) => { // <-- this function is the reducer
-    const { type, payload } = action; // <-- this destructures the action object
+const INITIAL_STATE: UserState = {
+  currentUser: null,
+  following: [],
+  followers: [],
+};
 
-    switch (type) { // <-- this switch statement checks the action type
-        case USER_ACTIONS_TYPES.SET_CURRENT_USER: // <-- this case sets the user in the store
-            return {
-                ...state,
-                currentUser: payload,
-            };
-        default: // <-- this case returns the default state
-            return state;
-    }
-}
+export const userReducer = (state = INITIAL_STATE, action: any) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case USER_ACTIONS_TYPES.SET_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: payload,
+      };
+    case USER_ACTIONS_TYPES.SET_FOLLOWING_LIST:
+      return {
+        ...state,
+        following: payload,
+      };
+    case USER_ACTIONS_TYPES.SET_FOLLOWER_LIST:
+      return {
+        ...state,
+        followers: payload,
+      };
+
+    default:
+      return state;
+  }
+};

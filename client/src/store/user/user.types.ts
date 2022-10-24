@@ -1,3 +1,5 @@
-export const USER_ACTIONS_TYPES = { // <-- this object contains the action types
-    SET_CURRENT_USER: "user/SET_CURRENT_USER",
-  };
+export enum USER_ACTIONS_TYPES {
+  SET_CURRENT_USER = "user/SET_CURRENT_USER",
+  SET_FOLLOWING_LIST = "user/SET_FOLLOWING_LIST",
+  SET_FOLLOWER_LIST = "user/SET_FOLLOWER_LIST",
+}
