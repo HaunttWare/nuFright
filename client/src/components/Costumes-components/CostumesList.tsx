@@ -26,7 +26,7 @@ const CostumesList = () => {
 
   return (
     <>
-    <div className="" style={{marginLeft: 5, marginRight: 5}}>
+    <div className="" style={{marginLeft: 5, marginRight: 6}}>
       <div className="d-inline-flex justify-content-left" style={{ height: "40px" }}>
         <button className={`btn btn-outline-danger tab ${select && "active"} `} onClick={() => {if(!select){switchDisplay()}}} style={{borderTopRightRadius: '0%', borderBottomRightRadius: '0%'}}>
           Mens
