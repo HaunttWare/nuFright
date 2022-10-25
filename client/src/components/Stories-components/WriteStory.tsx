@@ -62,14 +62,14 @@ const WriteStory = (props:{backHandler: Function}) => {
             <button className="btn btn-outline-secondary" onClick={() => props.backHandler('storyList')} style={{marginBottom: 5}}>Back</button>
             <br style={{margin: 5}}></br>
             <input placeholder='Write your title here...' onChange={titleHandler} value={title} style={{width: '100%', display: 'block', marginBottom: 5, borderColor: title.length > 3000 ? 'red' : ''}}></input>
-            <p>{title.length > 3000 ? `You are ${title.length - 3000} characters over the limit!` : ''}</p>
+            <p style={{color: 'white'}}>{title.length > 3000 ? `You are ${title.length - 3000} characters over the limit!` : ''}</p>
             <textarea rows={3} placeholder="Write your description here..." onChange={descriptionHandler} value={desc} style={{width: '100%', display: 'block', marginBottom: 5, borderColor: desc.length > 300 ? 'red' : ''}}></textarea>
-            <p>{desc.length > 300 ? `You are ${desc.length - 300} characters over the limit!` : ''}</p>
+            <p style={{color: 'white'}}>{desc.length > 300 ? `You are ${desc.length - 300} characters over the limit!` : ''}</p>
             <textarea rows={5} placeholder='Write your story here...' onChange={textHandler} value={text} style={{width: '100%', display: 'block', marginBottom: 5, borderColor: text.length > 10000 ? 'red' : ''}}></textarea>
-            <p>{text.length > 10000 ? `You are ${text.length - 10000} characters over the limit!` : ''}</p>
+            <p style={{color: 'white'}}>{text.length > 10000 ? `You are ${text.length - 10000} characters over the limit!` : ''}</p>
             <input placeholder='Put image link here...' onChange={imageHandler} value={image} style={{width: '100%', display: 'block', marginBottom: 5}}></input>
             {image ? <img src={image} style={{maxWidth: '100px', maxHeight: '100px'}}></img> : <div></div>}
-            <p><b>{formFilled}</b></p>
+            <p style={{color: 'white'}}><b>{formFilled}</b></p>
             <button className="btn btn-outline-secondary" disabled={isLoading} onClick={postHandler} style={{minWidth: 50}}>Post</button>
         </div>
     )
