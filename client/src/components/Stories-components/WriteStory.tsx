@@ -59,7 +59,7 @@ const WriteStory = (props:{backHandler: Function}) => {
 
     return (
         <div id='write_story'>
-            <button onClick={() => props.backHandler('storyList')} style={{background: 'black', color: 'lime', borderRadius: '45%', minWidth: 50, marginBottom: 5}}>Back</button>
+            <button className="btn btn-outline-secondary" onClick={() => props.backHandler('storyList')} style={{marginBottom: 5}}>Back</button>
             <br style={{margin: 5}}></br>
             <input placeholder='Write your title here...' onChange={titleHandler} value={title} style={{width: '100%', display: 'block', marginBottom: 5, borderColor: title.length > 3000 ? 'red' : ''}}></input>
             <p>{title.length > 3000 ? `You are ${title.length - 3000} characters over the limit!` : ''}</p>
@@ -70,7 +70,7 @@ const WriteStory = (props:{backHandler: Function}) => {
             <input placeholder='Put image link here...' onChange={imageHandler} value={image} style={{width: '100%', display: 'block', marginBottom: 5}}></input>
             {image ? <img src={image} style={{maxWidth: '100px', maxHeight: '100px'}}></img> : <div></div>}
             <p><b>{formFilled}</b></p>
-            <button disabled={isLoading} onClick={postHandler} style={{background: 'black', color: 'lime', borderRadius: '45%', minWidth: 50}}>Post</button>
+            <button className="btn btn-outline-secondary" disabled={isLoading} onClick={postHandler} style={{minWidth: 50}}>Post</button>
         </div>
     )
 }
