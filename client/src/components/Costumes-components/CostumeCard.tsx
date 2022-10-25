@@ -12,8 +12,7 @@ const CostumeCard = (props: {
 
 
   return (
-    <div className="col-md-3">
-      <div className="card-2 text-white" id="bright" onClick={() => window.open(props.url, "_blank")} style={{cursor: "pointer"}}>
+      <div className="card-2 text-white" id="bright" onClick={() => window.open(props.url, "_blank")} style={{cursor: "pointer", margin: 5}}>
         <div className="image-container">
           <div className="first">
             <div className="d-flex justify-content-between align-items-center">
@@ -50,7 +49,6 @@ const CostumeCard = (props: {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
