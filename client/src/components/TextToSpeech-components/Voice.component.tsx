@@ -46,7 +46,7 @@ const Voice = (props:{lang?:string, text:string}) => {
                 <>
                     <button className="btn btn-outline-secondary" disabled={isSpeeking} onClick={play} style={{background: !isSpeeking ? 'black' : 'gray', color: 'red', borderColor: '#6c757d', borderWidth: '1px', borderTopLeftRadius: '45%', borderBottomLeftRadius: '45%', borderTopRightRadius: '0%', borderBottomRightRadius: '0%', minWidth: 43}}>Play</button>
                     <button className="btn btn-outline-secondary" disabled={!isSpeeking} onClick={stop} style={{background: isSpeeking ? 'black' : 'gray', color: 'red', borderColor: '#6c757d', borderWidth: '1px', borderTopRightRadius: '45%', borderBottomRightRadius: '45%', borderTopLeftRadius: '0%', borderBottomLeftRadius: '0%', minWidth: 45}}>Stop</button>
-                    <select onChange={select} style={{display: 'table-cell', verticalAlign: 'middle', marginLeft: 5, marginRight: 5}}>
+                    <select onChange={select} style={{display: 'table-cell', verticalAlign: 'middle', marginLeft: 5, marginRight: 5, background: 'black', minHeight: '1.5em', borderWidth: 1, borderColor: '#6c757d'}}>
                         {voices.map(((voice:any, index:number) => {
                            return <option value={voice.name} key={index}>{voice.name}</option>
                         }))}
