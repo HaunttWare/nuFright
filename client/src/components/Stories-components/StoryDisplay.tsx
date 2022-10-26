@@ -115,60 +115,19 @@ const StoryDisplay = (props: {
   };
 
   return (
-    <div
-      className="row"
-      style={{
-        background: "rgb(220, 53, 69)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div
-        className="text-left"
-        style={{
-          display: "inline-block",
-          width: isEditing || !sameUser ? "100%" : "50%",
-        }}
-      >
-        <button
-          onClick={() => {
-            !isEditing
-              ? props.backHandler("storyList")
-              : backToDisplayHandler();
-          }}
-          style={{
-            minWidth: 100,
-            display: "inline-block",
-            background: "black",
-            color: "lime",
-            borderRadius: "45%",
-            float: "left",
-          }}
-        >
+    <div className="row" style={{ background: "black", display: "flex", justifyContent: "center", alignItems: "center", }}>
+      <div className="text-left" style={{ display: "inline-block", width: isEditing || !sameUser ? "100%" : "50%", }}>
+        <button className="btn btn-outline-secondary" onClick={() => { !isEditing ? props.backHandler("storyList") : backToDisplayHandler(); }} style={{ minWidth: 100, display: "inline-block", float: "left", }}>
           Back
         </button>
       </div>
-      {(currentUser ? currentUser.name : false) === props.story.author.name &&
-        !isEditing && (
-          <div
-            className="text-right"
-            style={{ display: "inline-block", width: "50%" }}
-          >
-            <button
-              style={{
-                minWidth: 100,
-                background: "black",
-                color: "lime",
-                borderRadius: "45%",
-                float: "right",
-              }}
-              onClick={() => setIsEditing(!isEditing)}
-            >
+      {(currentUser ? currentUser.name : false) === props.story.author.name && !isEditing && (
+          <div className="text-right" style={{ display: "inline-block", width: "50%" }}>
+            <button className="btn btn-outline-secondary" style={{ minWidth: 100, float: "right", }} onClick={() => setIsEditing(!isEditing)}>
               edit
             </button>
           </div>
-        )}
+      )}
       {!isEditing && (
         <>
           <h5 style={{ display: "flex", justifyContent: "center" }}>
@@ -176,16 +135,10 @@ const StoryDisplay = (props: {
               <u>{title}</u>
             </b>
           </h5>
-          <div
-            className="col-6"
-            style={{ display: "flex", justifyContent: "left" }}
-          >
+          <div className="col-6" style={{ display: "flex", justifyContent: "left" }}>
             by: {username}
           </div>
-          <div
-            className="col-6"
-            style={{ display: "flex", justifyContent: "right" }}
-          >
+          <div className="col-6" style={{ display: "flex", justifyContent: "right" }}>
             published:{" "}
             {props.story.createdAt.slice(0, props.story.createdAt.indexOf("T"))}
           </div>
@@ -193,14 +146,9 @@ const StoryDisplay = (props: {
             {numLikes} Like{numLikes > 1 || numLikes === 0 ? "s" : ""}
           </div>
           <Voice text={story.toString()}></Voice>
-          <img
-            src={props.story.images ? props.story.images : HauntedHouse}
-            style={{ maxWidth: 450, maxHeight: 450 }}
-          ></img>
-          <div
-            className="row"
-            style={{ display: "flex", justifyContent: "left" }}
-          >
+          <img src={props.story.images ? props.story.images : HauntedHouse} style={{ maxWidth: 450, maxHeight: 450 }}>
+          </img>
+          <div className="row" style={{ display: "flex", justifyContent: "left" }}>
             {story.split("\n").map((paragraph: string, index: number) => {
               return (
                 <p className="col-12" key={index}>
@@ -210,15 +158,7 @@ const StoryDisplay = (props: {
             })}
           </div>
           {currentUser && (
-            <button
-              onClick={likeButtonHandler}
-              style={{
-                maxWidth: 150,
-                borderRadius: 50,
-                background: "black",
-                color: "lime",
-              }}
-            >
+            <button className="btn btn-outline-secondary" onClick={likeButtonHandler} style={{ maxWidth: 150, borderRadius: 50, }}>
               {isLiked ? "Unlike" : "Like"}
             </button>
           )}
@@ -231,55 +171,24 @@ const StoryDisplay = (props: {
               <u>{title}</u>
             </b>
           </h5>
-          <textarea
-            placeholder="description text"
-            rows={3}
-            value={description?.toString()}
-            onChange={editDescriptionInputHandler}
-            style={{ borderColor: description.length > 300 ? "red" : "" }}
-          ></textarea>
+          <textarea placeholder="description text" rows={3} value={description?.toString()} onChange={editDescriptionInputHandler} style={{ borderColor: description.length > 300 ? "red" : "", margin: 5, color: 'black', }}>
+          </textarea>
           <p>
-            {description.length > 300
-              ? `You are ${description.length - 300} characters over the limit!`
-              : ""}
+            {description.length > 300 ? `You are ${description.length - 300} characters over the limit!` : ""}
           </p>
-          <textarea
-            placeholder="story text"
-            rows={5}
-            value={story.toString()}
-            onChange={editStoryInputHandler}
-            style={{ borderColor: story.length > 10000 ? "red" : "" }}
-          ></textarea>
+          <textarea placeholder="story text" rows={5} value={story.toString()} onChange={editStoryInputHandler} style={{ borderColor: story.length > 10000 ? "red" : "", margin: 5, color: 'black', }}>
+          </textarea>
           <p>
-            {story.length > 10000
-              ? `You are ${story.length - 10000} characters over the limit!`
-              : ""}
+            {story.length > 10000 ? `You are ${story.length - 10000} characters over the limit!` : ""}
           </p>
-          <input
-            placeholder="image url"
-            value={image}
-            onChange={editImageInputHandler}
-            style={{ marginBottom: 5 }}
-          ></input>
+          <input placeholder="image url" value={image} onChange={editImageInputHandler} style={{ margin: 5, color: 'black', }}>
+          </input>
           {image ? (
-            <img
-              src={image}
-              style={{ maxWidth: "100px", maxHeight: "100px" }}
-            ></img>
-          ) : (
-            <div></div>
-          )}
+            <img src={image} style={{ maxWidth: "100px", maxHeight: "100px" }}>
+            </img>
+          ) : ( <div></div> )}
           <div>{editClicked ? "saving changes..." : ""}</div>
-          <button
-            disabled={editClicked}
-            onClick={editButtonHandler}
-            style={{
-              maxWidth: 150,
-              borderRadius: "45%",
-              background: "black",
-              color: "lime",
-            }}
-          >
+          <button className="btn btn-outline-secondary" disabled={editClicked} onClick={editButtonHandler} style={{ maxWidth: 150, margin: 5, }}>
             Save Changes
           </button>
         </>
