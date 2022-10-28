@@ -1,14 +1,14 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 
 
-const Rated = ({ id, score, setScore }: { id: string; score: number; setScore: React.Dispatch<React.SetStateAction<number>> } ) => {
+const Rated = ( {id, score, setScore, type}:{ id: string; score: number; setScore: React.Dispatch<React.SetStateAction<number>>; type: string; }) => {
   const currentUser = useSelector(selectCurrentUser);
 
   const handleRate = (rating: number) => {
-    axios.post('/api/ratings/images', {
+    axios.post(`/api/ratings/images${type}`, {
       userId: currentUser.id,
       horrorId: id,
       rating
@@ -36,19 +36,19 @@ const Rated = ({ id, score, setScore }: { id: string; score: number; setScore: R
 
   return (
     <div className="btn-group me-1" role="group" >
-      <button type="button"  className="btn btn-primary" onClick={() => { handleRate(1); }} >
+      <button type="button"  className="btn btn-danger" onClick={() => { handleRate(1); }} >
       {handleIcon(1)}
       </button>
-      <button type="button" className="btn btn-primary"onClick={() => { handleRate(2); }} >
+      <button type="button" className="btn btn-danger"onClick={() => { handleRate(2); }} >
       {handleIcon(2)}
       </button>
-      <button type="button" className="btn btn-primary" onClick={() => { handleRate(3); }} >
+      <button type="button" className="btn btn-danger" onClick={() => { handleRate(3); }} >
       {handleIcon(3)}
       </button>
-      <button type="button" className="btn btn-primary" onClick={() => { handleRate(4); }} >
+      <button type="button" className="btn btn-danger" onClick={() => { handleRate(4); }} >
       {handleIcon(4)}
       </button>
-      <button type="button" className="btn btn-primary" onClick={() => { handleRate(5); }} >
+      <button type="button" className="btn btn-danger" onClick={() => { handleRate(5); }} >
       {handleIcon(5)}
       </button>
     </div>

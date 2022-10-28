@@ -16,10 +16,10 @@ model User {
   photo       String
   badges      Badges[]
   ratings     BooScale[]
-  isAdmin     Chat?      @relation("groupAdmin")
+  isAdmin     Chat[]     @relation("groupAdmin")
   Comment     Comment[]
-  followedBy  Follows[]  @relation("follower")
-  following   Follows[]  @relation("following")
+  following   Follows[]  @relation("follower")
+  followers   Follows[]  @relation("following")
   images      Images[]
   liked       Likes[]
   messages    Message[]
@@ -123,11 +123,12 @@ model Haunts {
 }
 
 model Follows {
-  id         String @id @default(cuid())
-  userId     String
-  followerId String
-  follower   User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
-  user       User   @relation("following", fields: [userId], references: [id], onDelete: Cascade)
+  id          String  @id @default(cuid())
+  followerId  String
+  followingId String
+  isFollowing Boolean @default(false)
+  follower    User    @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User    @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
 }
 
 model Likes {
@@ -199,7 +200,7 @@ model Chat {
   id              String    @id @default(cuid())
   chatName        String
   isGroupChat     Boolean   @default(false)
-  groupAdminId    String?   @unique
+  groupAdminId    String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   latestMessageId String?   @unique

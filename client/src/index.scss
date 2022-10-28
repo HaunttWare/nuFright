@@ -2,17 +2,21 @@
 url('https://fonts.googleapis.com/css?family=Montserrat:100');
 
 html, body {
-  padding: 0;
   margin: 0;
   color: #fff;
   font-family: 'Montserrat', sans-serif;
-  text-align: center;
   background-color: #000 !important;
-  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png") !important;
 }
 
-// .container {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// }
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #181a1b;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #181a1b;
+}

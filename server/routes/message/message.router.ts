@@ -1,9 +1,11 @@
-// import express from "express";
-// import { addMessage, getMessages } from "./message.controller";
+import express from "express";
+import { getMessages, sendMessage } from "./message.controller";
 
-// const messageRouter = express.Router();
+const messageRouter = express.Router();
 
-// messageRouter.post("/", addMessage);
-// messageRouter.get("/:conversationId", getMessages);
 
-// export default messageRouter;
+messageRouter.route("/").post(sendMessage);
+messageRouter.route("/:chatId").get(getMessages);
+
+
+export default messageRouter;

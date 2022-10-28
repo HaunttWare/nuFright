@@ -1,6 +1,7 @@
-import { prisma } from '@prisma/client';
+
 import axios from 'axios';
 import { Request, Response } from 'express';
+import { resolveModuleName } from 'typescript';
 import { config } from '../../config';
 import { db } from '../../prisma/utils/db.server';
 
@@ -22,12 +23,13 @@ export const getVideos = async (req: Request, res: Response) => {
   }
   catch(err) {
     console.error(err);
+    res.sendStatus(500);
   }
 }
 export const getUserPlaylist = async (req: Request, res: Response) => {
-  const userId = req.body;
+  const {userId} = req.params;
   try {
-    const playListData = await db.playlist.findMany({ where: { userId }})
+    const playListData = await db.playlist.findMany({ where:{ userId } })
     res.status(200).send(playListData);
   }
   catch(err) {
@@ -52,5 +54,18 @@ export const addToPlaylist = async (req: Request, res: Response) => {
   }
   catch(err) {
     console.error(err);
+    res.sendStatus(500);
+  }
+}
+
+export const deletePlaylistEntry = async (req: Request, res: Response) => {
+  const { videoId } = req.params;
+  try {
+    const deletion = await db.playlist.delete({ where: { id: videoId }})
+    res.send(deletion).status(200);
+
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
   }
 }
