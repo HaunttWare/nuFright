@@ -43,15 +43,19 @@ const Voice = (props:{lang?:string, text:string}) => {
     return (
         <div id="Voice_Component" style={{display: 'inline-block'}}>
             { supported &&
-                <>
-                    <button className="btn btn-outline-secondary" disabled={isSpeeking} onClick={play} style={{borderWidth: '1px', borderTopLeftRadius: '45%', borderBottomLeftRadius: '45%', borderTopRightRadius: '0%', borderBottomRightRadius: '0%', minWidth: 43}}>Play</button>
-                    <button className="btn btn-outline-secondary" disabled={!isSpeeking} onClick={stop} style={{borderWidth: '1px', borderTopRightRadius: '45%', borderBottomRightRadius: '45%', borderTopLeftRadius: '0%', borderBottomLeftRadius: '0%', minWidth: 45}}>Stop</button>
-                    <select onChange={select} style={{display: 'table-cell', verticalAlign: 'middle', marginLeft: 5, marginRight: 5, background: 'black', minHeight: '1.5em', borderWidth: 1, borderColor: '#6c757d'}}>
-                        {voices.map(((voice:any, index:number) => {
-                           return <option value={voice.name} key={index}>{voice.name}</option>
-                        }))}
-                    </select>
-                </>
+                <div className="row" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 5}}>
+                    <div className="col-12" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        <select onChange={select} style={{display: 'table-cell', verticalAlign: 'middle', marginLeft: 5, marginRight: 5, background: 'black', minHeight: '1.5em', borderWidth: 1, borderColor: '#6c757d'}}>
+                            {voices.map(((voice:any, index:number) => {
+                                return <option value={voice.name} key={index}>{voice.name}</option>
+                            }))}
+                        </select>
+                    </div>
+                    <div className="col-12" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 5}}>
+                        <button className="btn btn-outline-secondary" disabled={isSpeeking} onClick={play} style={{borderWidth: '1px', borderTopLeftRadius: '45%', borderBottomLeftRadius: '45%', borderTopRightRadius: '0%', borderBottomRightRadius: '0%', minWidth: 43}}>Play</button>
+                        <button className="btn btn-outline-secondary" disabled={!isSpeeking} onClick={stop} style={{borderWidth: '1px', borderTopRightRadius: '45%', borderBottomRightRadius: '45%', borderTopLeftRadius: '0%', borderBottomLeftRadius: '0%', minWidth: 45}}>Stop</button>
+                    </div>
+                </div>
             }
         </div>
     )
