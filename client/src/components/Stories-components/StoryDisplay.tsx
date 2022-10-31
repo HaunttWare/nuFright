@@ -115,7 +115,7 @@ const StoryDisplay = (props: {
   };
 
   return (
-    <div className="row" style={{ background: "black", display: "flex", justifyContent: "center", alignItems: "center", }}>
+    <div className="row" style={{ background: "black", display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 10}}>
       <div className="text-left" style={{ display: "inline-block", width: isEditing || !sameUser ? "100%" : "50%", }}>
         <button className="btn btn-outline-secondary" onClick={() => { !isEditing ? props.backHandler("storyList") : backToDisplayHandler(); }} style={{ minWidth: 100, display: "inline-block", float: "left", }}>
           Back
