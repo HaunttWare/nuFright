@@ -142,9 +142,6 @@ const StoryDisplay = (props: {
             Published:{" "}
             {props.story.createdAt.slice(0, props.story.createdAt.indexOf("T"))}
           </div>
-          <div>
-            {numLikes} Like{numLikes > 1 || numLikes === 0 ? "s" : ""}
-          </div>
           <img src={props.story.images ? props.story.images : HauntedHouse} style={{ maxWidth: 450, maxHeight: 450 }}>
           </img>
           <Voice text={story.toString()}></Voice>
@@ -156,6 +153,9 @@ const StoryDisplay = (props: {
                 </p>
               );
             })}
+          </div>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            {numLikes} Like{numLikes > 1 || numLikes === 0 ? "s" : ""}
           </div>
           {currentUser && (
             <button className="btn btn-outline-secondary" onClick={likeButtonHandler} style={{ maxWidth: 150, borderRadius: 50, }}>
