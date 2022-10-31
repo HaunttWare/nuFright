@@ -140,7 +140,7 @@ const Navigation = () => {
             </Text>
 
             <Flex display={{ base: "none", md: "flex" }} ml={10}>
-              <DesktopNav navItems={NAV_ITEMS} navigateTo={navigateTo} />
+              <DesktopNav navItems={NAV_ITEMS} navigateTo={navigateTo} currentUser={currentUser} />
             </Flex>
           </Flex>
 
@@ -235,7 +235,7 @@ const Navigation = () => {
         </Flex>
 
         <Collapse in={isOpen} animateOpacity>
-          <MobileNav navItems={NAV_ITEMS} />
+          <MobileNav navItems={NAV_ITEMS} currentUser={currentUser}/>
         </Collapse>
       </Box>
       <Outlet />
