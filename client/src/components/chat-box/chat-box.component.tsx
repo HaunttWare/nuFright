@@ -7,7 +7,12 @@ import { Box } from "@chakra-ui/react";
 
 import SingleChat from "../single-chat/single-chat.component";
 
-const ChatBox = () => {
+const ChatBox = ({
+  socket,
+  socketConnected,
+  setSelectedChatCompare,
+  selectedChatCompare,
+}: any) => {
   const selectedChat = useSelector(selectSelectedChat);
 
   return (
@@ -21,7 +26,12 @@ const ChatBox = () => {
       borderRadius="lg"
       borderWidth="1px"
     >
-      <SingleChat />
+      <SingleChat
+        socket={socket}
+        socketConnected={socketConnected}
+        selectedChatCompare={selectedChatCompare}
+        setSelectedChatCompare={setSelectedChatCompare}
+      />
     </Box>
   );
 };
