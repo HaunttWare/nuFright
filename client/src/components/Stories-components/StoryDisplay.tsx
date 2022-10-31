@@ -142,7 +142,7 @@ const StoryDisplay = (props: {
             Published:{" "}
             {props.story.createdAt.slice(0, props.story.createdAt.indexOf("T"))}
           </div>
-          <img src={props.story.images ? props.story.images : HauntedHouse} style={{ maxWidth: 450, maxHeight: 450 }}>
+          <img src={props.story.images ? props.story.images : HauntedHouse} style={{ maxWidth: 450, maxHeight: 450, margin: 5 }}>
           </img>
           <Voice text={story.toString()}></Voice>
           <div className="row" style={{ display: "flex", justifyContent: "left" }}>
