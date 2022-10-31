@@ -138,16 +138,16 @@ const StoryDisplay = (props: {
           <div className="col-6" style={{ display: "flex", justifyContent: "left" }}>
             by: {username}
           </div>
-          <div className="col-6" style={{ display: "flex", justifyContent: "right" }}>
-            published:{" "}
+          <div className="col-6" style={{ display: "flex", justifyContent: "right", color: 'silver'}}>
+            Published:{" "}
             {props.story.createdAt.slice(0, props.story.createdAt.indexOf("T"))}
           </div>
           <div>
             {numLikes} Like{numLikes > 1 || numLikes === 0 ? "s" : ""}
           </div>
-          <Voice text={story.toString()}></Voice>
           <img src={props.story.images ? props.story.images : HauntedHouse} style={{ maxWidth: 450, maxHeight: 450 }}>
           </img>
+          <Voice text={story.toString()}></Voice>
           <div className="row" style={{ display: "flex", justifyContent: "left" }}>
             {story.split("\n").map((paragraph: string, index: number) => {
               return (
