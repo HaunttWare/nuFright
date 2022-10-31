@@ -151,7 +151,7 @@ const StoryDisplay = (props: {
           <div className="row" style={{ display: "flex", justifyContent: "left" }}>
             {story.split("\n").map((paragraph: string, index: number) => {
               return (
-                <p className="col-12" key={index}>
+                <p className="col-12" key={index} style={{paddingTop: 5, paddingBottom: 5}}>
                   {paragraph}
                 </p>
               );
