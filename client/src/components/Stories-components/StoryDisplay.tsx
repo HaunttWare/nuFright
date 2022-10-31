@@ -159,7 +159,7 @@ const StoryDisplay = (props: {
           </div>
           {currentUser && (
             <button className="btn btn-outline-secondary" onClick={likeButtonHandler} style={{ maxWidth: 150, borderRadius: 50, }}>
-              {isLiked ? "Unlike" : "Like"}
+              {isLiked ? <div className="fa fa-heart"></div> : <div className="fa fa-heart-o"></div> }
             </button>
           )}
         </>
