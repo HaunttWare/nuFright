@@ -1,4 +1,4 @@
-.card {
+.card-story {
     background: rgb(0, 0, 0);
     transition: .5s;
     border: 0;
@@ -8,12 +8,12 @@
     width: 100%;
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
 }
-.card .body {
+.card-story .body {
     color: rgb(255, 255, 255);
     padding: 20px;
     font-weight: 400;
 }
-.card .header {
+.card-story .header {
     color: rgb(255, 255, 255);
     padding: 20px;
     position: relative;
