@@ -28,7 +28,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { User } from "../side-drawer/side-drawer.component";
+import { User } from "../my-chats/my-chats.component";
 import UserBadgeItem from "../user-list-item/user-badge-item.component";
 import UserListItem from "../user-list-item/user-list-item.component";
 

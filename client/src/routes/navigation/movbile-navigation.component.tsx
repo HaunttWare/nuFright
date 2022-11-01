@@ -10,7 +10,7 @@ import {
 
 import { NavItem } from "./navigation.component";
 import { useNavigate } from "react-router-dom";
-import { User } from "../../components/side-drawer/side-drawer.component";
+import { User } from "../../components/my-chats/my-chats.component";
 type MobileNavProps = {
   navItems: NavItem[];
   currentUser: User;
@@ -24,13 +24,22 @@ const MobileNav = ({ navItems, currentUser }: MobileNavProps) => {
       display={{ md: "none" }}
     >
       {navItems.map((navItem) => (
-        <MobileNavItem navItems={[]} key={navItem.label} {...navItem} currentUser={currentUser} />
+        <MobileNavItem
+          navItems={[]}
+          key={navItem.label}
+          {...navItem}
+          currentUser={currentUser}
+        />
       ))}
     </Stack>
   );
 };
 
-const MobileNavItem = ({ label, path, currentUser}: NavItem & MobileNavProps) => {
+const MobileNavItem = ({
+  label,
+  path,
+  currentUser,
+}: NavItem & MobileNavProps) => {
   const { onToggle } = useDisclosure();
   const navigate = useNavigate();
 
