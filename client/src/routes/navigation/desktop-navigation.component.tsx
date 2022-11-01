@@ -10,12 +10,14 @@ import {
 } from "@chakra-ui/react";
 
 import { NavItem } from "./navigation.component";
+import { User } from "../../components/my-chats/my-chats.component";
 type DesktopNavProps = {
   navItems: NavItem[];
   navigateTo: (path: string) => void;
+  currentUser: User;
 };
 
-const DesktopNav = ({ navItems, navigateTo }: DesktopNavProps) => {
+const DesktopNav = ({ navItems, navigateTo, currentUser }: DesktopNavProps) => {
   const linkColor = useColorModeValue("white", "white");
   const linkHoverColor = useColorModeValue("gray.800", "white");
 
@@ -36,7 +38,11 @@ const DesktopNav = ({ navItems, navigateTo }: DesktopNavProps) => {
                   color: linkHoverColor,
                 }}
               >
-                {navItem.label}
+                {navItem.label === "Chat"
+                  ? currentUser
+                    ? navItem.label
+                    : null // if user is logged in, show chat
+                  : navItem.label}
               </Link>
             </PopoverTrigger>
           </Popover>

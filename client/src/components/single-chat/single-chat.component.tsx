@@ -1,16 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setMessages, setSelectedChat } from "../../store/chat/chat.action";
 import {
-  ChatData,
-  Message,
-  setFetchAgain,
-  addToNotifications,
-  setSelectedChat,
-} from "../../store/chat/chat.action";
-import {
-  selectFetchAgain,
-  selectNotification,
+  selectMessages,
   selectSelectedChat,
 } from "../../store/chat/chat.selector";
 import { selectCurrentUser } from "../../store/user/user.selector";
@@ -35,22 +28,19 @@ import Lottie from "react-lottie";
 
 import "./single-chat.styles.css";
 
-import io, { Socket } from "socket.io-client";
-const ENDPOINT = "http://localhost:3000"; // https://nufright.com for production
-var socket: Socket, selectedChatCompare: ChatData;
-
-const SingleChat = () => {
-  const fetchAgain = useSelector(selectFetchAgain);
+const SingleChat = ({
+  socket,
+  socketConnected,
+  setSelectedChatCompare,
+}: any) => {
   const selectedChat = useSelector(selectSelectedChat);
-  const notifications = useSelector(selectNotification);
+  const messages = useSelector(selectMessages);
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
 
-  const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
@@ -70,10 +60,10 @@ const SingleChat = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(`/api/message/${selectedChat.id}`);
-      setMessages(data);
+      dispatch(setMessages(data));
       setLoading(false);
 
-      socket.emit("join chat", selectedChat.id);
+      socket?.emit("join chat", selectedChat.id);
     } catch (err) {
       setLoading(false);
       toast({
@@ -89,7 +79,7 @@ const SingleChat = () => {
 
   const sendMessage = async (e: any) => {
     if (e.key === "Enter" && newMessage) {
-      socket.emit("stop typing", selectedChat.id);
+      socket?.emit("stop typing", selectedChat.id);
       try {
         setNewMessage("");
         const { data } = await axios.post("/api/message", {
@@ -97,8 +87,8 @@ const SingleChat = () => {
           senderId: currentUser.id,
           content: newMessage,
         });
-        socket.emit("new message", data);
-        setMessages([...messages, data]);
+        socket?.emit("new message", data);
+        dispatch(setMessages([...messages, data]));
       } catch (err) {
         toast({
           title: "Something went wrong",
@@ -113,33 +103,14 @@ const SingleChat = () => {
   };
 
   useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", currentUser);
-    socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
-  }, []);
+    socket?.on("typing", () => setIsTyping(true));
+    socket?.on("stop typing", () => setIsTyping(false));
+  }, [socket]);
 
   useEffect(() => {
     fetchMessages();
-    selectedChatCompare = selectedChat;
+    setSelectedChatCompare(selectedChat);
   }, [selectedChat]);
-
-  useEffect(() => {
-    socket.on("message received", (newMessageReceived) => {
-      if (
-        !selectedChatCompare || // if chat is not selected or doesn't match current chat
-        selectedChatCompare.id !== newMessageReceived.chatId
-      ) {
-        if (!notifications.includes(newMessageReceived)) {
-          dispatch(addToNotifications(notifications, newMessageReceived));
-          dispatch(setFetchAgain(!fetchAgain));
-        }
-      } else {
-        setMessages([...messages, newMessageReceived]);
-      }
-    });
-  });
 
   const typingHandler = (e: any) => {
     setNewMessage(e.target.value);
@@ -148,7 +119,7 @@ const SingleChat = () => {
 
     if (!typing) {
       setTyping(true);
-      socket.emit("typing", selectedChat.id);
+      socket?.emit("typing", selectedChat.id);
     }
 
     let lastTypingTime = new Date().getTime();
@@ -159,7 +130,7 @@ const SingleChat = () => {
       var timeDiff = timeNow - lastTypingTime;
 
       if (timeDiff >= timerLength && typing) {
-        socket.emit("stop typing", selectedChat.id);
+        socket?.emit("stop typing", selectedChat.id);
         setTyping(false);
       }
     }, timerLength);
@@ -188,14 +159,18 @@ const SingleChat = () => {
             {messages &&
               (!selectedChat.isGroupChat ? (
                 <>
-                  {getSenderName(currentUser, selectedChat.users)}
+                  <span style={{ color: "white" }}>
+                    {getSenderName(currentUser, selectedChat.users)}
+                  </span>
                   <ProfileModal
                     user={getSender(currentUser, selectedChat.users)}
                   />
                 </>
               ) : (
                 <>
-                  {selectedChat.chatName.toUpperCase()}
+                  <span style={{ color: "white" }}>
+                    {selectedChat.chatName.toUpperCase()}
+                  </span>
                   <UpdateGroupChatModal fetchMessages={fetchMessages} />
                 </>
               ))}
@@ -205,7 +180,7 @@ const SingleChat = () => {
             justifyContent="flex-end"
             flexDirection="column"
             p={3}
-            bg="gray.100"
+            bg="gray.700"
             width="100%"
             height="100%"
             borderRadius="lg"
@@ -239,7 +214,8 @@ const SingleChat = () => {
               )}
               <Input
                 variant="filled"
-                bg="white"
+                bg="gray.800"
+                color="white"
                 placeholder="Type a message..."
                 onChange={typingHandler}
                 value={newMessage}
@@ -253,6 +229,7 @@ const SingleChat = () => {
           alignItems="center"
           justifyContent="center"
           height="100%"
+          color="white"
         >
           <Text fontSize="3xl" pb={3}>
             Click on a user to start chatting

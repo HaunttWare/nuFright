@@ -11,11 +11,13 @@ import {
 
 import { NavItem } from "./navigation.component";
 import { useNavigate } from "react-router-dom";
+import { User } from "../../components/my-chats/my-chats.component";
 type MobileNavProps = {
   navItems: NavItem[];
+  currentUser: User;
 };
 
-const MobileNav = ({ navItems}: MobileNavProps) => {
+const MobileNav = ({ navItems, currentUser }: MobileNavProps) => {
   return (
     <Stack
       bg={useColorModeValue("transparent", "transparent")}
@@ -23,13 +25,22 @@ const MobileNav = ({ navItems}: MobileNavProps) => {
       display={{ md: "none" }}
     >
       {navItems.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
+        <MobileNavItem
+          navItems={[]}
+          key={navItem.label}
+          {...navItem}
+          currentUser={currentUser}
+        />
       ))}
     </Stack>
   );
 };
 
-const MobileNavItem = ({ label, path}: NavItem) => {
+const MobileNavItem = ({
+  label,
+  path,
+  currentUser,
+}: NavItem & MobileNavProps) => {
   const { onToggle } = useDisclosure();
   const navigate = useNavigate();
 
@@ -50,7 +61,11 @@ const MobileNavItem = ({ label, path}: NavItem) => {
         }}
       >
         <Text fontWeight={600} color={useColorModeValue("white", "white")}>
-          {label}
+          {label === "Chat"
+            ? currentUser
+              ? label
+              : null // if user is logged in, show chat
+            : label}
         </Text>
       </Flex>
     </Stack>

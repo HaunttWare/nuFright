@@ -3,7 +3,7 @@ import React from "react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { Badge } from "@chakra-ui/react";
 
-import { User } from "../side-drawer/side-drawer.component";
+import { User } from "../my-chats/my-chats.component";
 
 type UserBadgeItemProps = {
   user: User;

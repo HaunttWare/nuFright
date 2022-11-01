@@ -2,10 +2,12 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser, selectFollowerList, selectFollowingList } from "../../store/user/user.selector";
+import { selectBadgeList } from "../../store/badges/badges.selector";
 
 import PhotosTab from "../../components/profile-tabs/photos-tab/photos-tab.component";
 import LikesTab from "../../components/profile-tabs/likes-tab/likes-tab.component";
 import SavesTab from "../../components/profile-tabs/saves-tab/saves-tab.component";
+import BadgesTab from "../../components/profile-tabs/badges-tab/badges-tab.component";
 
 export type ImageData = {
   id: string;
@@ -17,6 +19,7 @@ const Profile = () => {
   const currentUser = useSelector(selectCurrentUser);
   const followers = useSelector(selectFollowerList);
   const following = useSelector(selectFollowingList);
+  const userBadges = useSelector(selectBadgeList);
   const [activeTab, setActiveTab] = useState("photos");
   const [userImages, setUserImages] = useState<ImageData[]>([]);
 
@@ -84,7 +87,17 @@ const Profile = () => {
                       }`}
                       onClick={() => setActiveTab("photos")}
                     >
-                      Photos
+                      My Photos
+                    </button>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      className={`nav-link ${
+                        activeTab === "badges" ? "active" : ""
+                      }`}
+                      onClick={() => setActiveTab("badges")}
+                    >
+                      My Badges
                     </button>
                   </li>
                   <li className="nav-item">
@@ -116,6 +129,14 @@ const Profile = () => {
                   >
                     <PhotosTab userImages={userImages} />
                   </div>
+                  <div
+                    className={`tab-pane fade ${
+                      activeTab === "badges" ? "show active" : ""
+                    }`}
+                  >
+                    <BadgesTab userBadges={userBadges} />
+                  </div>
+                  
                   <div
                     className={`tab-pane fade ${
                       activeTab === "likes" ? "show active" : ""
