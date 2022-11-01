@@ -1,3 +1,4 @@
+// eslint-disable-next-line react-hooks/rules-of-hooks
 import React from 'react'
 import { createIcon } from '@chakra-ui/react'
 

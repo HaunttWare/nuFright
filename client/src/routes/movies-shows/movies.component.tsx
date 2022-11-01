@@ -5,6 +5,8 @@ import { setCurrentMovies, MoviesData } from '../../store/movies/movies.action';
 import { selectCurrentMovies } from '../../store/movies/movies.selector';
 import EachMovie from './EachMovie.component';
 import Pagination from '../../components/pagination/pagination.component';
+import Comments from '../../components/comments/comments';
+import Rating from '../../components/boo-scale/rating.component';
 import './movie.styles.scss';
 
 const Movies = () => {
@@ -26,17 +28,15 @@ const Movies = () => {
   useEffect(() => {
     setCurrentMoviesLoaded(true);
   }, []);
-  
+
   return (
     <>
-      {currentMovies.length ? (currentMovies.map((movie: MoviesData) => (
+      {currentMovies.length ? (
+        currentMovies.map((movie: MoviesData) => (
           <div className='movie_card' id='bright'>
             <div className='info_section'>
               <div className='movie_header'>
-                <img
-                  className='locandina'
-                  src={movie.images}
-                />
+                <img className='locandina' src={movie.images} />
                 <h1>{movie.title}</h1>
                 <h4>add director and year here</h4>
                 <span className='minutes'>add movie length here</span>
@@ -57,11 +57,14 @@ const Movies = () => {
                     <i className='fa-solid fa-message'></i>
                   </li>
                 </ul>
+                <Comments category={movie} type={'cinema'} />
+                <Rating id={movie.id} type={'cinema'} />
               </div>
             </div>
             <div className='blur_back bright_back'></div>
           </div>
-        ))) : (
+        ))
+      ) : (
         <div className='d-flex justify-content-center'>
           <div className='spinner-border' role='status'>
             <span className='sr-only'>Loading...</span>

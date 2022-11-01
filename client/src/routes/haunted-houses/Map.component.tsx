@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+// eslint-disable-next-line react-hooks/rules-of-hooks
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import Map, {
-  MapRef,
   useMap,
   Marker,
   Popup,
@@ -8,10 +8,11 @@ import Map, {
   FullscreenControl,
   ScaleControl,
   GeolocateControl as GeolocationControl,
+  MapRef,
 } from 'react-map-gl';
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { features } from './haunted-houses';
-import { Units, Coord } from '@turf/helpers';
 import { distance } from '@turf/turf';
 
 type Features = {
@@ -36,25 +37,27 @@ type Features = {
   };
 }[];
 
+type Haunts = {
+  name: string;
+  latitude: string;
+  longitude: string;
+  id: string;
+  address: string;
+  address2: string;
+};
+
 const MapBox = () => {
   const [sortedFeatures, setSortedFeatures] = useState<Features>([]);
   const [userLocation, setUserLocation] = useState<number[]>([]);
   const [currentFeature, setCurrentFeature] = useState([]);
   const { current: map } = useMap();
-  // const mapRef = useRef();
+  const mapRef = useRef<Map<number, number> | null>(null);
+
   const [viewState, setViewState] = useState({
     longitude: -95.7219,
     latitude: 37.8,
     zoom: 3,
   });
-  type Haunts = {
-    name: string;
-    latitude: string;
-    longitude: string;
-    id: string;
-    address: string;
-    address2: string;
-  };
   const [showPopup, setShowPopup] = useState(false);
   const [featurePopup, setFeaturePopup] = useState<Haunts>({} as Haunts);
 
@@ -144,11 +147,15 @@ const MapBox = () => {
     );
 
   const flyToLocation = (feature: any) => {
-    console.log(feature);
-    map?.flyTo({
-      center: feature.geometry.coordinates,
-      zoom: 12,
-    });
+ 
+    const map = mapRef.current;
+   setViewState(feature.geometry.coordinates)
+    // map?.flyTo({
+    //   center: feature.geometry.coordinates,
+    //   zoom: 12,
+    // });
+    // console.log(map?.flyTo({center: feature.geometry.coordinates}))
+    console.log(viewState)
   };
 
   return (
@@ -183,7 +190,9 @@ const MapBox = () => {
                   style={{ cursor: 'pointer', borderBottom: '1px solid white' }}
                   key={feature.id}
                 >
-                  <span className='text-muted'>
+                  <span 
+                  // className='text-muted'
+                  >
                     {Math.round(feature.properties.distance * 100) / 100} miles away
                   </span>
                   <h5>
@@ -197,9 +206,9 @@ const MapBox = () => {
         </div>
 
         <Map
-       
+          
           {...viewState}
-          onMove={(evt) => setViewState(evt.viewState)}
+          onMove={e => setViewState(e.viewState)}
           style={{
             position: 'relative',
             float: 'right',
@@ -210,11 +219,11 @@ const MapBox = () => {
           mapStyle='mapbox://styles/mapbox/dark-v10'
           onRender={(e) => e.target.resize()}
         >
-          <button
+          {/* <button
           style={{position: 'absolute'}}
           className='btn btn-lg btn-danger'
           onClick={() => flyToLocation({properties:{geometry: {coordinates: [-74.003033, 40.732839]}}})}
-          >Click Here</button>
+          >Click Here</button> */}
           <GeolocationControl position='top-left' />
           <FullscreenControl position='top-left' />
           <NavigationControl position='top-left' />
