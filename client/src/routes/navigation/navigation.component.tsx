@@ -1,11 +1,25 @@
-import React from "react";
+
+import React, { useEffect } from "react";
+
 import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { setCurrentUser } from "../../store/user/user.action";
-import { setSelectedChat } from "../../store/chat/chat.action";
-import { setNotification, Notification } from "../../store/chat/chat.action";
-import { selectNotification } from "../../store/chat/chat.selector";
+import {
+  addToNotifications,
+  setFetchAgain,
+  setSelectedChat,
+} from "../../store/chat/chat.action";
+import {
+  setNotification,
+  Notification,
+  setMessages,
+} from "../../store/chat/chat.action";
+import {
+  selectFetchAgain,
+  selectMessages,
+  selectNotification,
+} from "../../store/chat/chat.selector";
 
 import {
   Box,
@@ -41,7 +55,6 @@ import { getSenderName } from "../../config/chatLogics";
 
 import MobileNav from "./movbile-navigation.component";
 import DesktopNav from "./desktop-navigation.component";
-import axios from "axios";
 
 export interface NavItem {
   label: string;
@@ -87,10 +100,12 @@ const NAV_ITEMS: Array<NavItem> = [
   },
 ];
 
-const Navigation = () => {
+const Navigation = ({ socket, selectedChatCompare }: any) => {
   const { isOpen, onToggle } = useDisclosure();
   const currentUser = useSelector(selectCurrentUser);
+  const messages = useSelector(selectMessages);
   const notifications = useSelector(selectNotification);
+  const fetchAgain = useSelector(selectFetchAgain);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -98,6 +113,41 @@ const Navigation = () => {
   const navigateTo = (path: string) => {
     navigate(path);
   };
+
+  const handleNotification = (notif: Notification) => {
+    if (location.pathname !== "/chats") {
+      navigateTo("/chats");
+      dispatch(setSelectedChat(notif.chat));
+      dispatch(
+        setNotification(
+          notifications.filter((n: Notification) => n.id !== notif.id)
+        )
+      );
+    } else {
+      dispatch(setSelectedChat(notif.chat));
+      dispatch(
+        setNotification(
+          notifications.filter((n: Notification) => n.id !== notif.id)
+        )
+      );
+    }
+  };
+
+  useEffect(() => {
+    socket?.on("message received", (newMessageReceived: any) => {
+      if (
+        !selectedChatCompare || // if chat is not selected or doesn't match current chat
+        selectedChatCompare.id !== newMessageReceived.chatId
+      ) {
+        if (!notifications.includes(newMessageReceived)) {
+          dispatch(addToNotifications(notifications, newMessageReceived));
+          dispatch(setFetchAgain(!fetchAgain));
+        }
+      } else {
+        dispatch(setMessages([...messages, newMessageReceived]));
+      }
+    });
+  });
 
   return (
     <>
@@ -140,7 +190,11 @@ const Navigation = () => {
             </Text>
 
             <Flex display={{ base: "none", md: "flex" }} ml={10}>
-              <DesktopNav navItems={NAV_ITEMS} navigateTo={navigateTo} />
+              <DesktopNav
+                navItems={NAV_ITEMS}
+                navigateTo={navigateTo}
+                currentUser={currentUser}
+              />
             </Flex>
           </Flex>
 
@@ -158,7 +212,6 @@ const Navigation = () => {
                 fontWeight={400}
                 bg={"white"}
                 color="black"
-                
               >
                 <GoogleIcon boxSize="5" pr={2} />
                 Sign In
@@ -168,7 +221,9 @@ const Navigation = () => {
                 <Menu>
                   <MenuButton p={1}>
                     <NotificationBadge
-                      count={notifications.length}
+                      count={notifications
+                        .map((n: Notification) => n.quantity)
+                        .reduce((a: any, b: any) => a + b, 0)}
                       effect={Effect.SCALE}
                     />
                     <BellIcon fontSize="2xl" m={1} />
@@ -178,16 +233,7 @@ const Navigation = () => {
                     {notifications.map((notif: Notification) => (
                       <MenuItem
                         key={notif.id}
-                        onClick={() => {
-                          dispatch(setSelectedChat(notif.chat));
-                          dispatch(
-                            setNotification(
-                              notifications.filter(
-                                (n: Notification) => n.id !== notif.id
-                              )
-                            )
-                          );
-                        }}
+                        onClick={() => handleNotification(notif)}
                       >
                         {notif.chat.isGroupChat
                           ? notif.quantity > 1
@@ -226,7 +272,13 @@ const Navigation = () => {
                       My Profile
                     </MenuItem>
                     <MenuDivider />
-                    <MenuItem onClick={() => dispatch(setCurrentUser(null))} as="a" href='/api/auth/logout'>Logout</MenuItem>
+                    <MenuItem
+                      onClick={() => dispatch(setCurrentUser(null))}
+                      as="a"
+                      href="/api/auth/logout"
+                    >
+                      Logout
+                    </MenuItem>
                   </MenuList>
                 </Menu>
               </Box>
@@ -235,7 +287,7 @@ const Navigation = () => {
         </Flex>
 
         <Collapse in={isOpen} animateOpacity>
-          <MobileNav navItems={NAV_ITEMS} />
+          <MobileNav navItems={NAV_ITEMS} currentUser={currentUser} />
         </Collapse>
       </Box>
       <Outlet />

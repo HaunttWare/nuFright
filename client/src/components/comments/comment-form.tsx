@@ -8,12 +8,6 @@ const CommentForm = ({newComment}: CommentFormProps) => {
 
   const [message, setMessage] = useState<string>()
 
-  interface HandleChange {
-    handleChange: (
-      selectType: string,
-      event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  }
-
   const handleChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
     const {value} = e.target;
       setMessage(value);
@@ -24,7 +18,7 @@ const CommentForm = ({newComment}: CommentFormProps) => {
       <div className='new-comment'>
         <textarea 
           className='form-control form-control-sm'
-          placeholder='comment here'
+          placeholder='comment here...'
           aria-label='.form-control-sm example'
           name='message'
           onChange={e => handleChange(e)}
