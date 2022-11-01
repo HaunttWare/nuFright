@@ -32,9 +32,9 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
       title: "Add a caption",
       input: "text",
       inputLabel: "caption here",
-      color: '#fff',
+     
       confirmButtonColor: '#dd6b55',
-      background: '#181a1b'
+     
     })
 
     if (file && caption) {
