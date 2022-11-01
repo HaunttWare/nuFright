@@ -1,13 +1,15 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   setCurrentUser,
   setFollowerList,
   setFollowingList,
 } from "./store/user/user.action";
+import { selectCurrentUser } from "./store/user/user.selector";
+import { ChatData } from "./store/chat/chat.action";
 import { setBadgeList } from "./store/badges/badges.action";
 import { setRatingList } from "./store/ratings/ratings.action";
 import { badgeToast } from "./components/alerts/badgeAlerts.component";
@@ -25,9 +27,17 @@ import Profile from "./routes/profile/profile.component";
 import MusicMakingView from "./routes/MusicMaker/MusicMakingView";
 import Chat from "./routes/chat/chat.component";
 import PlayListComp from "./routes/playlists/playlist.component";
-import LandingPage from './routes/landingpage/landingpage.component';
+import LandingPage from "./routes/landingpage/landingpage.component";
+
+import io, { Socket } from "socket.io-client";
+const ENDPOINT = "http://localhost:3000"; // https://nufright.com for production
+var socket: Socket;
+
 const App = () => {
   const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser);
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [selectedChatCompare, setSelectedChatCompare] = useState<ChatData>();
   const profileBadge = require("../../assets/profile-badge.png").default;
 
   useEffect(() => {
@@ -109,12 +119,31 @@ const App = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    if (!currentUser) return;
+    socket = io(ENDPOINT);
+    socket.emit("setup", currentUser);
+    socket.on("connected", () => setSocketConnected(true));
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [currentUser]);
+
   return (
     <Routes>
-      <Route path='/welcome' element={<LandingPage />} />
-      <Route path='/' element={<Navigate to='/welcome'/>} />
-      <Route path="/*" element={<Navigation />}>
-        <Route path='home' element={<Home />} />
+      <Route path="/welcome" element={<LandingPage />} />
+      <Route path="/" element={<Navigate to="/welcome" />} />
+      <Route
+        path="/*"
+        element={
+          <Navigation
+            socket={socket}
+            selectedChatCompare={selectedChatCompare}
+          />
+        }
+      >
+        <Route path="home" element={<Home />} />
         <Route path="cinema" element={<Films />} />
         <Route path="books" element={<Books />} />
         <Route path="books/:bookId" element={<Book />} />
@@ -124,7 +153,17 @@ const App = () => {
         <Route path="find-haunts" element={<MapBox />} />
         <Route path="sounds" element={<MusicMakingView />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="chats" element={<Chat />} />
+        <Route
+          path="chats"
+          element={
+            <Chat
+              socket={socket}
+              socketConnected={socketConnected}
+              selectedChatCompare={selectedChatCompare}
+              setSelectedChatCompare={setSelectedChatCompare}
+            />
+          }
+        />
         <Route path="playlist" element={<PlayListComp />} />
       </Route>
     </Routes>

@@ -12,6 +12,11 @@ export const selectChats = createSelector(
   (chat) => chat.chats
 );
 
+export const selectMessages = createSelector(
+  [selectChatReducer],
+  (chat) => chat.messages
+);
+
 export const selectFetchAgain = createSelector(
   [selectChatReducer],
   (chat) => chat.fetchAgain

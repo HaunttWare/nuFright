@@ -2,7 +2,7 @@ import React from "react";
 
 import { Avatar, Box, Text } from "@chakra-ui/react";
 
-import { User } from "../side-drawer/side-drawer.component";
+import { User } from "../my-chats/my-chats.component";
 
 type UserListItemProps = {
   user: User;

@@ -1,9 +1,10 @@
-import { ChatData, Notification } from "./chat.action";
+import { ChatData, Message, Notification } from "./chat.action";
 import { CHAT_ACTIONS_TYPES } from "./chat.types";
 
 export type ChatInitialState = {
   selectedChat: ChatData | null;
   chats: ChatData[];
+  messages: Message[];
   fetchAgain: boolean;
   notification: Notification[];
 };
@@ -11,6 +12,7 @@ export type ChatInitialState = {
 const INITIAL_STATE: ChatInitialState = {
   selectedChat: null,
   chats: [],
+  messages: [],
   fetchAgain: false,
   notification: [],
 };
@@ -27,6 +29,11 @@ export const chatReducer = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         chats: payload,
+      };
+    case CHAT_ACTIONS_TYPES.SET_MESSAGES:
+      return {
+        ...state,
+        messages: payload,
       };
     case CHAT_ACTIONS_TYPES.SET_FETCH_AGAIN:
       return {
