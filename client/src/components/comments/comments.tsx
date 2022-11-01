@@ -81,13 +81,6 @@ const Comments = ({ category, type }: CommentsProps) => {
     .catch(err => console.log('delete error', err))
   }
   
-  // const parentComments = useMemo(() => {
-  //   const group = {}
-  //   comments.forEach((comment: any) => {
-  //     group[comment.parentId] || = [];
-  //     group[comment.parentId].push(comment)
-  //   })
-  // }, [comments])
 
   return comments.length ? (
     <div className='row text-light py-2' onClick={() => setShowComments(true)}>
