@@ -230,7 +230,9 @@ const UpdateGroupChatModal = ({ fetchMessages }: UpdateGroupChatModalProps) => {
               />
               <Button
                 variant="solid"
-                colorScheme="red"
+                bg="gray.700"
+                colorScheme="gray.700"
+                color="white"
                 ml={1}
                 isLoading={renameLoading}
                 onClick={handleRename}

@@ -7,7 +7,7 @@ import { Box } from "@chakra-ui/layout";
 import MyChats from "../../components/my-chats/my-chats.component";
 import ChatBox from "../../components/chat-box/chat-box.component";
 
-const Chat = ({ socket, setSelectedChatCompare, selectedChatCompare }: any) => {
+const Chat = ({ socket, socketConnected, setSelectedChatCompare, selectedChatCompare }: any) => {
   const currentUser = useSelector(selectCurrentUser);
 
   return (
@@ -34,6 +34,7 @@ const Chat = ({ socket, setSelectedChatCompare, selectedChatCompare }: any) => {
         {currentUser && (
           <ChatBox
             socket={socket}
+            socketConnected={socketConnected}
             selectedChatCompare={selectedChatCompare}
             setSelectedChatCompare={setSelectedChatCompare}
           />

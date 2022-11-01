@@ -105,7 +105,7 @@ const SingleChat = ({
   useEffect(() => {
     socket?.on("typing", () => setIsTyping(true));
     socket?.on("stop typing", () => setIsTyping(false));
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     fetchMessages();
@@ -159,14 +159,18 @@ const SingleChat = ({
             {messages &&
               (!selectedChat.isGroupChat ? (
                 <>
-                  {getSenderName(currentUser, selectedChat.users)}
+                  <span style={{ color: "white" }}>
+                    {getSenderName(currentUser, selectedChat.users)}
+                  </span>
                   <ProfileModal
                     user={getSender(currentUser, selectedChat.users)}
                   />
                 </>
               ) : (
                 <>
-                  {selectedChat.chatName.toUpperCase()}
+                  <span style={{ color: "white" }}>
+                    {selectedChat.chatName.toUpperCase()}
+                  </span>
                   <UpdateGroupChatModal fetchMessages={fetchMessages} />
                 </>
               ))}
@@ -176,7 +180,7 @@ const SingleChat = ({
             justifyContent="flex-end"
             flexDirection="column"
             p={3}
-            bg="gray.100"
+            bg="gray.700"
             width="100%"
             height="100%"
             borderRadius="lg"
@@ -210,7 +214,8 @@ const SingleChat = ({
               )}
               <Input
                 variant="filled"
-                bg="white"
+                bg="gray.800"
+                color="white"
                 placeholder="Type a message..."
                 onChange={typingHandler}
                 value={newMessage}
@@ -224,6 +229,7 @@ const SingleChat = ({
           alignItems="center"
           justifyContent="center"
           height="100%"
+          color="white"
         >
           <Text fontSize="3xl" pb={3}>
             Click on a user to start chatting

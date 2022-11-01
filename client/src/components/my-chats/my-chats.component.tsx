@@ -153,11 +153,11 @@ const MyChats = () => {
       flexDirection="column"
       alignItems="center"
       p={3}
-      bg="white"
+      bg="gray.800"
       width={{ base: "100%", md: "31%" }}
       borderRadius="lg"
       boxShadow="md"
-      borderWidth="1px"
+      borderWidth="1px solid #e2e8f0"
     >
       <Box
         pb={3}
@@ -191,7 +191,7 @@ const MyChats = () => {
         display="flex"
         flexDirection="column"
         p={3}
-        bg="#f5f5f5"
+        bg="gray.700"
         width="100%"
         height="100%"
         borderRadius="lg"
@@ -204,6 +204,7 @@ const MyChats = () => {
                 placeholder="Search by name or email"
                 mr={2}
                 value={search}
+                color="white"
                 onChange={(e) => setSearch(e.target.value)}
               />
               <Button onClick={handleSearch}>Search</Button>
@@ -230,12 +231,12 @@ const MyChats = () => {
                 bg={
                   selectedChat && selectedChat.id === chat.id
                     ? "#e5e5e5"
-                    : "white"
+                    : "#1a202c"
                 }
                 color={
                   selectedChat && selectedChat.id === chat.id
-                    ? "black"
-                    : "gray.500"
+                    ? "#1a202c"
+                    : "#e5e5e5"
                 }
                 px={3}
                 py={2}

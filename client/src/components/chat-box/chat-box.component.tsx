@@ -21,10 +21,10 @@ const ChatBox = ({
       alignItems="center"
       flexDirection="column"
       p={3}
-      bg="white"
+      bg="gray.800"
       width={{ base: "100%", md: "68%" }}
       borderRadius="lg"
-      borderWidth="1px"
+      borderWidth="1px solid #e2e8f0"
     >
       <SingleChat
         socket={socket}

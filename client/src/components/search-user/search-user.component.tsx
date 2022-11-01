@@ -21,7 +21,7 @@ const SearchUser = ({ setIsSearching, isSearching }: SearchUserProps) => {
         <Text
           fontSize={{ base: "20px", md: "22px" }}
           fontWeight="bold"
-          color="gray.700"
+          color="#e5e5e5"
           display={isSearching ? "none" : "block"}
         >
           My Chats
@@ -32,9 +32,11 @@ const SearchUser = ({ setIsSearching, isSearching }: SearchUserProps) => {
           placement="bottom-end"
         >
           <Button
-            variant="ghost"
+            variant="solid"
             onClick={() => setIsSearching(!isSearching)}
             size={{ base: "md", md: "sm" }}
+            color="#1a202c"
+            bg="#e2e8f0"  
           >
             {isSearching ? (
               // back arrow
@@ -44,7 +46,7 @@ const SearchUser = ({ setIsSearching, isSearching }: SearchUserProps) => {
               <i className="fas fa-search"></i>
             )}
             <Text display={{ base: "none", md: "flex" }} px={4}>
-              Search User
+              {isSearching ? "" : "Search User"}
             </Text>
           </Button>
         </Tooltip>
