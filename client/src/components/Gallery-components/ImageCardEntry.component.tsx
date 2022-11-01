@@ -8,7 +8,7 @@ const ImageCardEntry = ({ image }: image) => {
       <img
         src={image.image}
         className="card-img-top"
-        style={{ width: "100%", height: "150px"}}
+        style={{ width: "100%", height: "150px", objectFit: "cover"}}
         alt="..."
       />
       <div className="card-body" style={{ color: 'black' }} >

@@ -26,45 +26,26 @@ const CostumesList = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-center" style={{ height: "40px" }}>
-        <button
-          className={`btn btn-outline-danger tab ${select && "active"} `}
-          onClick={() => switchDisplay()}
-        >
+    <div className="" style={{marginLeft: 5, marginRight: 6}}>
+      <div className="d-inline-flex justify-content-left" style={{ height: "40px" }}>
+        <button className={`btn btn-outline-danger tab ${select && "active"} `} onClick={() => {if(!select){switchDisplay()}}} style={{borderTopRightRadius: '0%', borderBottomRightRadius: '0%'}}>
           Mens
         </button>
-        <button
-          className={`btn btn-outline-danger tab ${!select && "active"} `}
-          onClick={() => switchDisplay()}
-        >
+        <button className={`btn btn-outline-danger tab ${!select && "active"} `} onClick={() => {if(select){switchDisplay()}}} style={{borderTopLeftRadius: '0%', borderBottomLeftRadius: '0%'}}>
           Womens
         </button>
       </div>
-      <div
-        className="d-flex justify-content-center mt-3"
-        style={{ height: "40px" }}
-      >
-        <button
-          className={`btn btn-outline-danger`}
-          onClick={() => switchPage(-1)}
-          disabled={index === 0}
-        >
+      <div className="d-inline-flex justify-content-right" style={{ height: "40px", float: 'right', }}>
+        <button className={`btn btn-outline-danger`} onClick={() => switchPage(-1)} disabled={index === 0} style={{borderTopRightRadius: '0%', borderBottomRightRadius: '0%'}}>
           <i className="fa-solid fa-chevron-left"></i>Prev
         </button>
-        <button
-          className={`btn btn-outline-danger `}
-          onClick={() => switchPage(1)}
-          disabled={
-            index + listLength >=
-            (select ? mens_selection.length : womens_selection.length)
-          }
-        >
+        <button className={`btn btn-outline-danger `} onClick={() => switchPage(1)} disabled={ index + listLength >= (select ? mens_selection.length : womens_selection.length) } style={{borderTopLeftRadius: '0%', borderBottomLeftRadius: '0%'}}>
           Next <i className="fa-solid fa-chevron-right"></i>
         </button>
       </div>
+    </div>
 
-      <div className="container mt-5">
-        <div className="row">
+        <div className="card-group">
           {(select ? mens_selection : womens_selection).map(
             (costume: any, indexKey: number) => {
               return (
@@ -82,7 +63,6 @@ const CostumesList = () => {
             }
           )}
         </div>
-      </div>
     </>
   );
 };
