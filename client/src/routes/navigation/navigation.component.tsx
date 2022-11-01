@@ -219,7 +219,9 @@ const Navigation = ({ socket, selectedChatCompare }: any) => {
                 <Menu>
                   <MenuButton p={1}>
                     <NotificationBadge
-                      count={notifications.length}
+                      count={notifications
+                        .map((n: Notification) => n.quantity)
+                        .reduce((a: any, b: any) => a + b, 0)}
                       effect={Effect.SCALE}
                     />
                     <BellIcon fontSize="2xl" m={1} />
