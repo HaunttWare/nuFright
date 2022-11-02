@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import CommentForm from './comment-form';
+//current user imports
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 
 type CommentProps = {
@@ -22,7 +25,8 @@ const Comment = ({ comment, deleteComment }: CommentProps) => {
   const [users, setUsers] = useState<Users>([]);
   const [edit, setEdit] = useState(false);
   const [reply, setReply] = useState(false);
-  const [message, setMessage] = useState<string>()
+  const [message, setMessage] = useState<string>();
+  const currentUser = useSelector(selectCurrentUser);
 
   // useEffect(() => {
   //   axios.get('/api/comments/users')
@@ -45,7 +49,7 @@ const Comment = ({ comment, deleteComment }: CommentProps) => {
         </span>
         <div className='message'>{comment.message}</div>
         <div className='footer'>
-        <i className="fa-solid fa-trash" id={comment.id} onClick={e => deleteComment(e)}></i>
+        {(currentUser ? currentUser.id === comment.userId : false) && <i className="fa-solid fa-trash" id={comment.id} onClick={e => { if(currentUser) { if(currentUser.id === comment.userId) {deleteComment(e)}}}}></i>}
         </div>
       </div>
       {/* {reply && (

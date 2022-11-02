@@ -60,8 +60,10 @@ const StoriesPage = () => {
             {view === 'story' && 
             <>
             <StoryDisplay story={selectedStory} backHandler={viewHandler}/>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <Rating id={selectedStory.id} type={'stories'} />
+                </div>
                 <Comments category={selectedStory} type={'stories'} />
-                <Rating id={selectedStory.id} type={'stories'} />
             </>
             }
             {view === 'write' && <WriteStory backHandler={viewHandler}/>}
