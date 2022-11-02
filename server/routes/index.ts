@@ -11,6 +11,7 @@ import imageRouter from "./images/images.routes";
 import storyRouter from "./stories/stories.routes";
 import PlaylistRouter from "./playlists/playlists.routes";
 import ratingRouter from "./ratings/rating.router";
+import scrapperRouter from "./scrapper/scrapper.routes";
 import likesRouter from "./likes/likes.routes";
 import badgeRouter from "./badges/badge.routes";
 import commentRouter from "./comments/comment.router";
@@ -23,6 +24,7 @@ rootRouter.use("/user", userRouter);
 rootRouter.use("/chat", chatRouter);
 rootRouter.use("/message", messageRouter);
 
+rootRouter.use("/events", scrapperRouter);
 rootRouter.use("/movies", MovieRouter);
 rootRouter.use("/shows", showsRouter);
 rootRouter.use("/books", booksRouter);
