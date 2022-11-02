@@ -27,7 +27,7 @@ const Gallery = () => {
 
   return (
     <div className="container">
-      <h1>Gallery</h1>
+      <h1 style={{ fontFamily: 'Montserrat', color: "whitesmoke", display: "flex", justifyContent: "center", alignContent: "center", fontSize: "2.5em"}} >Gallery</h1>
       <ImagePost setGotImages={setGotImages} />
       {
         allImages ?

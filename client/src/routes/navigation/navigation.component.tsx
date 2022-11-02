@@ -53,10 +53,10 @@ const NAV_ITEMS: Array<NavItem> = [
     label: "Cinema",
     path: "/cinema",
   },
-  {
-    label: "Books",
-    path: "/books",
-  },
+  // {
+  //   label: "Books",
+  //   path: "/books",
+  // },
   {
     label: "Stories",
     path: "/stories",
