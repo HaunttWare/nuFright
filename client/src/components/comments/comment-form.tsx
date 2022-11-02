@@ -25,6 +25,7 @@ const CommentForm = ({newComment}: CommentFormProps) => {
           onKeyDown={e => e.key === 'Enter' && message? newComment(message): null}
         ></textarea>
         <button
+        className="btn btn-outline-secondary"
           type='button'
           onClick={() => message? newComment(message) : null}
         >Post</button>
