@@ -36,19 +36,19 @@ const Rated = ( {id, score, setScore, type}:{ id: string; score: number; setScor
 
   return (
     <div className="btn-group me-1" role="group" >
-      <button type="button"  className="btn btn-danger" onClick={() => { handleRate(1); }} >
+      <button type="button"  className="btn btn-outlined-danger" onClick={() => { handleRate(1); }} >
       {handleIcon(1)}
       </button>
-      <button type="button" className="btn btn-danger"onClick={() => { handleRate(2); }} >
+      <button type="button" className="btn btn-outlined-danger"onClick={() => { handleRate(2); }} >
       {handleIcon(2)}
       </button>
-      <button type="button" className="btn btn-danger" onClick={() => { handleRate(3); }} >
+      <button type="button" className="btn btn-outlined-danger" onClick={() => { handleRate(3); }} >
       {handleIcon(3)}
       </button>
-      <button type="button" className="btn btn-danger" onClick={() => { handleRate(4); }} >
+      <button type="button" className="btn btn-outlined-danger" onClick={() => { handleRate(4); }} >
       {handleIcon(4)}
       </button>
-      <button type="button" className="btn btn-danger" onClick={() => { handleRate(5); }} >
+      <button type="button" className="btn btn-outlined-danger" onClick={() => { handleRate(5); }} >
       {handleIcon(5)}
       </button>
     </div>

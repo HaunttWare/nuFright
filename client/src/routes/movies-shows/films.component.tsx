@@ -6,7 +6,7 @@ const Films = () => {
   const [showShows, setShowShows] = useState(false);
   return (
     <div className="container">
-      <h1>Films</h1>
+      <h1 style={{fontFamily: 'Montserrat', display: 'flex', justifyContent: "center", alignContent: 'center', color: "whitesmoke", fontSize: "2.5em"}} >Films</h1>
       <div className="tabs">
         <button
           className={`btn btn-outline-danger tab ${!showShows && "active"}`}
