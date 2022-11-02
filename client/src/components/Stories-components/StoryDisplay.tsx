@@ -115,7 +115,7 @@ const StoryDisplay = (props: {
   };
 
   return (
-    <div className="row" style={{ background: "black", display: "flex", justifyContent: "center", alignItems: "center", }}>
+    <div className="row" style={{ background: "black", display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 10}}>
       <div className="text-left" style={{ display: "inline-block", width: isEditing || !sameUser ? "100%" : "50%", }}>
         <button className="btn btn-outline-secondary" onClick={() => { !isEditing ? props.backHandler("storyList") : backToDisplayHandler(); }} style={{ minWidth: 100, display: "inline-block", float: "left", }}>
           Back
@@ -138,28 +138,28 @@ const StoryDisplay = (props: {
           <div className="col-6" style={{ display: "flex", justifyContent: "left" }}>
             by: {username}
           </div>
-          <div className="col-6" style={{ display: "flex", justifyContent: "right" }}>
-            published:{" "}
+          <div className="col-6" style={{ display: "flex", justifyContent: "right", color: 'silver'}}>
+            Published:{" "}
             {props.story.createdAt.slice(0, props.story.createdAt.indexOf("T"))}
           </div>
-          <div>
-            {numLikes} Like{numLikes > 1 || numLikes === 0 ? "s" : ""}
-          </div>
-          <Voice text={story.toString()}></Voice>
-          <img src={props.story.images ? props.story.images : HauntedHouse} style={{ maxWidth: 450, maxHeight: 450 }}>
+          <img src={props.story.images ? props.story.images : HauntedHouse} style={{ maxWidth: 450, maxHeight: 450, margin: 5 }}>
           </img>
+          <Voice text={story.toString()}></Voice>
           <div className="row" style={{ display: "flex", justifyContent: "left" }}>
             {story.split("\n").map((paragraph: string, index: number) => {
               return (
-                <p className="col-12" key={index}>
+                <p className="col-12" key={index} style={{paddingTop: 5, paddingBottom: 5}}>
                   {paragraph}
                 </p>
               );
             })}
           </div>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            {numLikes} Like{numLikes > 1 || numLikes === 0 ? "s" : ""}
+          </div>
           {currentUser && (
             <button className="btn btn-outline-secondary" onClick={likeButtonHandler} style={{ maxWidth: 150, borderRadius: 50, }}>
-              {isLiked ? "Unlike" : "Like"}
+              {isLiked ? <div className="fa fa-heart"></div> : <div className="fa fa-heart-o"></div> }
             </button>
           )}
         </>

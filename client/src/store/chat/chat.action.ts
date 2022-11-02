@@ -38,6 +38,9 @@ export const setSelectedChat = (chat: ChatData | null) =>
 export const setChats = (chats: ChatData[]) =>
   createAction(CHAT_ACTIONS_TYPES.SET_CHATS, chats);
 
+export const setMessages = (messages: Message[]) =>
+  createAction(CHAT_ACTIONS_TYPES.SET_MESSAGES, messages);
+
 export const setFetchAgain = (fetchAgain: boolean) =>
   createAction(CHAT_ACTIONS_TYPES.SET_FETCH_AGAIN, fetchAgain);
 

@@ -28,7 +28,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { User } from "../side-drawer/side-drawer.component";
+import { User } from "../my-chats/my-chats.component";
 import UserBadgeItem from "../user-list-item/user-badge-item.component";
 import UserListItem from "../user-list-item/user-list-item.component";
 
@@ -230,7 +230,9 @@ const UpdateGroupChatModal = ({ fetchMessages }: UpdateGroupChatModalProps) => {
               />
               <Button
                 variant="solid"
-                colorScheme="red"
+                bg="gray.700"
+                colorScheme="gray.700"
+                color="white"
                 ml={1}
                 isLoading={renameLoading}
                 onClick={handleRename}

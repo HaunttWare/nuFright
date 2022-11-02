@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faReply, faEdit, faTrash} from '@fortawesome/free-solid-svg-icons'
 import CommentForm from './comment-form';
+//current user imports
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 
 type CommentProps = {
@@ -24,21 +25,19 @@ const Comment = ({ comment, deleteComment }: CommentProps) => {
   const [users, setUsers] = useState<Users>([]);
   const [edit, setEdit] = useState(false);
   const [reply, setReply] = useState(false);
-  const [message, setMessage] = useState<string>()
+  const [message, setMessage] = useState<string>();
+  const currentUser = useSelector(selectCurrentUser);
 
-  useEffect(() => {
-    axios.get('/api/comments/users')
-    .then(({data}) => {
-      data.map((user: any) => setUsers(prevUsers => [...prevUsers, user]))
-    })
-    .catch(err => console.log(err));
-  }, [])
+  // useEffect(() => {
+  //   axios.get('/api/comments/users')
+  //   .then(({data}) => {
+  //     data.map((user: any) => setUsers(prevUsers => [...prevUsers, user]))
+  //   })
+  //   .catch(err => console.log(err));
+  // }, [])
 
   const user = users.find(user => user.id === comment.userId)
 
-  const handleEdit = (e:any) => {
-    console.log(e.currentTarget.id)
-  }
 
   return (
     <>
@@ -50,20 +49,7 @@ const Comment = ({ comment, deleteComment }: CommentProps) => {
         </span>
         <div className='message'>{comment.message}</div>
         <div className='footer'>
-        {/* <FontAwesomeIcon 
-        icon={faReply}
-        /> */}
-        {/* <FontAwesomeIcon
-        icon={faEdit}
-        id={comment.message}
-        aria-label={edit? 'cancel edit' : 'edit'}
-        onClick={(e) => handleEdit(e)}
-        /> */}
-        <FontAwesomeIcon 
-        icon={faTrash}
-        id={comment.id}
-        onClick={e => deleteComment(e)}
-        />
+        {(currentUser ? currentUser.id === comment.userId : false) && <i className="fa-solid fa-trash" id={comment.id} onClick={e => { if(currentUser) { if(currentUser.id === comment.userId) {deleteComment(e)}}}}></i>}
         </div>
       </div>
       {/* {reply && (
