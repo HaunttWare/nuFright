@@ -35,7 +35,6 @@ import {
   createBadge,
   fetchFollowers,
   fetchFollowing,
-  fetchEvents,
 } from "./config/apiCalls";
 
 import io, { Socket } from "socket.io-client";
@@ -76,9 +75,6 @@ const App = () => {
       const following = await fetchFollowing(user.id);
       if (!following) return;
       dispatch(setFollowingList(following));
-
-      // const events = await fetchEvents();
-      // dispatch(setEvents(events));
     };
     fetchData();
   }, []);
