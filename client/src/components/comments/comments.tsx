@@ -69,7 +69,10 @@ const Comments = ({ category, type }: CommentsProps) => {
           categoryId: category?.id,
           type,
         })
-        .then(getComments)
+        .then((result:any) => {
+          setComments([]);
+          getComments();
+        })
         .catch((err) => console.log(err));
     }
   };
@@ -77,7 +80,10 @@ const Comments = ({ category, type }: CommentsProps) => {
   const deleteComment = (e: any) => {
     const {currentTarget: {id}} = e;
     axios.delete(`/api/comments/${id}`)
-    .then(getComments)
+    .then((result:any) => {
+      setComments([]);
+      getComments();
+    })
     .catch(err => console.log('delete error', err))
   }
   
