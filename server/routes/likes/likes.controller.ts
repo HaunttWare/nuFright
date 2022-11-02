@@ -31,7 +31,7 @@ const postLike = (req: Request, res: Response) => {
           }
           db.likes.create(rateObj)
           .then((data) => {
-            console.log('Liking works', data);
+            //console.log('Liking works', data);
             res.sendStatus(201);
           })
           .catch((err) => {
@@ -69,7 +69,7 @@ const postLike = (req: Request, res: Response) => {
           }
           db.likes.create(rateObj)
           .then((data) => {
-            console.log('Liking works', data);
+            //console.log('Liking works', data);
             res.sendStatus(201);
           })
           .catch((err) => {
@@ -107,7 +107,7 @@ const postLike = (req: Request, res: Response) => {
           }
           db.likes.create(rateObj)
           .then((data) => {
-            console.log('Liking works', data);
+            //console.log('Liking works', data);
             res.sendStatus(201);
           })
           .catch((err) => {
@@ -146,7 +146,7 @@ const postLike = (req: Request, res: Response) => {
           }
           db.likes.create(rateObj)
           .then((data) => {
-            console.log('Liking works', data);
+            //console.log('Liking works', data);
             res.status(201).send(data);
           })
           .catch((err) => {
@@ -184,7 +184,7 @@ const postLike = (req: Request, res: Response) => {
           }
           db.likes.create(rateObj)
           .then((data) => {
-            console.log('Liking works', data);
+            //console.log('Liking works', data);
             res.sendStatus(201);
           })
           .catch((err) => {
