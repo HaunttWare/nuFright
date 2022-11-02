@@ -59,12 +59,7 @@ const App = () => {
       if (badges.length > 0) {
         dispatch(setBadgeList(badges));
       } else {
-        const badge = await createBadge({
-          userId: user.id,
-          badgeName: "It's ALIIIIVEEEE!!",
-          description: "Welcome to nuFright 😈",
-          badge: "It's ALIIIIVEEEE!!",
-        });
+        const badge = await createBadge(user.id);
         dispatch(setBadgeList([badge]));
         badgeToast.fire({
           titleText: "It's ALIIIIVEEEE!!",
@@ -76,92 +71,16 @@ const App = () => {
         });
       }
       const followers = await fetchFollowers(user.id);
-      if(!followers) return;
+      if (!followers) return;
       dispatch(setFollowerList(followers));
       const following = await fetchFollowing(user.id);
-      if(!following) return;
+      if (!following) return;
       dispatch(setFollowingList(following));
 
       // const events = await fetchEvents();
       // dispatch(setEvents(events));
     };
     fetchData();
-    // axios
-    //   .get("/api/auth/login/successful")
-    //   .then(({ data: { user } }) => {
-    //     if (user) {
-    //       dispatch(setCurrentUser(user));
-
-    //       axios
-    //         .get(`/api/user/${user.id}/ratings-badges`)
-    //         .then(({ data: { badges, ratings } }) => {
-    //           console.log("badges", badges, "\n\nratings", ratings);
-    //           dispatch(setRatingList(ratings));
-
-    //           if (badges.length) {
-    //             dispatch(setBadgeList(badges));
-    //           } else {
-    //             const name = "It's ALIIIIVEEEE!!";
-    //             const starterBadge = {
-    //               id: `${user.id}=${name}`,
-    //               name,
-    //               description: "Welcome to nuFright 😈",
-    //               badge: "dis wur da badge goes",
-    //             };
-    //             dispatch(setBadgeList([starterBadge]));
-    //             axios
-    //               .post("/api/badges", {
-    // userId: user.id,
-    // badgeName: starterBadge.name,
-    // description: starterBadge.description,
-    // badge: starterBadge.name,
-    //               })
-    //               .catch((err) =>
-    //                 console.error("db couldn't store first badge", err)
-    //               );
-    //             badgeToast.fire({
-    //               titleText: "It's ALIIIIVEEEE!!",
-    //               text: "Welcome to nuFright 😈",
-    //               imageUrl: profileBadge,
-    //               imageAlt: "😈",
-    //               imageHeight: "5rem",
-    //               imageWidth: "5.6rem",
-    //             });
-    //           }
-    //         })
-    //         .catch((err) => {
-    //           console.error(
-    //             "error retrieving badges and ratings from backend \n",
-    //             err
-    //           );
-    //         });
-
-    //       //get following list
-    //       axios
-    //         .get(`/api/user/followings/${user.id}`)
-    //         .then(({ data }) => {
-    //           if (!data.length) return;
-
-    //           dispatch(setFollowingList(data));
-    //         })
-    //         .catch((err) => {
-    //           console.error("error retrieving followings from backend \n", err);
-    //         });
-
-    //       //gets followers list
-    //       axios
-    //         .get(`/api/user/followers/${user.id}`)
-    //         .then(({ data }) => {
-    //           if (!data.length) return;
-
-    //           dispatch(setFollowerList(data));
-    //         })
-    //         .catch((err) => {
-    //           console.error("error retrieving followers from backend \n", err);
-    //         });
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
