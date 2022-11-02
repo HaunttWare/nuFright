@@ -12,7 +12,7 @@ const CostumeCard = (props: {
 
 
   return (
-      <div className="card text-white" id="bright" style={{cursor: "pointer", margin: 5, marginBottom: '1em', minWidth: '13rem', maxWidth: '13rem'}}>
+      <div className="card text-white" id="bright" style={{cursor: "pointer", margin: 5, marginBottom: '1em', minWidth: '13rem', maxWidth: '13rem', backgroundColor: 'black'}}>
         <div className="image-container">
           <div className="first">
             <div className="d-flex justify-content-between align-items-center">

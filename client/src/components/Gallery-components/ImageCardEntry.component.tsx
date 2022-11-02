@@ -20,7 +20,7 @@ const ImageCardEntry = ({ image }: image) => {
   }
 
   return (
-    <div className="card text-black" >
+    <div className="card text-black mb-4" style={{backgroundColor: '#181a1b', boxShadow: "0px 0px 150px -45px rgba(255, 51, 0, 0.5)"}}>
       <img
         src={image.image}
         onClick={(e) => {handleImageClick()}}
