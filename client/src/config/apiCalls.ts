@@ -35,7 +35,7 @@ export const fetchFollowing = async (userId: any) => {
   return data;
 };
 
-export const fetchEvents = async () => {
-  const { data } = await axios.get(`/api/events`);
+export const fetchEvents = async (location:any) => {
+  const { data } = await axios.get(`/api/events?location=${location}`);
   return data;
 };
