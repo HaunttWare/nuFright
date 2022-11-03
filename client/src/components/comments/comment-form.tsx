@@ -23,6 +23,7 @@ const CommentForm = ({newComment}: CommentFormProps) => {
           name='message'
           onChange={e => handleChange(e)}
           onKeyDown={e => e.key === 'Enter' && message? newComment(message): null}
+          style={{marginTop: 10, marginBottom: 10}}
         ></textarea>
         <button
         className="btn btn-outline-secondary"
