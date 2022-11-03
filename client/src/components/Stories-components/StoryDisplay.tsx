@@ -37,6 +37,7 @@ const StoryDisplay = (props: {
   );
   const [numLikes, setNumLikes] = useState(props.story.likedBy.length);
   const [image, setImage] = useState(props.story.images);
+  const [likeDisabled, setLikeDisabled] = useState(false);
 
   //edit related
   const editButtonHandler = () => {
@@ -84,6 +85,7 @@ const StoryDisplay = (props: {
 
   //like button handler
   const likeButtonHandler = () => {
+    setLikeDisabled(true);
     if (!isLiked) {
       axios
         .post("/api/likes/stories", {
@@ -95,10 +97,11 @@ const StoryDisplay = (props: {
           setIsLiked(true);
           setNumLikes(numLikes + 1);
           setLikes(likes.concat(result.data));
-          console.log('new object:', result.data);
+          setLikeDisabled(false);
         })
         .catch((err: Error) => {
           console.error(err);
+          setLikeDisabled(false);
         });
     } else {
       //find id of like from user
@@ -117,9 +120,11 @@ const StoryDisplay = (props: {
           setIsLiked(false);
           setNumLikes(numLikes - 1);
           setLikes(likes.slice(0, indexOfLike).concat(likes.slice(indexOfLike + 1)));
+          setLikeDisabled(false);
         })
         .catch((err: Error) => {
           console.error(err);
+          setLikeDisabled(false);
         });
     }
   };
@@ -168,7 +173,7 @@ const StoryDisplay = (props: {
             {numLikes} Like{numLikes > 1 || numLikes === 0 ? "s" : ""}
           </div>
           {currentUser && (
-            <button className="btn btn-outline-secondary" onClick={likeButtonHandler} style={{ maxWidth: 150, borderRadius: 50, }}>
+            <button className="btn btn-outline-secondary" disabled={likeDisabled} onClick={likeButtonHandler} style={{ maxWidth: 150, borderRadius: 50, }}>
               {isLiked ? <div className="fa fa-heart"></div> : <div className="fa fa-heart-o"></div> }
             </button>
           )}
