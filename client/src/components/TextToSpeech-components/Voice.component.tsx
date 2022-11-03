@@ -44,6 +44,9 @@ const Voice = (props:{lang?:string, text:string}) => {
         <div id="Voice_Component" style={{display: 'inline-block'}}>
             { supported &&
                 <div className="row" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 5}}>
+                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        Audio Reader
+                    </div>
                     <div className="col-12" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <select onChange={select} style={{display: 'table-cell', verticalAlign: 'middle', marginLeft: 5, marginRight: 5, background: 'black', minHeight: '1.5em', borderWidth: 1, borderColor: '#6c757d'}}>
                             {voices.map(((voice:any, index:number) => {
