@@ -25,6 +25,7 @@ const StoryDisplay = (props: {
   const [title, setTitle] = useState(props.story.title);
   const [description, setDescription] = useState(props.story.description || "");
   const [story, setStory] = useState(props.story.story);
+  const [likes, setLikes] = useState(props.story.likedBy);
   const [sameUser, setSameUser] = useState(
     currentUser ? currentUser.name === props.story.author.name : false
   );
@@ -93,20 +94,29 @@ const StoryDisplay = (props: {
         .then((result) => {
           setIsLiked(true);
           setNumLikes(numLikes + 1);
+          setLikes(likes.concat(result.data));
+          console.log('new object:', result.data);
         })
         .catch((err: Error) => {
           console.error(err);
         });
     } else {
       //find id of like from user
-      let foundLike = props.story.likedBy.filter(
+      let foundLike = likes.filter(
         (like: any) => currentUser.id === like.userId
       );
+      let indexOfLike:number;
+      likes.forEach((like:any, index:number) => {
+        if(!indexOfLike && like.userId === currentUser.id) {
+          indexOfLike = index;
+        }
+      })
       axios
         .delete(`/api/likes/${foundLike[0].id}`)
         .then((result) => {
           setIsLiked(false);
           setNumLikes(numLikes - 1);
+          setLikes(likes.slice(0, indexOfLike).concat(likes.slice(indexOfLike + 1)));
         })
         .catch((err: Error) => {
           console.error(err);
