@@ -26,6 +26,7 @@ const getAllStories = (req:Request, res:Response) => {
         }
     })
     .then((result:any) => {
+        result.sort((a:any, b:any) => b.createdAt - a.createdAt);
         res.status(200).send(result);
     })
     .catch((err:Error) => {

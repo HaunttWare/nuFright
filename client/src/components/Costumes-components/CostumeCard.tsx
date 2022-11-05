@@ -16,9 +16,9 @@ const CostumeCard = (props: {
         <div className="image-container">
           <div className="first">
             <div className="d-flex justify-content-between align-items-center">
-              <span className="wishlist">
+              {/*<span className="wishlist">
                 <i className="fa fa-heart-o"></i>
-              </span>
+              </span>*/}
             </div>
           </div>
 
