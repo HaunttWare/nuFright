@@ -1,0 +1,16 @@
+$mobile: 576px;
+$tablet: 768px;
+$laptop: 992px;
+$desktop: 1200px;
+
+@media screen and (min-width: 900px){
+    #costumes_container {
+        max-width: 900px,
+    }
+}
+
+@media screen and (max-width: 899px){
+    #costumes_container {
+        max-width: 100%,
+    }
+}
