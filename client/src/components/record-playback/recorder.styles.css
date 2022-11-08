@@ -1,4 +1,16 @@
-record-btn {
-  color: rebeccapurple;
+#recordButton {
+  font-size: 35px;
+  left: 200px;
+  text-align: center;
+  color: rgb(130, 29, 29);
+  width: auto;
+  margin: auto;
 }
-
+#stopRecordButton {
+  font-size: 35px;
+  left: 200px;
+  text-align: center;
+  color: rgb(130, 29, 29);
+  width: auto;
+  margin: auto;
+}

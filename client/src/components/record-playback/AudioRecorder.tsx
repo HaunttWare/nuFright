@@ -9,6 +9,7 @@ import { setCurrentUser } from "../../store/user/user.action";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import './recorder.styles.css';
+import { start } from "tone";
 
 
 type Song = {
@@ -21,6 +22,7 @@ export const AudioRecorder = () => {
 const [currentSongURL, setCurrentSongURL] = useState('');
 const [allBlobs, setAllBlobs] = useState<Song[] | []>([]);
 const [areBlobsThere, setAreBlobsThere] = useState(false);
+const [recordingHasStarted, setRecordingHasStarted] = useState(false);
 const currentUser = useSelector(selectCurrentUser);
 
 const getBlobs = () => {
@@ -37,10 +39,12 @@ const getBlobs = () => {
  
   const recorder = useRecorderPermission("audio");
   const startRecording = async () => {
+    setRecordingHasStarted(true);
     recorder.startRecording();
   };
   
   const stopRecording = async () => {
+    setRecordingHasStarted(false);
     await recorder.stopRecording();
     let blob = await recorder.getBlob();
     console.log('blob', blob);
@@ -76,6 +80,17 @@ const getBlobs = () => {
     setCurrentSongURL(song.fileURL);
   }
 
+
+
+  const recordOrStopRender = () => {
+    return  !recordingHasStarted ? 
+    ( <i className='fas fa-circle' id="recordButton" onClick={startRecording}></i> )
+    //  ( <button type="button" className="btn btn-outline-danger" onClick={startRecording}>RECORD</button>)
+    : 
+    ( <i className='fas fa-stop-circle' id="stopRecordButton" onClick={stopRecording}></i> )
+   //  ( <button type="button" className="btn btn-outline-primary" onClick={stopRecording}>STOP</button>)
+  }
+
  useEffect(() => {
       getBlobs()
         console.log('allblobs→', allBlobs);
@@ -105,9 +120,7 @@ const getBlobs = () => {
               autoPlay
               controls
             /> <br></br>
-            <button type="button" className="btn btn-outline-danger" onClick={startRecording}>RECORD</button>
-            <button type="button" className="btn btn-outline-primary" onClick={stopRecording}>STOP</button>
-    
+            { recordOrStopRender() }
     </div>
   );
 };
