@@ -102,6 +102,7 @@
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
     "dotenv-webpack": "^8.0.1",
+    "eslint": "^8.27.0",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.6.1",
     "sass": "^1.55.0",
