@@ -5,6 +5,8 @@
   color: rgb(130, 29, 29);
   width: auto;
   margin: auto;
+  border: 3px rgb(192, 30, 30);
+
 }
 #stopRecordButton {
   font-size: 35px;
@@ -13,4 +15,41 @@
   color: rgb(130, 29, 29);
   width: auto;
   margin: auto;
+}
+.audio-recording-area {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 800px;
+  gap: 20px;
+ 
+}
+#recordButton:hover {
+  color: red;
+}
+.form-select {
+  background-color: rgb(44, 44, 44);
+  color: white;
+  text-align: center;
+  flex-shrink: 5;
+}
+
+.select-title {
+  background-color: black;
+  color:white;
+  margin: 0;
+  border-radius: 6px;
+  padding: 3px;
+  text-align: center;
+}
+.each-song:checked{
+  background: linear-gradient(#69253c, #7e2227);
+
+}
+.each-song:hover {
+  color: rgb(255, 0, 13);
+}
+.player {
+ flex-grow: 6;
 }
