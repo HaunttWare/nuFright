@@ -8,26 +8,27 @@ datasource db {
 }
 
 model User {
-  id               String         @id @default(cuid())
-  name             String
-  email            String         @unique
-  createdAt        DateTime       @default(now())
-  googleId         String         @unique
-  photo            String
-  badges           Badges[]
-  ratings          BooScale[]
-  Comment          Comment[]
-  followedBy       Follows[]      @relation("follower")
-  following        Follows[]      @relation("following")
-  images           Images[]
-  liked            Likes[]
-  receivedMessages Message[]      @relation("receiver")
-  sentMessages     Message[]      @relation("sender")
-  playlist         Playlist[]
-  savedlist        Saved[]
-  songs            Song[]
-  stories          Stories[]
-  conversations    Conversation[]
+  id                                String     @id @default(cuid())
+  name                              String
+  email                             String     @unique
+  createdAt                         DateTime   @default(now())
+  googleId                          String     @unique
+  photo                             String
+  badges                            Badges[]
+  ratings                           BooScale[]
+  Chat_Chat_groupAdminIdToUser      Chat[]     @relation("Chat_groupAdminIdToUser")
+  Comment                           Comment[]
+  followedBy                        Follows[]  @relation("follower")
+  Follows_Follows_followingIdToUser Follows[]  @relation("Follows_followingIdToUser")
+  images                            Images[]
+  liked                             Likes[]
+  sentMessages                      Message[]  @relation("sender")
+  playlist                          Playlist[]
+  savedlist                         Saved[]
+  songs                             Song[]
+  stories                           Stories[]
+  Chat_ChatToUser                   Chat[]
+  Message_readBy                    Message[]  @relation("readBy")
 }
 
 model Cinema {
@@ -63,8 +64,8 @@ model Book {
 model Stories {
   id          String     @id @default(cuid())
   authorId    String
-  title       String
-  story       String     @unique
+  title       String     @db.VarChar(300)
+  story       String     @db.VarChar(10000)
   images      String
   createdAt   DateTime   @default(now())
   description String?
@@ -122,11 +123,12 @@ model Haunts {
 }
 
 model Follows {
-  id         String @id @default(cuid())
-  userId     String
-  followerId String
-  follower   User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
-  user       User   @relation("following", fields: [userId], references: [id], onDelete: Cascade)
+  id                             String  @id @default(cuid())
+  followerId                     String
+  followingId                    String
+  isFollowing                    Boolean @default(false)
+  follower                       User    @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  User_Follows_followingIdToUser User    @relation("Follows_followingIdToUser", fields: [followingId], references: [id], onDelete: Cascade)
 }
 
 model Likes {
@@ -194,23 +196,16 @@ model Comment {
   children  Comment[] @relation("ParentChild")
 }
 
-model Conversation {
-  createdAt DateTime  @default(now())
-  id        String    @id @default(cuid())
-  messages  Message[]
-  users     User[]
-}
-
 model Message {
-  id             String       @id @default(cuid())
-  conversationId String
-  senderId       String
-  createdAt      DateTime     @default(now())
-  message        String
-  receiverId     String?
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  receiver       User?        @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
-  sender         User         @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+  id                                 String   @id @default(cuid())
+  chatId                             String
+  senderId                           String
+  createdAt                          DateTime @default(now())
+  content                            String
+  Chat_ChatToMessage_chatId          Chat     @relation("ChatToMessage_chatId", fields: [chatId], references: [id])
+  sender                             User     @relation("sender", fields: [senderId], references: [id])
+  Chat_Chat_latestMessageIdToMessage Chat?    @relation("Chat_latestMessageIdToMessage")
+  User_readBy                        User[]   @relation("readBy")
 }
 
 model Playlist {
@@ -226,8 +221,22 @@ model Playlist {
 
 model Song {
   id       String @id
-  fileData Bytes
   fileName String
   userId   String
+  fileURL  String
   user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Chat {
+  id                                    String    @id
+  chatName                              String
+  isGroupChat                           Boolean   @default(false)
+  groupAdminId                          String?
+  createdAt                             DateTime  @default(now())
+  updatedAt                             DateTime
+  latestMessageId                       String?   @unique
+  User_Chat_groupAdminIdToUser          User?     @relation("Chat_groupAdminIdToUser", fields: [groupAdminId], references: [id])
+  Message_Chat_latestMessageIdToMessage Message?  @relation("Chat_latestMessageIdToMessage", fields: [latestMessageId], references: [id])
+  Message_ChatToMessage_chatId          Message[] @relation("ChatToMessage_chatId")
+  User_ChatToUser                       User[]
 }
