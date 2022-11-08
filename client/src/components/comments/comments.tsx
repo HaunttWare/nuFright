@@ -18,7 +18,7 @@ type CommentsData = {
   userId: string;
   message: string;
   name: string;
-}[];
+};
 
 type CommentsProps = {
   category: any;
@@ -26,7 +26,7 @@ type CommentsProps = {
 };
 
 const Comments = ({ category, type }: CommentsProps) => {
-  const [comments, setComments] = useState<CommentsData>([]);
+  const [comments, setComments] = useState<CommentsData[]>([]);
   const currentUser = useSelector(selectCurrentUser);
   const [showComments, setShowComments] = useState(false);
 
@@ -69,7 +69,7 @@ const Comments = ({ category, type }: CommentsProps) => {
           categoryId: category?.id,
           type,
         })
-        .then((result:any) => {
+        .then(() => {
           setComments([]);
           getComments();
         })
@@ -80,7 +80,7 @@ const Comments = ({ category, type }: CommentsProps) => {
   const deleteComment = (e: any) => {
     const {currentTarget: {id}} = e;
     axios.delete(`/api/comments/${id}`)
-    .then((result:any) => {
+    .then(() => {
       setComments([]);
       getComments();
     })
@@ -93,7 +93,7 @@ const Comments = ({ category, type }: CommentsProps) => {
       <div className='col-12 text-center'>
         <u style={{cursor: 'pointer'}}>{viewCommentsString}</u>
         {showComments &&
-          comments.map((comment: any) => (
+          comments.map((comment: CommentsData) => (
             <Comment 
             comment={comment} 
             key={`${comment} @ ${comment.id}`} 
