@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../store/user/user.selector";
+import { selectCurrentUser, selectFollowerList, selectFollowingList } from "../../store/user/user.selector";
+import { selectBadgeList } from "../../store/badges/badges.selector";
 
 import PhotosTab from "../../components/profile-tabs/photos-tab/photos-tab.component";
 import LikesTab from "../../components/profile-tabs/likes-tab/likes-tab.component";
 import SavesTab from "../../components/profile-tabs/saves-tab/saves-tab.component";
+import BadgesTab from "../../components/profile-tabs/badges-tab/badges-tab.component";
 
 export type ImageData = {
   id: string;
@@ -15,6 +17,9 @@ export type ImageData = {
 
 const Profile = () => {
   const currentUser = useSelector(selectCurrentUser);
+  const followers = useSelector(selectFollowerList);
+  const following = useSelector(selectFollowingList);
+  const userBadges = useSelector(selectBadgeList);
   const [activeTab, setActiveTab] = useState("photos");
   const [userImages, setUserImages] = useState<ImageData[]>([]);
 
@@ -66,11 +71,11 @@ const Profile = () => {
                     <p className="small text-muted mb-0">Photos</p>
                   </div>
                   <div className="px-3">
-                    <p className="mb-1 h5">100</p>
+                    <p className="mb-1 h5">{followers.length}</p>
                     <p className="small text-muted mb-0">Followers</p>
                   </div>
                   <div>
-                    <p className="mb-1 h5">50</p>
+                    <p className="mb-1 h5">{following.length}</p>
                     <p className="small text-muted mb-0">Following</p>
                   </div>
                 </div>
@@ -82,7 +87,17 @@ const Profile = () => {
                       }`}
                       onClick={() => setActiveTab("photos")}
                     >
-                      Photos
+                      My Photos
+                    </button>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      className={`nav-link ${
+                        activeTab === "badges" ? "active" : ""
+                      }`}
+                      onClick={() => setActiveTab("badges")}
+                    >
+                      My Badges
                     </button>
                   </li>
                   <li className="nav-item">
@@ -114,6 +129,14 @@ const Profile = () => {
                   >
                     <PhotosTab userImages={userImages} />
                   </div>
+                  <div
+                    className={`tab-pane fade ${
+                      activeTab === "badges" ? "show active" : ""
+                    }`}
+                  >
+                    <BadgesTab userBadges={userBadges} />
+                  </div>
+                  
                   <div
                     className={`tab-pane fade ${
                       activeTab === "likes" ? "show active" : ""

@@ -8,13 +8,7 @@ const CommentForm = ({newComment}: CommentFormProps) => {
 
   const [message, setMessage] = useState<string>()
 
-  interface HandleChange {
-    handleChange: (
-      selectType: string,
-      event: React.ChangeEvent<HTMLInputElement>) => void;
-  }
-
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
     const {value} = e.target;
       setMessage(value);
   }
@@ -22,16 +16,17 @@ const CommentForm = ({newComment}: CommentFormProps) => {
 
   return (
       <div className='new-comment'>
-        <input 
+        <textarea 
           className='form-control form-control-sm'
-          type='text'
-          placeholder='comment here'
+          placeholder='comment here...'
           aria-label='.form-control-sm example'
           name='message'
           onChange={e => handleChange(e)}
           onKeyDown={e => e.key === 'Enter' && message? newComment(message): null}
-        ></input>
+          style={{marginTop: 10, marginBottom: 10}}
+        ></textarea>
         <button
+        className="btn btn-outline-secondary"
           type='button'
           onClick={() => message? newComment(message) : null}
         >Post</button>

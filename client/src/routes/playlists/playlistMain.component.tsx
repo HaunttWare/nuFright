@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-//import PlayView from './playview';
-
+import './playlist.styles.css';
 type Video = {
+  id: string;
   title: string;
   thumbnail: string;
   description: string;
@@ -20,6 +20,7 @@ const PlayListMain = () => {
   const [gotPlaylist, setGotPlaylist] = useState(false);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
     setCurrentSearch(e.target.value);
   };
   const handleSubmit = async () => {
@@ -28,38 +29,47 @@ const PlayListMain = () => {
         `/api/playlists/search/${currentSearch}`
       );
       setVideos(data);
+      setCurrentSearch('');
     } catch (err) {
       console.error(err);
     }
   };
 
   const handleSaveToPlaylist = async (video: Video) => {
-    const { data } = await axios.post("/api/playlists/add", {
+    const { data } = await axios.post(`/api/playlists/add/`, {
       video,
       userId: currentUser.id,
     });
     setPlaylist([...playlist, data]);
   };
 
-  // const goToVideoView = (id: string) => {
-  //   console.log('clickedddddddddddd')
-  //   console.log(id);
-  //   return (
-  //     <PlayView videoId={id}/>
-  //   )
-  // }
+  const handleDeletePlaylistEntry = (video: Video) => {
+    axios.delete(`/api/playlists/delete/${video.id}`)
+      .then(() => {
+        getUsersPlaylist();
+      } )
+      .catch(err => console.error(err));
+  }
+  const getUsersPlaylist = () => {
+    axios.get(`/api/playlists/get/${currentUser.id}`)
+    .then((playListData: any) => {
+     
+      setPlaylist(playListData.data);
+      setGotPlaylist(true);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }
 
   useEffect(() => {
     
     if (!currentUser) {
-   
+     
+        <div>searching for your playlist....</div>
+      
     } else {
-      axios.get(`/api/playlists/get/${currentUser.id}`)
-      .then((playListData: any) => {
-        console.log(playListData);
-        setPlaylist(playListData.data);
-        setGotPlaylist(true);
-      })
+    getUsersPlaylist()
     }
   }, [gotPlaylist]);
   
@@ -73,7 +83,8 @@ const PlayListMain = () => {
             onChange={handleSearchChange}
             placeholder="type for songs...."
             />
-          <button onClick={handleSubmit}>BOO!</button>
+          {/* <button onClick={handleSubmit}>BOO!</button> */}
+          <button className="btn aqua-gradient btn-rounded btn-sm my-0" type="submit" onClick={handleSubmit}>BOO!</button>
 
           {videos.map((video: Video) => {
             return (
@@ -90,7 +101,7 @@ const PlayListMain = () => {
 
                   <a
                     href="#"
-                    className="btn btn-primary"
+                    className="btn"
                     onClick={() => {
                       handleSaveToPlaylist(video);
                     }}
@@ -112,6 +123,7 @@ const PlayListMain = () => {
                 className="card"
                 style={{ width: "18rem", backgroundColor: "black" }}
                 >
+                  <button style={{backgroundColor: 'red', marginLeft: 'auto', width: '30px'}} onClick={() => {handleDeletePlaylistEntry(video)}}>X</button>
                    <iframe className="card-top" src={ `https://www.youtube.com/embed/${video.videoId}` } allowFullScreen></iframe>
                   {/* <img className="card-top" src={video.thumbnail}  /> */}
                   <div className="card-body">

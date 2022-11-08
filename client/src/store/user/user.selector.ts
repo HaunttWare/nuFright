@@ -1,1 +1,18 @@
-export const selectCurrentUser = (state: any) => state.user.currentUser; // <-- this function selects the user from the store
+import { createSelector } from "reselect";
+
+const selectUserReducer = (state: any) => state.user;
+
+export const selectCurrentUser = createSelector(
+  [selectUserReducer],
+  (user) => user.currentUser
+);
+
+export const selectFollowingList = createSelector(
+  [selectUserReducer],
+  (user) => user.following
+);
+
+export const selectFollowerList = createSelector(
+  [selectUserReducer],
+  (user) => user.followers
+);

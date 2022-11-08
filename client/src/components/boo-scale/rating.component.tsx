@@ -5,7 +5,7 @@ import Rated from "./rated.component";
 import { useSelector } from "react-redux";
 import { selectRatingList } from "../../store/ratings/ratings.selector";
 
-const Rating = (id: { id: string; }) => {
+const Rating = ({id, type}: {id: string; type: string;} ) => {
   const userRatings = useSelector(selectRatingList);
   const [rated, setRated] = useState(false);
   const [score, setScore] = useState(0);
@@ -13,7 +13,7 @@ const Rating = (id: { id: string; }) => {
 
   useEffect(() => {
     userRatings.forEach((rateObj: { id: string, rating: number }) => {
-      if (rateObj.id.includes(id.id)) {
+      if (rateObj.id.includes(id)) {
         setScore(rateObj.rating);
       }
     })
@@ -21,7 +21,7 @@ const Rating = (id: { id: string; }) => {
 
   return (
     <div>
-      <Rated id={id.id} score={score} setScore={setScore} />
+      <Rated id={id} score={score} setScore={setScore} type={type} />
     </div>
   )
 };
