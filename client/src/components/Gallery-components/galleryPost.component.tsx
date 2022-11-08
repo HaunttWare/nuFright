@@ -32,9 +32,9 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
       title: "Add a caption",
       input: "text",
       inputLabel: "caption here",
-      color: '#fff',
+     
       confirmButtonColor: '#dd6b55',
-      background: '#181a1b'
+     
     })
 
     if (file && caption) {
@@ -114,7 +114,7 @@ const ImagePost = ({ setGotImages }: { setGotImages: React.Dispatch<React.SetSta
 
   return (
     <div>
-      <button className="btn btn-danger mb-3" onClick={uploadImage} >
+      <button className="btn btn-danger mb-3 text-white" onClick={uploadImage} >
         Upload an image <i className="fa-solid fa-upload"></i>
       </button>
     </div>

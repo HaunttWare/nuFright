@@ -6,7 +6,7 @@ import './octave.styles.css';
 const MusicMakingView = () => {
   return (
     <>
-    <h2>Make some Spooky tunes!</h2>
+    <h2 style={{ display: "flex", justifyContent: "center", alignContent: "center", fontFamily: 'Montserrat', fontSize: "2.5em" }}>Spooky tunes</h2>
     <RecordingApp />
     <div style={{ display: 'flex'}}>
     <Octave />
