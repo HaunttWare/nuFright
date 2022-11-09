@@ -1,9 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Russo+One&display=swap');
 header {
   text-align: center;
 }
+.entire {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 h2 {
-  display: inline-block;
   color: white;
+}
+.spooky-title {
+  margin-bottom: 50px;
+  font-family: Montserrat;
+  font-size: 2.5em;
+}
+.keyboard-logo {
+  position: absolute;
+  color: white;
+  z-index: 200;
+  bottom: 257px;
+  font-family: 'Russo One', sans-serif;
+  font-size: larger;
+}
+#casing {
+  height: 290px;
+  padding: 90px 30px 0 30px;
+  left: 450px;
+  background: linear-gradient(#860202, #160203);
+  border-radius: 10px;
+  position: center;
+  z-index: auto;
+  margin-top: 30px;
 }
 :root {
   --natural-key-width: 48px;
@@ -14,23 +43,29 @@ h2 {
 
 #piano-keyboard {
   position: relative;
+  right: 192px;
+  bottom: 95px;
   display: flex;
   justify-content: flex-start;
+  z-index: auto;
 }
 
 .key-natural {
   position: relative;
   width: var(--natural-key-width);
   height: var(--natural-key-height);
-  border: 1px solid black;
+  border: 5px  black;
   box-sizing: border-box;
   background: #fffff0;
+  border-bottom-style: inset;
+  border-left-style: outset;
 }
 
 .key-sharp {
   position: relative;
   width: var(--sharp-key-width);
   height: var(--sharp-key-height);
+  border: 2px  black;
   background: #36454f;
   box-sizing: border-box;
   z-index: 1;
@@ -40,15 +75,19 @@ h2 {
 .key-sharp + .key-natural {
   margin-left: calc(-1 * var(--sharp-key-width));
 }
-.key-natural.active::after,
-.key-sharp.active::after {
-  content: "";
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background-color: red;
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+
+.key-natural:hover {
+  background: #D8D8D8;
+}
+.key-sharp:hover {
+  background-color: black;
+}
+
+.key-natural:active {
+  background-color: #2b2b2b;
+  border-bottom-style: outset;
+  border-left-style: inset;
+}
+.key-sharp:active {
+  background-color: #283741;
 }
