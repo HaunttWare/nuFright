@@ -51,13 +51,6 @@ const Profile = () => {
                     className="img-fluid img-thumbnail mt-4 mb-2"
                     style={{ width: "150px", zIndex: 1 }}
                   />
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    style={{ zIndex: 1 }}
-                  >
-                    Edit profile
-                  </button>
                 </div>
                 <div className="ms-3" style={{ marginTop: "130px" }}>
                   <h5>{currentUser.name}</h5>

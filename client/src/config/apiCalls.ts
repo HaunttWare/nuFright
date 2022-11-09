@@ -35,7 +35,12 @@ export const fetchFollowing = async (userId: any) => {
   return data;
 };
 
-export const fetchEvents = async (location:any) => {
-  const { data } = await axios.get(`/api/events?location=${location}`);
-  return data;
+export const fetchEvents = async (location: any) => {
+  try {
+    const { data } = await axios.get(`/api/events?location=${location}`);
+    console.log("Events data:", data);
+    return data;
+  } catch (error) {
+    console.log("error in api call",error);
+  }
 };
