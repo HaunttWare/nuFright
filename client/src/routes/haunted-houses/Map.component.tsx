@@ -191,12 +191,12 @@ const MapBox = () => {
                   key={feature.id}
                 >
                   <span 
-                  // className='text-muted'
+                  className='text-white'
                   >
                     {Math.round(feature.properties.distance * 100) / 100} miles away
                   </span>
                   <h5>
-                    <b>{feature.properties.name}</b>
+                    <b className='text-white'>{feature.properties.name}</b>
                   </h5>
                   <div></div>
                 </div>
@@ -219,13 +219,7 @@ const MapBox = () => {
           mapStyle='mapbox://styles/mapbox/dark-v10'
           onRender={(e) => e.target.resize()}
         >
-          {/* <button
-          style={{position: 'absolute'}}
-          className='btn btn-lg btn-danger'
-          onClick={() => flyToLocation({properties:{geometry: {coordinates: [-74.003033, 40.732839]}}})}
-          >Click Here</button> */}
           <GeolocationControl position='top-left' />
-          <FullscreenControl position='top-left' />
           <NavigationControl position='top-left' />
           <ScaleControl />
           {markers}
