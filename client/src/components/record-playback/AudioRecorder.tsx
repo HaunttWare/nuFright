@@ -48,7 +48,7 @@ export const AudioRecorder = () => {
     let blob = await recorder.getBlob();
     console.log("blob", blob);
     //setCurrentBlob(blob);
-    const { value: randomName } = await Swal.fire({
+    const randomName  = await Swal.fire({
       title: "name this song!",
       input: "text",
       inputPlaceholder: "go ahead...",
