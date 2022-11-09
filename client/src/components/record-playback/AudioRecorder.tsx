@@ -57,7 +57,7 @@ export const AudioRecorder = () => {
       showCancelButton: true,
       allowOutsideClick: false,
     });
-    if (randomName.isDismissed) {
+    if (randomName.isDismissed || !randomName.value) {
       Swal.fire({
         title: "ok nvm then...",
         background: "#181a1b",
