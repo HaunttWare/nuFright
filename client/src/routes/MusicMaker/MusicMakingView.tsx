@@ -1,17 +1,17 @@
 import React from 'react';
-import { isDotDotDotToken } from 'typescript';
 import Octave from './Octave';
-import RecordingApp from '../../components/record-playback/RecordingApp';
 import './octave.styles.css';
+import { AudioRecorder } from '../../components/record-playback/AudioRecorder';
+
 const MusicMakingView = () => {
   return (
-    <>
-    <h2>Make some Spooky tunes!</h2>
-    <RecordingApp />
-    <div style={{ display: 'flex'}}>
+    <section className='entire'>
+    <h2 className='spooky-title' >Spooky tunes</h2>
+    <AudioRecorder />
+    <div>
     <Octave />
     </div>
-    </>
+    </section>
   )
 };
 
