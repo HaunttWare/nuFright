@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Russo+One&display=swap');
 header {
   text-align: center;
 }
@@ -20,6 +21,8 @@ h2 {
   color: white;
   z-index: 200;
   bottom: 257px;
+  font-family: 'Russo One', sans-serif;
+  font-size: larger;
 }
 #casing {
   height: 290px;
