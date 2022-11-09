@@ -62,20 +62,17 @@ const Home = () => {
     getContents();
   }, []);
 
-
   return (
-    // a container with the carousel on the left and the events on the right side of the screen using bootstrap
     <div className="container-fluid">
       <div className="row">
         <div className="col-6">
-          
-   
           <CreepyCarousel contents={topFilms} />
         </div>
         <div className="col-6">
           <div className="container">
-         {/* header centered saying events for today with big font*/}
-            <h1 className="text-center mb-4 display-4 text-white">Events for Today</h1>
+            <h1 className="text-center mb-4 display-4 text-white">
+              Events for Today
+            </h1>
             {events.length > 0 ? (
               events.map((event) => (
                 <div className="row align-items-center event-block no-gutters margin-40px-bottom">
@@ -99,17 +96,15 @@ const Home = () => {
                           {event.title}
                         </a>
                       </h5>
-                      {/* span saying check this event */}
-                      <span className="text-muted">
-                        Check this event out
-                      </span>
+                      <span className="text-muted">Check this event out</span>
                     </div>
                   </div>
                 </div>
               ))
             ) : (
-              // if there are no events, display a message saying no events available centered 
-              <h3 className="text-center mb-4 text-white">No events available</h3>
+              <h3 className="text-center mb-4 text-white">
+                No events available
+              </h3>
             )}
           </div>
         </div>
