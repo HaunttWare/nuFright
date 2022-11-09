@@ -57,12 +57,19 @@ export const AudioRecorder = () => {
       showCancelButton: true,
       allowOutsideClick: false,
     });
-
+    if (randomName.isDismissed) {
+      Swal.fire({
+        title: "ok nvm then...",
+        background: "#181a1b",
+        color: "#fff",
+      })
+      return;
+    }
     let savedFile = new File([blob], `${randomName.value}.webm`, {
       type: "audio/webm",
     });
 
-    console.log("randomName", randomName.value);
+    console.log("randomName", randomName);
 
     invokeSaveAsDialog(blob, `${randomName.value}.webm`);
 
@@ -92,13 +99,13 @@ export const AudioRecorder = () => {
   const recordOrStopRender = () => {
     return !recordingHasStarted ? (
       <i
-        className="fas fa-circle"
+        className="far fa-circle-dot"
         id="recordButton"
         onClick={startRecording}
       ></i>
     ) : (
       <i
-        className="fas fa-stop-circle"
+        className="far fa-stop-circle"
         id="stopRecordButton"
         onClick={stopRecording}
       ></i>

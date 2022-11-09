@@ -28,6 +28,9 @@
 #recordButton:hover {
   color: red;
 }
+#stopRecordButton:hover {
+  color: red;
+}
 .form-select {
   background-color: rgb(44, 44, 44);
   color: white;
