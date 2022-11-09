@@ -65,14 +65,14 @@ const Home = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-6">
+        <div className="col-lg-6 col-sm-12">
           <CreepyCarousel contents={topFilms} />
         </div>
-        <div className="col-6">
-          <div className="container">
-            <h1 className="text-center mb-4 display-4 text-white">
+        <div className="col-lg-6 col-sm-12">
+          <div className="container event">
+            <h3 className="text-center mb-4 display-6 text-white">
               Events for Today
-            </h1>
+            </h3>
             {events.length > 0 ? (
               events.map((event) => (
                 <div className="row align-items-center event-block no-gutters margin-40px-bottom">
