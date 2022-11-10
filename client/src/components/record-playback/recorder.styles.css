@@ -6,7 +6,6 @@
   width: auto;
   margin: auto;
   border: 3px rgb(192, 30, 30);
-
 }
 #stopRecordButton {
   font-size: 35px;
@@ -23,7 +22,6 @@
   align-items: center;
   width: 800px;
   gap: 20px;
- 
 }
 #recordButton:hover {
   color: red;
@@ -40,19 +38,18 @@
 
 .select-title {
   background-color: black;
-  color:white;
+  color: white;
   margin: 0;
   border-radius: 6px;
   padding: 3px;
   text-align: center;
 }
-.each-song:checked{
+.each-song:checked {
   background: linear-gradient(#69253c, #7e2227);
-
 }
 .each-song:hover {
   color: rgb(255, 0, 13);
 }
 .player {
- flex-grow: 6;
+  flex-grow: 6;
 }
