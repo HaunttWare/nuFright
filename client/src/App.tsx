@@ -50,7 +50,7 @@ const App = () => {
           axios
             .get(`/api/user/${user.id}/ratings-badges`)
             .then(({ data: { badges, ratings } }) => {
-              console.log("badges", badges, "\n\nratings", ratings);
+              // console.log("badges", badges, "\n\nratings", ratings);
               dispatch(setRatingList(ratings));
 
               if (badges.length) {
