@@ -1,14 +1,14 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setMessages, setSelectedChat } from "../../store/chat/chat.action";
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMessages, setSelectedChat } from '../../store/chat/chat.action';
 import {
   selectMessages,
   selectSelectedChat,
-} from "../../store/chat/chat.selector";
-import { selectCurrentUser } from "../../store/user/user.selector";
+} from '../../store/chat/chat.selector';
+import { selectCurrentUser } from '../../store/user/user.selector';
 
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon } from '@chakra-ui/icons';
 import {
   Box,
   FormControl,
@@ -17,16 +17,19 @@ import {
   Spinner,
   Text,
   useToast,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import ProfileModal from "../profile-modal/profile-modal.component";
-import ScrollableChat from "../scrollable-chat/scrollable-chat.component";
-import UpdateGroupChatModal from "../update-groupchat-modal/update-groupchat-modal.component";
+import profilemodal from '../profile-modal/profile-modal.component';
+import scrollablechat from '../scrollable-chat/scrollable-chat.component';
+import updategroupchatmodal from '../update-groupchat-modal/update-groupchat-modal.component';
 
-import { getSender, getSenderName } from "../../config/chatLogics";
-import Lottie from "react-lottie";
+import { getSender, getSenderName } from '../../config/chatLogics';
+import Lottie from 'react-lottie';
 
-import "./single-chat.styles.css";
+import './single-chat.styles.css';
+import ProfileModal from '../profile-modal/profile-modal.component';
+import ScrollableChat from '../scrollable-chat/scrollable-chat.component';
+import UpdateGroupChatModal from '../update-groupchat-modal/update-groupchat-modal.component';
 
 const SingleChat = ({
   socket,
@@ -38,7 +41,7 @@ const SingleChat = ({
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
 
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const [typing, setTyping] = useState(false);
@@ -47,9 +50,9 @@ const SingleChat = ({
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: require("../../animation/typing.json"),
+    animationData: require('../../animation/typing.json'),
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
+      preserveAspectRatio: 'xMidYMid slice',
     },
   };
 
@@ -63,48 +66,48 @@ const SingleChat = ({
       dispatch(setMessages(data));
       setLoading(false);
 
-      socket?.emit("join chat", selectedChat.id);
+      socket?.emit('join chat', selectedChat.id);
     } catch (err) {
       setLoading(false);
       toast({
-        title: "something went wrong",
-        description: "Failed to load messages",
-        status: "error",
+        title: 'something went wrong',
+        description: 'Failed to load messages',
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
     }
   };
 
   const sendMessage = async (e: any) => {
-    if (e.key === "Enter" && newMessage) {
-      socket?.emit("stop typing", selectedChat.id);
+    if (e.key === 'Enter' && newMessage) {
+      socket?.emit('stop typing', selectedChat.id);
       try {
-        setNewMessage("");
-        const { data } = await axios.post("/api/message", {
+        setNewMessage('');
+        const { data } = await axios.post('/api/message', {
           chatId: selectedChat.id,
           senderId: currentUser.id,
           content: newMessage,
         });
-        socket?.emit("new message", data);
+        socket?.emit('new message', data);
         dispatch(setMessages([...messages, data]));
       } catch (err) {
         toast({
-          title: "Something went wrong",
-          description: "Failed to send message",
-          status: "error",
+          title: 'Something went wrong',
+          description: 'Failed to send message',
+          status: 'error',
           duration: 5000,
           isClosable: true,
-          position: "bottom",
+          position: 'bottom',
         });
       }
     }
   };
 
   useEffect(() => {
-    socket?.on("typing", () => setIsTyping(true));
-    socket?.on("stop typing", () => setIsTyping(false));
+    socket?.on('typing', () => setIsTyping(true));
+    socket?.on('stop typing', () => setIsTyping(false));
   }, [socket]);
 
   useEffect(() => {
@@ -119,7 +122,7 @@ const SingleChat = ({
 
     if (!typing) {
       setTyping(true);
-      socket?.emit("typing", selectedChat.id);
+      socket?.emit('typing', selectedChat.id);
     }
 
     let lastTypingTime = new Date().getTime();
@@ -130,7 +133,7 @@ const SingleChat = ({
       var timeDiff = timeNow - lastTypingTime;
 
       if (timeDiff >= timerLength && typing) {
-        socket?.emit("stop typing", selectedChat.id);
+        socket?.emit('stop typing', selectedChat.id);
         setTyping(false);
       }
     }, timerLength);
@@ -141,17 +144,17 @@ const SingleChat = ({
       {selectedChat ? (
         <>
           <Text
-            fontSize={{ base: "28px", md: "30px" }}
+            fontSize={{ base: '28px', md: '30px' }}
             pb={3}
             px={2}
-            width="100%"
-            display="flex"
-            justifyContent={{ base: "space-between" }}
-            alignItems="center"
+            width='100%'
+            display='flex'
+            justifyContent={{ base: 'space-between' }}
+            alignItems='center'
           >
             <IconButton
-              display={{ base: "flex", md: "none" }}
-              aria-label="back"
+              display={{ base: 'flex', md: 'none' }}
+              aria-label='back'
               icon={<ArrowBackIcon />}
               onClick={() => dispatch(setSelectedChat(null))}
             />
@@ -159,7 +162,7 @@ const SingleChat = ({
             {messages &&
               (!selectedChat.isGroupChat ? (
                 <>
-                  <span style={{ color: "white" }}>
+                  <span style={{ color: 'white' }}>
                     {getSenderName(currentUser, selectedChat.users)}
                   </span>
                   <ProfileModal
@@ -168,7 +171,7 @@ const SingleChat = ({
                 </>
               ) : (
                 <>
-                  <span style={{ color: "white" }}>
+                  <span style={{ color: 'white' }}>
                     {selectedChat.chatName.toUpperCase()}
                   </span>
                   <UpdateGroupChatModal fetchMessages={fetchMessages} />
@@ -176,26 +179,26 @@ const SingleChat = ({
               ))}
           </Text>
           <Box
-            display="flex"
-            justifyContent="flex-end"
-            flexDirection="column"
+            display='flex'
+            justifyContent='flex-end'
+            flexDirection='column'
             p={3}
-            bg="gray.700"
-            width="100%"
-            height="100%"
-            borderRadius="lg"
-            overflowY="hidden"
+            bg='gray.700'
+            width='100%'
+            height='100%'
+            borderRadius='lg'
+            overflowY='hidden'
           >
             {loading ? (
               <Spinner
-                size="xl"
+                size='xl'
                 width={20}
                 height={20}
-                alignItems="center"
-                margin="auto"
+                alignItems='center'
+                margin='auto'
               />
             ) : (
-              <div className="messages">
+              <div className='messages'>
                 <ScrollableChat messages={messages} />
               </div>
             )}
@@ -213,10 +216,10 @@ const SingleChat = ({
                 <></>
               )}
               <Input
-                variant="filled"
-                bg="gray.800"
-                color="white"
-                placeholder="Type a message..."
+                variant='filled'
+                bg='gray.800'
+                color='white'
+                placeholder='Type a message...'
                 onChange={typingHandler}
                 value={newMessage}
               />
@@ -225,13 +228,13 @@ const SingleChat = ({
         </>
       ) : (
         <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          height="100%"
-          color="white"
+          display='flex'
+          alignItems='center'
+          justifyContent='center'
+          height='100%'
+          color='white'
         >
-          <Text fontSize="3xl" pb={3}>
+          <Text fontSize='3xl' pb={3}>
             Click on a user to start chatting
           </Text>
         </Box>
