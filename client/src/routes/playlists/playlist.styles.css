@@ -1,6 +1,18 @@
 h2 {
   color: white;
 }
+.main-header {
+  margin-bottom: 60px;
+  font-family: Montserrat;
+  font-size: 2.5em;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.no-entries-header {
+  position:absolute;
+
+}
 
 .card-title {
   color: white;
@@ -12,3 +24,28 @@ h2 {
 .btn {
   color: red;
 }
+.btn:hover {
+  color: rebeccapurple;
+}
+
+.delete-btn {
+  background-color: red;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+}
+.delete-btn:hover {
+  background-color: rgb(202, 112, 112);
+  opacity: 1;
+}
+#each-playlist-card-entry {
+  max-width: 600px;
+  max-height: fit-content;
+  background-color: #1a1a1a;
+}
+#each-playlist-option {
+  max-width: 400px;
+  background-color: #1a1a1a;
+}
+/* style={{backgroundColor: 'red', marginRight: 'auto', width: '30px'}}  */
