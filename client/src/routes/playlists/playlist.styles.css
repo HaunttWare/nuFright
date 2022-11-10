@@ -22,10 +22,10 @@ h2 {
 }
 
 .btn {
-  color: red;
+  color: rgb(250, 246, 246);
 }
 .btn:hover {
-  color: rebeccapurple;
+  color: rgb(138, 16, 16);
 }
 
 .delete-btn {
