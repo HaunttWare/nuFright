@@ -33,7 +33,7 @@ const ImageCardEntry = ({ image }: image) => {
           <b>{image.user.name}</b>
         </h5>
         <hr />
-        <p className="card-text pb-3 text-white"> - {image.caption}</p>
+        <p className="card-text pb-3 text-white"> <em>{image.caption}</em> </p>
         <Rating id={image.id} type={"image"} />
       </div>
     </div>

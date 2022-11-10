@@ -37,7 +37,7 @@ const Gallery = () => {
             <span className="visually-hidden">Loading...</span>
           </div>
       }
-      {/* <Comments allImages={allImages} /> */}
+
     </div>
   );
 }
