@@ -231,4 +231,12 @@ const saveMovie = async (req: Request, res: Response) => {
   }
 };
 
+// const unlikeMovie = async (req: Request, res: Response) => {
+//   const { userId } = req.body;
+//   const { cinemaId } = req.params;
+
+//   try {
+//     const unLiked = await db.
+//   }
+// }
 export { getHorrorMovies, likeMovie, saveMovie, getMoviesFromAPI };
