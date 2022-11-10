@@ -1,24 +1,14 @@
 // eslint-disable-next-line react-hooks/rules-of-hooks
-import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import Map, {
-  useMap,
-  Marker,
-  Popup,
-  NavigationControl,
-  FullscreenControl,
-  ScaleControl,
-  GeolocateControl as GeolocationControl,
-  MapRef,
-} from 'react-map-gl';
-
+import React, {useState, useMemo, useEffect, useCallback, useRef} from 'react';
+import Map, {Marker, Popup, GeolocateControl as GeolocationControl} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { features } from './haunted-houses';
-import { distance } from '@turf/turf';
+import {features} from './haunted-houses';
+import {distance} from '@turf/turf';
 
-type Features = {
+type Feature = {
   geometry: {
     type: string;
-    coordinates: [number];
+    coordinates: [number, number];
   }
   properties: {
     address: string;
@@ -35,7 +25,9 @@ type Features = {
     phone_number_formatted: string;
     terms: string;
   };
-}[];
+};
+
+type Features = Feature[];
 
 type Haunts = {
   name: string;
@@ -49,10 +41,9 @@ type Haunts = {
 const MapBox = () => {
   const [sortedFeatures, setSortedFeatures] = useState<Features>([]);
   const [userLocation, setUserLocation] = useState<number[]>([]);
-  const [currentFeature, setCurrentFeature] = useState([]);
-  const { current: map } = useMap();
-  const mapRef = useRef<Map<number, number> | null>(null);
-
+  // const [currentFeature, setCurrentFeature] = useState([]);
+  // const mapRef = useRef<Map<number, number> | null>(null);
+  const map = useRef(null)
   const [viewState, setViewState] = useState({
     longitude: -95.7219,
     latitude: 37.8,
@@ -146,18 +137,24 @@ const MapBox = () => {
       )
     );
 
-  const flyToLocation = (feature: any) => {
- 
-    const map = mapRef.current;
-   setViewState(feature.geometry.coordinates)
+  const flyToLocation = (feature: Feature) => {
+     console.log({feature}) 
     // map?.flyTo({
     //   center: feature.geometry.coordinates,
     //   zoom: 12,
     // });
-    // console.log(map?.flyTo({center: feature.geometry.coordinates}))
-    console.log(viewState)
   };
 
+  const geoLocateControlRef = useCallback((ref: any) => {
+    if (ref) {
+      (async() => {
+        while (!map.current) {
+          await ((() => new Promise((resolve) => setTimeout(resolve, 200)))())
+          ref.trigger();
+        }
+      })()
+    }
+  }, [])
   return (
     <>
       <div className='w-100 d-flex flex-row'>
@@ -206,9 +203,10 @@ const MapBox = () => {
         </div>
 
         <Map
-          
-          {...viewState}
-          onMove={e => setViewState(e.viewState)}
+          ref={map}
+          initialViewState={viewState}
+          // {...viewState}
+          // onMove={e => setViewState(e.viewState)}
           style={{
             position: 'relative',
             float: 'right',
@@ -217,11 +215,11 @@ const MapBox = () => {
           }}
           mapboxAccessToken={process.env.MAPBOX_TOKEN}
           mapStyle='mapbox://styles/mapbox/dark-v10'
-          onRender={(e) => e.target.resize()}
+          // onRender={(e) => e.target.resize()}
         >
-          <GeolocationControl position='top-left' />
-          <NavigationControl position='top-left' />
-          <ScaleControl />
+          <GeolocationControl ref={geoLocateControlRef} />
+          {/* <NavigationControl position='top-left' /> */}
+          {/* <ScaleControl /> */}
           {markers}
           {showPopup && (
             <Popup
