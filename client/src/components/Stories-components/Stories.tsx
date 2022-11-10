@@ -22,7 +22,7 @@ const StoriesPage = () => {
     const updateStoryList = () => {
         axios.get('/api/story/allStories')
         .then(result => {
-            setAllStories(result.data.sort((a:any, b:any) => a.createdAt < b.createdAt));
+            setAllStories(result.data);
         })
         .catch((err:Error) => console.error(err));
     }
