@@ -48,13 +48,13 @@ const Movies = () => {
               <div className='movie_social'>
                 <ul>
                   <li>
-                    <i className='fa-solid fa-share-nodes'></i>
+                    {/* <i className='fa-solid fa-share-nodes'></i> */}
                   </li>
                   <li>
                     <i className='fa-solid fa-heart'></i>
                   </li>
                   <li>
-                    <i className='fa-solid fa-message'></i>
+                    {/* <i className='fa-solid fa-message'></i> */}
                   </li>
                 </ul>
                 <Comments category={movie} type={'cinema'} />

@@ -10,11 +10,6 @@ const PhotosTab = ({ userImages }: PhotosTabProps) => {
     <div className="card-body p-4 text-white">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <p className="lead fw-normal mb-0">Uploaded photos</p>
-        <p className="mb-0">
-          <a href="#!" className="text-muted">
-            Show all
-          </a>
-        </p>
       </div>
       <div className="row g-2">
         {userImages.map((image) => (
