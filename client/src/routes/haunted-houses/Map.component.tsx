@@ -95,7 +95,7 @@ const MapBox = () => {
           latitude={feature.geometry.coordinates[1]}
         >
           <div onClick={handleClick} id={feature.properties.id}>
-            👻
+          ☠️
           </div>
         </Marker>
       )),
