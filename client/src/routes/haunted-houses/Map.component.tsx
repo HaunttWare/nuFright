@@ -152,7 +152,6 @@ const MapBox = () => {
   // };
 
   const flyToLocation = useCallback((coordinates: [number, number]) => {
-    console.log({mymap})
     const [lng, lat] = [coordinates[0], coordinates[1]]
     if (Math.abs(lng) <= 180 && Math.abs(lat) <= 85) {
       mymap?.easeTo({
