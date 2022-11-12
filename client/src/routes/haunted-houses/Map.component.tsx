@@ -1,6 +1,6 @@
 // eslint-disable-next-line react-hooks/rules-of-hooks
 import React, {useState, useMemo, useEffect, useRef, useCallback} from 'react';
-import Map, {useMap, MapRef, MapProvider, Marker, Popup, GeolocateControl as GeolocationControl} from 'react-map-gl';
+import Map, {useMap, Marker, Popup, GeolocateControl as GeolocationControl} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {features} from './haunted-houses';
 import {distance} from '@turf/turf';
@@ -53,11 +53,6 @@ const MapBox = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [featurePopup, setFeaturePopup] = useState<Haunts>({} as Haunts);
 
-  useEffect(() => {
-    if (!mymap) {
-      return undefined;
-    }
-  })
   const handleClick = (e: any) => {
     setShowPopup(true);
     const feature: number = e.currentTarget.id;
@@ -143,14 +138,6 @@ const MapBox = () => {
       )
     );
 
-  // const flytolocation = (feature: feature) => {
-  //   // map?.flyto({
-  //   //   center: feature.geometry.coordinates,
-  //   //   zoom: 12,
-  //   // });
-  //   console.log(mymap)
-  // };
-
   const flyToLocation = useCallback((coordinates: [number, number]) => {
     const [lng, lat] = [coordinates[0], coordinates[1]]
     if (Math.abs(lng) <= 180 && Math.abs(lat) <= 85) {
@@ -158,9 +145,7 @@ const MapBox = () => {
         center: [lng, lat],
         duration: 1000
       })
-    } else {
-      setError(true)
-    }
+    } 
   }, [mymap, viewState])
 
   const geoLocationControlRef = useCallback((ref: any) => {
@@ -207,14 +192,14 @@ const MapBox = () => {
                   key={feature.id}
                 >
                   <span 
+                  key={feature.id}
                   className='text-white'
                   >
                     {Math.round(feature.properties.distance * 100) / 100} miles away
                   </span>
-                  <h5>
-                    <b className='text-white'>{feature.properties.name}</b>
+                  <h5 key={feature.id}>
+                    <b className='text-white' key={feature.id}>{feature.properties.name}</b>
                   </h5>
-                  <div></div>
                 </div>
               ))}
             </div>
@@ -225,8 +210,6 @@ const MapBox = () => {
           id='mymap'
           ref={newMap}
           initialViewState={viewState}
-          // {...viewState}
-          // onMove={e => setViewState(e.viewState)}
           style={{
             position: 'relative',
             float: 'right',
@@ -235,9 +218,11 @@ const MapBox = () => {
           }}
           mapboxAccessToken={process.env.MAPBOX_TOKEN}
           mapStyle='mapbox://styles/mapbox/dark-v10'
-          // onRender={(e) => e.target.resize()}
         >
-          <GeolocationControl ref={geoLocationControlRef} />
+          <GeolocationControl 
+          position='top-left' 
+          ref={geoLocationControlRef} 
+          />
           {markers}
           {showPopup && (
             <Popup
