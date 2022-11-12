@@ -1,6 +1,6 @@
 // eslint-disable-next-line react-hooks/rules-of-hooks
 import React, {useState, useMemo, useEffect, useRef, useCallback} from 'react';
-import Map, {Marker, Popup, GeolocateControl as GeolocationControl} from 'react-map-gl';
+import Map, {useMap, MapRef, MapProvider, Marker, Popup, GeolocateControl as GeolocationControl} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {features} from './haunted-houses';
 import {distance} from '@turf/turf';
@@ -38,19 +38,26 @@ type Haunts = {
   address2: string;
 };
 
+
 const MapBox = () => {
   const [sortedFeatures, setSortedFeatures] = useState<Features>([]);
   const [userLocation, setUserLocation] = useState<number[]>([]);
-  // const [currentFeature, setCurrentFeature] = useState([]);
-  const map = useRef(null);
+  const newMap = useRef(null);
+  const {mymap} = useMap()
   const [viewState, setViewState] = useState({
     longitude: -95.7219,
     latitude: 37.8,
     zoom: 3,
   });
+  const [hasError, setError] = useState(false)
   const [showPopup, setShowPopup] = useState(false);
   const [featurePopup, setFeaturePopup] = useState<Haunts>({} as Haunts);
 
+  useEffect(() => {
+    if (!mymap) {
+      return undefined;
+    }
+  })
   const handleClick = (e: any) => {
     setShowPopup(true);
     const feature: number = e.currentTarget.id;
@@ -136,18 +143,31 @@ const MapBox = () => {
       )
     );
 
-  const flyToLocation = (feature: Feature) => {
-    // map?.flyTo({
-    //   center: feature.geometry.coordinates,
-    //   zoom: 12,
-    // });
-    // console.log(map?.flyTo({center: feature.geometry.coordinates}))
-  };
+  // const flytolocation = (feature: feature) => {
+  //   // map?.flyto({
+  //   //   center: feature.geometry.coordinates,
+  //   //   zoom: 12,
+  //   // });
+  //   console.log(mymap)
+  // };
+
+  const flyToLocation = useCallback((coordinates: [number, number]) => {
+    console.log({mymap})
+    const [lng, lat] = [coordinates[0], coordinates[1]]
+    if (Math.abs(lng) <= 180 && Math.abs(lat) <= 85) {
+      mymap?.easeTo({
+        center: [lng, lat],
+        duration: 1000
+      })
+    } else {
+      setError(true)
+    }
+  }, [mymap, viewState])
 
   const geoLocationControlRef = useCallback((ref: any) => {
     if (ref) {
       (async() => {
-        while (!map.current) {
+        while (!newMap.current) {
           await ((() => new Promise((resolve) => setTimeout(resolve, 200)))())
           ref.trigger();
         }
@@ -182,7 +202,7 @@ const MapBox = () => {
             >
               {sortedFeatures.map((feature: any) => (
                 <div
-                  onClick={() => flyToLocation(feature)}
+                  onClick={() => flyToLocation(feature.geometry.coordinates)}
                   className='p-3'
                   style={{ cursor: 'pointer', borderBottom: '1px solid white' }}
                   key={feature.id}
@@ -203,7 +223,8 @@ const MapBox = () => {
         </div>
 
         <Map
-          ref={map}
+          id='mymap'
+          ref={newMap}
           initialViewState={viewState}
           // {...viewState}
           // onMove={e => setViewState(e.viewState)}
