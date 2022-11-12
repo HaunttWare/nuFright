@@ -52,6 +52,7 @@ const MapBox = () => {
   const [hasError, setError] = useState(false)
   const [showPopup, setShowPopup] = useState(false);
   const [featurePopup, setFeaturePopup] = useState<Haunts>({} as Haunts);
+  const [query, setQuery] = useState('')
 
   const handleClick = (e: any) => {
     setShowPopup(true);
@@ -134,7 +135,7 @@ const MapBox = () => {
   const handleSearch = (query: string) =>
     setSortedFeatures(
       sortedFeatures.filter((feature) =>
-        feature.properties.name.toLowerCase().includes(query.toLowerCase())
+        feature.properties.name.toLowerCase().includes(query.toLowerCase()) || feature.properties.address.toLowerCase().includes(query.toLowerCase())
       )
     );
 
@@ -158,10 +159,10 @@ const MapBox = () => {
       <div className='w-100 d-flex flex-row'>
         <div className='w-25'>
           <>
-            <h1>Search for Haunts</h1>
+            <h1 style={{color: 'white', textAlign: 'center'}}>Search for Haunts</h1>
             <div className='input-group w-75 mx-auto'>
               <input
-                onChange={(e) => handleSearch(e.target.value)}
+                onChange={e => handleSearch(e.target.value)}
                 type='text'
                 className='form-control'
                 placeholder='Enter name or location'
