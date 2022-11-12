@@ -138,15 +138,9 @@ const MapBox = () => {
       )
     );
 
-  const flyToLocation = useCallback((coordinates: [number, number]) => {
-    const [lng, lat] = [coordinates[0], coordinates[1]]
-    if (Math.abs(lng) <= 180 && Math.abs(lat) <= 85) {
-      mymap?.easeTo({
-        center: [lng, lat],
-        duration: 1000
-      })
-    } 
-  }, [mymap, viewState])
+  const flyToLocation = (coordinates: [number, number]) => {
+    mymap?.flyTo({center: coordinates, essential: true})
+  }
 
   const geoLocationControlRef = useCallback((ref: any) => {
     if (ref) {
