@@ -1,24 +1,14 @@
 // eslint-disable-next-line react-hooks/rules-of-hooks
-import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import Map, {
-  useMap,
-  Marker,
-  Popup,
-  NavigationControl,
-  FullscreenControl,
-  ScaleControl,
-  GeolocateControl as GeolocationControl,
-  MapRef,
-} from 'react-map-gl';
-
+import React, {useState, useMemo, useEffect, useRef, useCallback} from 'react';
+import Map, {Marker, Popup, GeolocateControl as GeolocationControl} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { features } from './haunted-houses';
-import { distance } from '@turf/turf';
+import {features} from './haunted-houses';
+import {distance} from '@turf/turf';
 
-type Features = {
+type Feature = {
   geometry: {
     type: string;
-    coordinates: [number];
+    coordinates: [number, number];
   }
   properties: {
     address: string;
@@ -35,7 +25,9 @@ type Features = {
     phone_number_formatted: string;
     terms: string;
   };
-}[];
+};
+
+type Features = Feature[];
 
 type Haunts = {
   name: string;
@@ -49,10 +41,8 @@ type Haunts = {
 const MapBox = () => {
   const [sortedFeatures, setSortedFeatures] = useState<Features>([]);
   const [userLocation, setUserLocation] = useState<number[]>([]);
-  const [currentFeature, setCurrentFeature] = useState([]);
-  const { current: map } = useMap();
-  const mapRef = useRef<Map<number, number> | null>(null);
-
+  // const [currentFeature, setCurrentFeature] = useState([]);
+  const map = useRef(null);
   const [viewState, setViewState] = useState({
     longitude: -95.7219,
     latitude: 37.8,
@@ -146,17 +136,24 @@ const MapBox = () => {
       )
     );
 
-  const flyToLocation = (feature: any) => {
- 
-    const map = mapRef.current;
-   setViewState(feature.geometry.coordinates)
+  const flyToLocation = (feature: Feature) => {
     // map?.flyTo({
     //   center: feature.geometry.coordinates,
     //   zoom: 12,
     // });
     // console.log(map?.flyTo({center: feature.geometry.coordinates}))
-    console.log(viewState)
   };
+
+  const geoLocationControlRef = useCallback((ref: any) => {
+    if (ref) {
+      (async() => {
+        while (!map.current) {
+          await ((() => new Promise((resolve) => setTimeout(resolve, 200)))())
+          ref.trigger();
+        }
+      })()
+    }
+  }, [])
 
   return (
     <>
@@ -191,12 +188,12 @@ const MapBox = () => {
                   key={feature.id}
                 >
                   <span 
-                  // className='text-muted'
+                  className='text-white'
                   >
                     {Math.round(feature.properties.distance * 100) / 100} miles away
                   </span>
                   <h5>
-                    <b>{feature.properties.name}</b>
+                    <b className='text-white'>{feature.properties.name}</b>
                   </h5>
                   <div></div>
                 </div>
@@ -206,9 +203,10 @@ const MapBox = () => {
         </div>
 
         <Map
-          
-          {...viewState}
-          onMove={e => setViewState(e.viewState)}
+          ref={map}
+          initialViewState={viewState}
+          // {...viewState}
+          // onMove={e => setViewState(e.viewState)}
           style={{
             position: 'relative',
             float: 'right',
@@ -217,17 +215,9 @@ const MapBox = () => {
           }}
           mapboxAccessToken={process.env.MAPBOX_TOKEN}
           mapStyle='mapbox://styles/mapbox/dark-v10'
-          onRender={(e) => e.target.resize()}
+          // onRender={(e) => e.target.resize()}
         >
-          {/* <button
-          style={{position: 'absolute'}}
-          className='btn btn-lg btn-danger'
-          onClick={() => flyToLocation({properties:{geometry: {coordinates: [-74.003033, 40.732839]}}})}
-          >Click Here</button> */}
-          <GeolocationControl position='top-left' />
-          <FullscreenControl position='top-left' />
-          <NavigationControl position='top-left' />
-          <ScaleControl />
+          <GeolocationControl ref={geoLocationControlRef} />
           {markers}
           {showPopup && (
             <Popup

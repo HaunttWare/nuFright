@@ -38,8 +38,8 @@ const Movies = () => {
               <div className='movie_header'>
                 <img className='locandina' src={movie.images} />
                 <h1>{movie.title}</h1>
-                <h4>add director and year here</h4>
-                <span className='minutes'>add movie length here</span>
+                {/* <h4>add director and year here</h4> */}
+                {/* <span className='minutes'>add movie length here</span> */}
                 <p className='type'>{movie.genres}</p>
               </div>
               <div className='movie_desc'>
@@ -48,13 +48,13 @@ const Movies = () => {
               <div className='movie_social'>
                 <ul>
                   <li>
-                    <i className='fa-solid fa-share-nodes'></i>
+                    {/* <i className='fa-solid fa-share-nodes'></i> */}
                   </li>
                   <li>
                     <i className='fa-solid fa-heart'></i>
                   </li>
                   <li>
-                    <i className='fa-solid fa-message'></i>
+                    {/* <i className='fa-solid fa-message'></i> */}
                   </li>
                 </ul>
                 <Comments category={movie} type={'cinema'} />

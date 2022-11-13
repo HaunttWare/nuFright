@@ -22,7 +22,7 @@ const StoriesPage = () => {
     const updateStoryList = () => {
         axios.get('/api/story/allStories')
         .then(result => {
-            setAllStories(result.data.sort((a:any, b:any) => a.createdAt < b.createdAt));
+            setAllStories(result.data);
         })
         .catch((err:Error) => console.error(err));
     }
@@ -60,8 +60,10 @@ const StoriesPage = () => {
             {view === 'story' && 
             <>
             <StoryDisplay story={selectedStory} backHandler={viewHandler}/>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <Rating id={selectedStory.id} type={'stories'} />
+                </div>
                 <Comments category={selectedStory} type={'stories'} />
-                <Rating id={selectedStory.id} type={'stories'} />
             </>
             }
             {view === 'write' && <WriteStory backHandler={viewHandler}/>}
