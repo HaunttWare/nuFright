@@ -185,13 +185,13 @@ const MapBox = () => {
                   key={feature.id}
                 >
                   <span 
-                  key={feature.id}
+                  key={feature.properties.id}
                   className='text-white'
                   >
                     {Math.round(feature.properties.distance * 100) / 100} miles away
                   </span>
-                  <h5 key={feature.id}>
-                    <b className='text-white' key={feature.id}>{feature.properties.name}</b>
+                  <h5 key={feature.properties.id}>
+                    <b className='text-white' key={feature.properties.id}>{feature.properties.name}</b>
                   </h5>
                   {/* <div>{feature.properties.terms}</div> */}
                 </div>
