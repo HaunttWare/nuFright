@@ -1,9 +1,10 @@
 // eslint-disable-next-line react-hooks/rules-of-hooks
 import React, {useState, useMemo, useEffect, useRef, useCallback} from 'react';
-import Map, {Marker, Popup, GeolocateControl as GeolocationControl} from 'react-map-gl';
+import Map, {useMap, Marker, Popup, GeolocateControl as GeolocationControl} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {features} from './haunted-houses';
 import {distance} from '@turf/turf';
+import {Box} from '@chakra-ui/react'
 
 type Feature = {
   geometry: {
@@ -38,32 +39,32 @@ type Haunts = {
   address2: string;
 };
 
+
 const MapBox = () => {
   const [sortedFeatures, setSortedFeatures] = useState<Features>([]);
   const [userLocation, setUserLocation] = useState<number[]>([]);
-  // const [currentFeature, setCurrentFeature] = useState([]);
-  const map = useRef(null);
+  const newMap = useRef(null);
+  const {mymap} = useMap()
   const [viewState, setViewState] = useState({
     longitude: -95.7219,
     latitude: 37.8,
+    pitch: 70,
     zoom: 3,
   });
   const [showPopup, setShowPopup] = useState(false);
   const [featurePopup, setFeaturePopup] = useState<Haunts>({} as Haunts);
 
-  const handleClick = (e: any) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     setShowPopup(true);
-    const feature: number = e.currentTarget.id;
-    const featurePopup = features
-      .map((feature) => ({
+    const {currentTarget: {id}} = e;
+    const featurePopup = features.map((feature) => ({
         name: feature.properties.name,
         latitude: feature.properties.latitude,
         longitude: feature.properties.longitude,
         id: feature.properties.id,
         address: feature.properties.address,
         address2: feature.properties.address2,
-      }))
-      .find((ft) => ft.id === feature.toString());
+      })).find((ft) => ft.id === id.toString());
     if (featurePopup == null) return null;
 
     setFeaturePopup(featurePopup);
@@ -94,8 +95,8 @@ const MapBox = () => {
           longitude={feature.geometry.coordinates[0]}
           latitude={feature.geometry.coordinates[1]}
         >
-          <div onClick={handleClick} id={feature.properties.id}>
-            👻
+          <div key={feature.properties.id} onClick={handleClick} id={feature.properties.id}>
+          ☠️
           </div>
         </Marker>
       )),
@@ -132,22 +133,18 @@ const MapBox = () => {
   const handleSearch = (query: string) =>
     setSortedFeatures(
       sortedFeatures.filter((feature) =>
-        feature.properties.name.toLowerCase().includes(query.toLowerCase())
+        feature.properties.name.toLowerCase().includes(query.toLowerCase()) || feature.properties.address.toLowerCase().includes(query.toLowerCase())
       )
     );
 
-  const flyToLocation = (feature: Feature) => {
-    // map?.flyTo({
-    //   center: feature.geometry.coordinates,
-    //   zoom: 12,
-    // });
-    // console.log(map?.flyTo({center: feature.geometry.coordinates}))
-  };
+  const flyToLocation = (coordinates: [number, number]) => {
+    mymap?.flyTo({center: coordinates, essential: true})
+  }
 
   const geoLocationControlRef = useCallback((ref: any) => {
     if (ref) {
       (async() => {
-        while (!map.current) {
+        while (!newMap.current) {
           await ((() => new Promise((resolve) => setTimeout(resolve, 200)))())
           ref.trigger();
         }
@@ -160,10 +157,10 @@ const MapBox = () => {
       <div className='w-100 d-flex flex-row'>
         <div className='w-25'>
           <>
-            <h1>Search for Haunts</h1>
+            <h1 style={{color: 'white', textAlign: 'center'}}>Search for Haunts</h1>
             <div className='input-group w-75 mx-auto'>
               <input
-                onChange={(e) => handleSearch(e.target.value)}
+                onChange={e => handleSearch(e.target.value)}
                 type='text'
                 className='form-control'
                 placeholder='Enter name or location'
@@ -182,20 +179,21 @@ const MapBox = () => {
             >
               {sortedFeatures.map((feature: any) => (
                 <div
-                  onClick={() => flyToLocation(feature)}
+                  onClick={() => flyToLocation(feature.geometry.coordinates)}
                   className='p-3'
                   style={{ cursor: 'pointer', borderBottom: '1px solid white' }}
                   key={feature.id}
                 >
                   <span 
+                  key={feature.id}
                   className='text-white'
                   >
                     {Math.round(feature.properties.distance * 100) / 100} miles away
                   </span>
-                  <h5>
-                    <b className='text-white'>{feature.properties.name}</b>
+                  <h5 key={feature.id}>
+                    <b className='text-white' key={feature.id}>{feature.properties.name}</b>
                   </h5>
-                  <div></div>
+                  {/* <div>{feature.properties.terms}</div> */}
                 </div>
               ))}
             </div>
@@ -203,10 +201,9 @@ const MapBox = () => {
         </div>
 
         <Map
-          ref={map}
+          id='mymap'
+          ref={newMap}
           initialViewState={viewState}
-          // {...viewState}
-          // onMove={e => setViewState(e.viewState)}
           style={{
             position: 'relative',
             float: 'right',
@@ -215,9 +212,14 @@ const MapBox = () => {
           }}
           mapboxAccessToken={process.env.MAPBOX_TOKEN}
           mapStyle='mapbox://styles/mapbox/dark-v10'
-          // onRender={(e) => e.target.resize()}
         >
-          <GeolocationControl ref={geoLocationControlRef} />
+          <GeolocationControl 
+          position='top-left' 
+          ref={geoLocationControlRef} 
+          positionOptions={{enableHighAccuracy: true}}
+          trackUserLocation={true}
+          showUserHeading={true}
+          />
           {markers}
           {showPopup && (
             <Popup
