@@ -47,12 +47,12 @@ const MapBox = () => {
   const [viewState, setViewState] = useState({
     longitude: -95.7219,
     latitude: 37.8,
+    pitch: 70,
     zoom: 3,
   });
   const [hasError, setError] = useState(false)
   const [showPopup, setShowPopup] = useState(false);
   const [featurePopup, setFeaturePopup] = useState<Haunts>({} as Haunts);
-  const [query, setQuery] = useState('')
 
   const handleClick = (e: any) => {
     setShowPopup(true);
@@ -217,6 +217,9 @@ const MapBox = () => {
           <GeolocationControl 
           position='top-left' 
           ref={geoLocationControlRef} 
+          positionOptions={{enableHighAccuracy: true}}
+          trackUserLocation={true}
+          showUserHeading={true}
           />
           {markers}
           {showPopup && (
