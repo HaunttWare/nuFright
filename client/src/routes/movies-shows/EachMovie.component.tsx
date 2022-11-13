@@ -39,11 +39,11 @@ const EachMovie = ({ movie }: MovieProp) => {
  const isLikedRender = () => {
   return isLiked ?
    (
-    <i className='fa-solid fa-heart' onClick={() => { handleLike() }}></i>
+    <i className='fa-solid fa-heart' id='unliked-heart' onClick={() => { handleLike() }}></i>
   )
   :
   (
-    <i className='fa-solid fa-heart' style={{color: 'purple'}} onClick={() => { handleLike() }}></i>
+    <i className='fa-solid fa-heart' style={{color: 'rgba(255, 51, 0, 0.5)'}}id='liked-heart' onClick={() => { handleLike() }}></i>
   )
  };
   // const handleSave = () => {
@@ -90,8 +90,9 @@ const EachMovie = ({ movie }: MovieProp) => {
     <div className='movie_card' id='bright'>
             <div className='info_section'>
               <div className='movie_header'>
-                <img className='locandina' src={movie.images} />
                 <h1>{movie.title}</h1>
+                <img className='locandina' src={movie.images} />
+                <img className='locandina-big' src={movie.images} />
                 {/* <h4>add director and year here</h4> */}
                 {/* <span className='minutes'>add movie length here</span> */}
                 <p className='type'>{movie.genres}</p>
@@ -106,18 +107,22 @@ const EachMovie = ({ movie }: MovieProp) => {
                   </li>
                   <li>
                     { isLikedRender() }
-                    {/* <i className='fa-solid fa-heart' onClick={() => { handleLike() }}></i> */}
                   </li>
                   <li>
                     {/* <i className='fa-solid fa-message'></i> */}
                   </li>
                 </ul>
+
                 <Comments category={movie} type={'cinema'} />
                 <Rating id={movie.id} type={'cinema'} />
               </div>
             </div>
             <div className='blur_back bright_back'></div>
           </div>
+    );
+  };
+  
+  export default EachMovie;
     // <div className="col-md-3 col-sm-6">
     //   <div className="card" >
     //     <img src={movie.images} className="card-img-top" alt="..." />
@@ -139,7 +144,3 @@ const EachMovie = ({ movie }: MovieProp) => {
     //     </div>
     //   </div>
     // </div>
-  );
-};
-
-export default EachMovie;
