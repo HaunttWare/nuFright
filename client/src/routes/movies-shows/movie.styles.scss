@@ -2,6 +2,7 @@
 
 .movie_title{
   font-weight: 700!important;
+  
 }
 .movie_card{
   position: relative;
@@ -55,6 +56,13 @@
         height: 120px;
         box-shadow: 0 0 20px -10px rgba(0,0,0,0.5);
       }
+      .locandina-big{
+        position: relative;
+        float: right;
+        left: 315px;
+        max-height: 450px;
+
+      }
     }
     .movie_desc{
       padding: 25px;
@@ -62,6 +70,7 @@
       .text{
         color: #cfd6e1;
       }
+  
     }
     .movie_social{
       height: 10%;
