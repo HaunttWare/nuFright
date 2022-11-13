@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import CreepyCarousel from "../../components/carousel/carousel";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setCurrentMovies, MoviesData } from "../../store/movies/movies.action";
 import { selectCurrentMovies } from "../../store/movies/movies.selector";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setCurrentShows, ShowData } from "../../store/shows/shows.action";
 import { selectCurrentShows } from "../../store/shows/shows.selector";
 import { fetchEvents } from "../../config/apiCalls";
+import HauntList from '../../components/haunt-list/hauntList'
 
 type TopFilms = ShowData & MoviesData;
 
@@ -107,8 +107,11 @@ const Home = () => {
               </h3>
             )}
           </div>
+          <div className='col-lg-12 col-sm-12'>
+            <HauntList />
+          </div>
+          </div>
         </div>
-      </div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import Carousel from "react-bootstrap/Carousel";
 const CreepyCarousel = ({ contents }: any) => {
   return (
     <div className="d-flex flex-column align-items-center">
-      <h3 className="mb-4 display-6 text-white">Top Shows/Movies</h3>
+      <h3 className="mb-4 display-6 text-white">Latest Shows/Movies</h3>
       <Carousel className="w-100" indicators={false}>
         {contents.map((content: any) => (
           <Carousel.Item>

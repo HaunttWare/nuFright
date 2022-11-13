@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 
 import { ChakraProvider } from "@chakra-ui/react";
+import { MapProvider } from "react-map-gl";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -20,9 +21,11 @@ const root = ReactDOM.createRoot(el);
 root.render(
   <Provider store={store}>
     <BrowserRouter>
+    <MapProvider>
       <ChakraProvider>
         <App />
       </ChakraProvider>
+    </MapProvider>
     </BrowserRouter>
   </Provider>
 );
