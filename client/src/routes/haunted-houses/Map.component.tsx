@@ -4,6 +4,7 @@ import Map, {useMap, Marker, Popup, GeolocateControl as GeolocationControl} from
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {features} from './haunted-houses';
 import {distance} from '@turf/turf';
+import {Box} from '@chakra-ui/react'
 
 type Feature = {
   geometry: {
@@ -50,23 +51,20 @@ const MapBox = () => {
     pitch: 70,
     zoom: 3,
   });
-  const [hasError, setError] = useState(false)
   const [showPopup, setShowPopup] = useState(false);
   const [featurePopup, setFeaturePopup] = useState<Haunts>({} as Haunts);
 
-  const handleClick = (e: any) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     setShowPopup(true);
-    const feature: number = e.currentTarget.id;
-    const featurePopup = features
-      .map((feature) => ({
+    const {currentTarget: {id}} = e;
+    const featurePopup = features.map((feature) => ({
         name: feature.properties.name,
         latitude: feature.properties.latitude,
         longitude: feature.properties.longitude,
         id: feature.properties.id,
         address: feature.properties.address,
         address2: feature.properties.address2,
-      }))
-      .find((ft) => ft.id === feature.toString());
+      })).find((ft) => ft.id === id.toString());
     if (featurePopup == null) return null;
 
     setFeaturePopup(featurePopup);
@@ -97,7 +95,7 @@ const MapBox = () => {
           longitude={feature.geometry.coordinates[0]}
           latitude={feature.geometry.coordinates[1]}
         >
-          <div onClick={handleClick} id={feature.properties.id}>
+          <div key={feature.properties.id} onClick={handleClick} id={feature.properties.id}>
           ☠️
           </div>
         </Marker>
@@ -195,6 +193,7 @@ const MapBox = () => {
                   <h5 key={feature.id}>
                     <b className='text-white' key={feature.id}>{feature.properties.name}</b>
                   </h5>
+                  {/* <div>{feature.properties.terms}</div> */}
                 </div>
               ))}
             </div>
