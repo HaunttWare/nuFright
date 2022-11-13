@@ -1,13 +1,13 @@
 // eslint-disable-next-line react-hooks/rules-of-hooks
-import React, {useState, useEffect} from 'react';
-import {features} from '../../routes/haunted-houses/haunted-houses';
-import {distance} from '@turf/turf';
+import React, { useState, useEffect } from 'react';
+import { features } from '../../routes/haunted-houses/haunted-houses';
+import { distance } from '@turf/turf';
 
 type Features = {
   geometry: {
     type: string;
     coordinates: [number, number];
-  }
+  };
   properties: {
     address: string;
     address2: string;
@@ -23,13 +23,13 @@ type Features = {
     phone_number_formatted: string;
     terms: string;
   };
-}[]
+}[];
 
-type ClosestTen = any[]
+type ClosestTen = any[];
 
 const HauntList = () => {
   const [sortedFeatures, setSortedFeatures] = useState<Features>([]);
-  const closestTen: ClosestTen = []
+  const closestTen: ClosestTen = [];
   const [userLocation, setUserLocation] = useState<number[]>([]);
   const [viewState, setViewState] = useState({
     longitude: -95.7219,
@@ -77,29 +77,43 @@ const HauntList = () => {
         return 0;
       });
       if (featuresWithDistance.length) {
-        for (let i = 0; i < 10; i++) {
-         closestTen.push(featuresWithDistance[i]) 
+        for (let i = 0; i < 5; i++) {
+          closestTen.push(featuresWithDistance[i]);
         }
       }
       setSortedFeatures(closestTen);
     }
   }, [userLocation]);
-  
-  return sortedFeatures.length ? (
-  <div className='container haunts'>
-    <h3 className='text-center mb-4 display-6 text-white'>
-      List of Haunted Houses</h3>
-    <div 
-    className='row align-items-center no-gutters margin-40px-bottom'
-    style={{textAlign: 'center', color: 'white'}}
-    >
-      {sortedFeatures.map((feature: any) => (
-      <ul>{feature.properties.name}</ul>
-      ))}
-    </div>
-  </div>
-  ) : null
 
+  return sortedFeatures.length ? (
+    <div className='container haunts'>
+      <h3 className='text-center mb-4 display-6 text-white'>
+        List of Haunted Houses
+      </h3>
+      <div
+        className='row align-items-center no-gutters mx-auto'
+        style={{ textAlign: 'center', color: 'white', width: '380px' }}
+      >
+        {sortedFeatures.map((feature: any) => (
+          <div style={{cursor: 'pointer', marginBottom: '20px', borderBottom: '1px solid white'}}>
+            <span key={feature.properties.id}>
+              <b>{feature.properties.name}</b>
+            </span>
+            <h5 key={feature.properties.id}>
+              {feature.properties.address}
+              <br></br>
+              {feature.properties.address2}
+            </h5>
+            <span 
+            key={feature.properties.id}
+            >
+            {feature.properties.terms}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  ) : null;
 };
 
 export default HauntList;
