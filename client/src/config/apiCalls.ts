@@ -43,4 +43,23 @@ export const fetchEvents = async (location: any) => {
   } catch (error) {
     console.log("error in api call",error);
   }
+
+};
+
+export const fetchMovies = async () => {
+  try {
+    const { data } = await axios.get(`/api/movies`);
+    return data;
+  } catch (error) {
+    console.error('error in axios request', error);
+  }
+};
+
+export const fetchShows = async () => {
+  try {
+    const { data } = await axios.get('/api/shows');
+    return data;
+  } catch (error) {
+    console.error('error in axio request', error);
+  }
 };
