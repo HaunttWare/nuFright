@@ -5,12 +5,10 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser, selectFollowerList, selectFollowingList } from "../../store/user/user.selector";
 import { selectBadgeList } from "../../store/badges/badges.selector";
 
-// import tooltip from chakra ui
 import { Tooltip } from "@chakra-ui/react";
 
 import PhotosTab from "../../components/profile-tabs/photos-tab/photos-tab.component";
 import LikesTab from "../../components/profile-tabs/likes-tab/likes-tab.component";
-import SavesTab from "../../components/profile-tabs/saves-tab/saves-tab.component";
 import BadgesTab from "../../components/profile-tabs/badges-tab/badges-tab.component";
 
 export type ImageData = {
@@ -114,16 +112,6 @@ const Profile = () => {
                       Likes
                     </button>
                   </li>
-                  <li className="nav-item">
-                    <button
-                      className={`nav-link ${
-                        activeTab === "saves" ? "active" : ""
-                      } text-muted fw-bold`}
-                      onClick={() => setActiveTab("saves")}
-                    >
-                      Saves
-                    </button>
-                  </li>
                 </ul>
                 <div className="tab-content">
                   <div
@@ -147,13 +135,6 @@ const Profile = () => {
                     }`}
                   >
                     <LikesTab />
-                  </div>
-                  <div
-                    className={`tab-pane fade ${
-                      activeTab === "saves" ? "show active" : ""
-                    }`}
-                  >
-                    <SavesTab />
                   </div>
                 </div>
               </div>
