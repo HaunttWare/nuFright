@@ -95,7 +95,7 @@ const MapBox = () => {
           longitude={feature.geometry.coordinates[0]}
           latitude={feature.geometry.coordinates[1]}
         >
-          <div key={feature.properties.id} onClick={handleClick} id={feature.properties.id}>
+          <div onClick={handleClick} id={feature.properties.id}>
           ☠️
           </div>
         </Marker>
@@ -182,16 +182,16 @@ const MapBox = () => {
                   onClick={() => flyToLocation(feature.geometry.coordinates)}
                   className='p-3'
                   style={{ cursor: 'pointer', borderBottom: '1px solid white' }}
-                  key={feature.id}
+                  key={feature.properties.id}
                 >
                   <span 
-                  key={feature.id}
+                  key={feature.properties.id}
                   className='text-white'
                   >
                     {Math.round(feature.properties.distance * 100) / 100} miles away
                   </span>
-                  <h5 key={feature.id}>
-                    <b className='text-white' key={feature.id}>{feature.properties.name}</b>
+                  <h5>
+                    <b className='text-white' key={feature.properties.id}>{feature.properties.name}</b>
                   </h5>
                   {/* <div>{feature.properties.terms}</div> */}
                 </div>

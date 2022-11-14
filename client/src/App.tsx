@@ -37,9 +37,13 @@ import {
   createBadge,
   fetchFollowers,
   fetchFollowing,
+  fetchMovies,
+  fetchShows,
 } from "./config/apiCalls";
 
 import io, { Socket } from "socket.io-client";
+import { setCurrentMovies } from "./store/movies/movies.action";
+import { setCurrentShows } from "./store/shows/shows.action";
 const ENDPOINT = "http://localhost:3000"; // https://nufright.com for production
 var socket: Socket;
 
@@ -77,6 +81,12 @@ const App = () => {
       const following = await fetchFollowing(user.id);
       if (!following) return;
       dispatch(setFollowingList(following));
+      
+      const movies = await fetchMovies();
+      dispatch(setCurrentMovies(movies));
+
+      const shows = await fetchShows();
+      dispatch(setCurrentShows(shows));
     };
     fetchData();
   }, []);
@@ -91,6 +101,8 @@ const App = () => {
       socket.disconnect();
     };
   }, [currentUser]);
+
+
 
   return (
     <Routes>
