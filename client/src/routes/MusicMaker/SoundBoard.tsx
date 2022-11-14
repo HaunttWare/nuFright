@@ -5,7 +5,7 @@ import './soundboard.styles.css';
 const SoundBoard = () => {
  return (
     <div className='sound-container'>
-      <p>sounds</p>
+      <p className='text-white'>sounds</p>
     </div>
 
 
