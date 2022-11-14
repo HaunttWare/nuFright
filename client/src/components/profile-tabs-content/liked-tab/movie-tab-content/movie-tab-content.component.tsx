@@ -1,31 +1,54 @@
-import React from "react";
+import React, {useState} from "react";
 
 type MovieTabContentProps = {
   userLikedMovies: any;
 };
 
+import { Box, Image, Text, Grid, Tooltip } from "@chakra-ui/react";
+
 const MovieTabContent = ({ userLikedMovies }: MovieTabContentProps) => {
+  const [showDescription, setShowDescription] = useState(false);
+  const [showDescriptionId, setShowDescriptionId] = useState("");
+
+  const handleShowDescription = (id: string) => {
+    setShowDescriptionId(id);
+    if (showDescriptionId === id) {
+      setShowDescription(!showDescription);
+    }
+  };
+
+
   return (
-    <div className="d-flex flex-wrap">
-      {userLikedMovies.map((movie: any) => (
-        <div className="card m-2" style={{ width: "18rem" }}>
-          <img
-            src={movie.images}
-            className="card-img-top"
-            alt={movie.title}
-          />
-          <div className="card-body">
-            <h5 className="card-title">{movie.title}</h5>
-            <p className="card-text">
-                {movie.description}
-            </p>
-            <a href="#" className="btn btn-primary">
-              Go somewhere
-            </a>
-          </div>
-        </div>
-      ))}
-    </div>
+    <Box>
+      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+        {userLikedMovies.length > 0 ? (
+          userLikedMovies.map((movie: any) => (
+            <Box key={movie.id}>
+              <Tooltip label="Show movie description" placement="top">
+              <Image
+                src={movie.images}
+                alt={movie.title}
+                borderRadius="lg"
+                height="300px"
+                width="300px"
+                onClick={() => handleShowDescription(movie.id)}
+              />
+              </Tooltip>
+              <Text fontSize="xl" fontWeight="bold" color="white">
+                {movie.title}
+              </Text>
+              {showDescription && showDescriptionId === movie.id ? (
+                <Text color="white">{movie.description}</Text>
+              ) : null}
+            </Box>
+          ))
+        ) : (
+          <Text textAlign="center" fontSize="2xl" fontWeight="bold">
+            You have no liked movies
+          </Text>
+        )}
+      </Grid>
+    </Box>
   );
 };
 
