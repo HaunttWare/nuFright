@@ -56,13 +56,6 @@
         height: 120px;
         box-shadow: 0 0 20px -10px rgba(0,0,0,0.5);
       }
-      .locandina-big{
-        position: relative;
-        float: right;
-        left: 315px;
-        max-height: 450px;
-
-      }
     }
     .movie_desc{
       padding: 25px;
@@ -75,6 +68,7 @@
     .movie_social{
       height: 10%;
       padding-left: 15px;
+      padding-top: 15px;
       padding-bottom: 20px;
       ul{
         list-style: none;

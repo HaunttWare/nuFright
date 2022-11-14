@@ -11,7 +11,6 @@ const LikesTab = () => {
   const [activeTab, setActiveTab] = useState("movies");
   const [userLikedMovies, setUserLikedMovies] = useState([]);
   const [userLikedShows, setUserLikedShows] = useState([]);
-  const [userLikedBooks, setUserLikedBooks] = useState([]);
 
   useEffect(() => {
     // if currentUser is not null, then fetch the data
@@ -44,13 +43,6 @@ const LikesTab = () => {
           >
             Shows
           </button>
-          <button
-            type="button"
-            className="btn btn-outline-secondary"
-            onClick={() => setActiveTab("books")}
-          >
-            Books
-          </button>
         </div>
       </div>
       {/* tab content */}
@@ -60,27 +52,6 @@ const LikesTab = () => {
         )}
         {activeTab === "shows" && (
           <ShowTabContent userLikedShows={userLikedShows} />
-        )}
-        {activeTab === "books" && (
-          <div className="d-flex flex-wrap">
-            <div className="card m-2" style={{ width: "18rem" }}>
-              <img
-                src="https://images.unsplash.com/photo-1542733384-8b3b0f3b5f9d?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bW92aWV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-                className="card-img-top"
-                alt="..."
-              />
-              <div className="card-body">
-                <h5 className="card-title">Book 1</h5>
-                <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" className="btn btn-primary">
-                  Go somewhere
-                </a>
-              </div>
-            </div>
-          </div>
         )}
       </div>
     </div>

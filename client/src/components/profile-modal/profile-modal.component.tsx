@@ -23,6 +23,7 @@ import {
 import { ViewIcon } from "@chakra-ui/icons";
 
 import { setFollowingList, UserData } from "../../store/user/user.action";
+import { FaPlus } from "react-icons/fa";
 
 type ProfileModalProps = {
   children?: React.ReactNode;
@@ -112,9 +113,13 @@ const ProfileModal = ({ user, children }: ProfileModalProps) => {
             <Button onClick={() => followUser(user)}>
               {followingList.find(
                 (followingUser: UserData) => followingUser.id === user.id
-              )
-                ? "Unfollow"
-                : "Follow"}
+              ) ? (
+                "Unfollow"
+              ) : (
+                <>
+                  <FaPlus style={{ paddingRight: "5px" }} /> Follow
+                </>
+              )}
             </Button>
           </ModalBody>
         </ModalContent>

@@ -23,6 +23,8 @@ import Costumes from "./routes/costumes/costumes.component";
 import Stories from "./routes/stories/stories.component";
 import Gallery from "./routes/gallery/gallery.component";
 import MapBox from "./routes/haunted-houses/Map.component";
+import Followers from "./routes/profile/followers.component";
+import Following from "./routes/profile/following.component";
 import Profile from "./routes/profile/profile.component";
 import MusicMakingView from "./routes/MusicMaker/MusicMakingView";
 import Chat from "./routes/chat/chat.component";
@@ -125,6 +127,8 @@ const App = () => {
         <Route path="find-haunts" element={<MapBox />} />
         <Route path="sounds" element={<MusicMakingView />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="profile/followers" element={<Followers />} />
+        <Route path="profile/following" element={<Following />} />
         <Route
           path="chats"
           element={
