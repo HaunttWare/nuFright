@@ -29,7 +29,6 @@ export const AudioRecorder = () => {
       .then(({ data }) => {
         setAllBlobs(data);
         setAreBlobsThere(true);
-        console.log("data →", allBlobs);
       })
       .catch((err) => {
         console.error(err);
@@ -46,9 +45,9 @@ export const AudioRecorder = () => {
     setRecordingHasStarted(false);
     await recorder.stopRecording();
     let blob = await recorder.getBlob();
-    console.log("blob", blob);
+    //console.log("blob", blob);
     //setCurrentBlob(blob);
-    const randomName  = await Swal.fire({
+    const randomName = await Swal.fire({
       title: "name this song!",
       input: "text",
       inputPlaceholder: "go ahead...",
@@ -62,14 +61,14 @@ export const AudioRecorder = () => {
         title: "ok nvm then...",
         background: "#181a1b",
         color: "#fff",
-      })
+      });
       return;
     }
     let savedFile = new File([blob], `${randomName.value}.webm`, {
       type: "audio/webm",
     });
 
-    console.log("randomName", randomName);
+    // console.log("randomName", randomName);
 
     invokeSaveAsDialog(blob, `${randomName.value}.webm`);
 
@@ -84,7 +83,7 @@ export const AudioRecorder = () => {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((data) => {
-        console.log("post data", data);
+        // console.log("post data", data);
         getBlobs();
       })
       .catch((err) => {
@@ -114,7 +113,7 @@ export const AudioRecorder = () => {
 
   useEffect(() => {
     getBlobs();
-    console.log("allblobs→", allBlobs);
+   // console.log("allblobs→", allBlobs);
   }, [areBlobsThere]);
 
   return (

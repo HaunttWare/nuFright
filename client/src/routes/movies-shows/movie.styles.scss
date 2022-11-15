@@ -2,6 +2,7 @@
 
 .movie_title{
   font-weight: 700!important;
+  
 }
 .movie_card{
   position: relative;
@@ -62,10 +63,12 @@
       .text{
         color: #cfd6e1;
       }
+  
     }
     .movie_social{
       height: 10%;
       padding-left: 15px;
+      padding-top: 15px;
       padding-bottom: 20px;
       ul{
         list-style: none;

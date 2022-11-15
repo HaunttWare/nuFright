@@ -1,9 +1,9 @@
-import { InputSerializationFilterSensitiveLog } from "@aws-sdk/client-s3";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import './playlist.styles.css';
+import "./playlist.styles.css";
+import { background } from "@chakra-ui/react";
 type Video = {
   id: string;
   title: string;
@@ -20,7 +20,7 @@ const PlayListMain = () => {
   const [gotPlaylist, setGotPlaylist] = useState(false);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     setCurrentSearch(e.target.value);
   };
   const handleSubmit = async () => {
@@ -29,7 +29,7 @@ const PlayListMain = () => {
         `/api/playlists/search/${currentSearch}`
       );
       setVideos(data);
-      setCurrentSearch('');
+      setCurrentSearch("");
     } catch (err) {
       console.error(err);
     }
@@ -44,101 +44,136 @@ const PlayListMain = () => {
   };
 
   const handleDeletePlaylistEntry = (video: Video) => {
-    axios.delete(`/api/playlists/delete/${video.id}`)
+    axios
+      .delete(`/api/playlists/delete/${video.id}`)
       .then(() => {
         getUsersPlaylist();
-      } )
-      .catch(err => console.error(err));
-  }
+      })
+      .catch((err) => console.error(err));
+  };
   const getUsersPlaylist = () => {
-    axios.get(`/api/playlists/get/${currentUser.id}`)
-    .then((playListData: any) => {
-     
-      setPlaylist(playListData.data);
-      setGotPlaylist(true);
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-  }
+    axios
+      .get(`/api/playlists/get/${currentUser.id}`)
+      .then((playListData: any) => {
+        setPlaylist(playListData.data);
+        setGotPlaylist(true);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   useEffect(() => {
-    
     if (!currentUser) {
-     
-        <div>searching for your playlist....</div>
-      
+      <div>searching for your playlist....</div>;
     } else {
-    getUsersPlaylist()
+      getUsersPlaylist();
     }
   }, [gotPlaylist]);
-  
+
   return (
+    <>
+    
+    <h2 className="main-header">Playlist</h2>
     <div className="container">
       <div className="row">
-       <div className="col">
+        <div className="col">
           <h2>Search for Music (scary) </h2>
           <input
             value={currentSearch}
             onChange={handleSearchChange}
             placeholder="type for songs...."
-            />
-          {/* <button onClick={handleSubmit}>BOO!</button> */}
-          <button className="btn aqua-gradient btn-rounded btn-sm my-0" type="submit" onClick={handleSubmit}>BOO!</button>
-
+          />\
+          <button
+            className="btn aqua-gradient btn-rounded btn-sm my-0"
+            type="submit"
+            onClick={handleSubmit}
+          >
+            BOO!
+          </button>
+          
           {videos.map((video: Video) => {
             return (
               <div
-              key={video.videoId}
-              className="card"
-              style={{ width: "18rem", backgroundColor: "black" }}
+                key={video.videoId}
+                className="card mb-3"
+                id="each-playlist-option"
               >
-                <iframe className="card-top" src={ `https://www.youtube.com/embed/${video.videoId}` } allowFullScreen></iframe>
-                {/* <img className="card-top" src={video.thumbnail} /> */}
+                <div className="row g-0">
+                  <div className="col-md-4">\
+                <iframe
+                  className="img-fluid rounded-start"
+                  src={`https://www.youtube.com/embed/${video.videoId}`}
+                  allowFullScreen
+                  ></iframe>
+                  </div>
+               <div className="col-md-8">
+
                 <div className="card-body">
                   <h5 className="card-title">{video.title}</h5>
                   <p className="card-text">{video.description}</p>
-
                   <a
                     href="#"
                     className="btn"
                     onClick={() => {
                       handleSaveToPlaylist(video);
                     }}
-                  >
-                    Add to Playlist
+                    >
+                    + Add to Playlist
                   </a>
-                </div>
+                    </div>
+                  </div>
               </div>
+            </div>
             );
           })}
         </div>
         <div className="col">
           <h2>Playlist...</h2>
+          
+          
           {playlist.length > 0 ? (
             playlist.map((video) => {
               return (
                 <div
                 key={video.videoId}
-                className="card"
-                style={{ width: "18rem", backgroundColor: "black" }}
+                id="each-playlist-card-entry"
+                className="card mb-3"
                 >
-                  <button style={{backgroundColor: 'red', marginLeft: 'auto', width: '30px'}} onClick={() => {handleDeletePlaylistEntry(video)}}>X</button>
-                   <iframe className="card-top" src={ `https://www.youtube.com/embed/${video.videoId}` } allowFullScreen></iframe>
-                  {/* <img className="card-top" src={video.thumbnail}  /> */}
-                  <div className="card-body">
-                    <h5 className="card-title" >{video.title}</h5>
-                    <p className="card-text" >{video.description}</p>
+                  <div className="row g-0">
+                    <div className="col-md-4">
+                      <button
+                        className="delete-btn"
+                        onClick={() => {
+                          handleDeletePlaylistEntry(video);
+                        }}
+                        >
+                        X
+                      </button>
+                      <iframe
+                        className="img-fluid rounded-start"
+                        src={`https://www.youtube.com/embed/${video.videoId}`}
+                        allowFullScreen
+                        ></iframe>
+                    </div>
+                    <div className="col-md-8">
+                      <div className="card-body">
+                        <h5 className="card-title">{video.title}</h5>
+                        <p className="card-text">{video.description}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               );
             })
             ) : (
-            <h2>You have no videos in your playlist yet lol</h2>
-            )}
+              <h2 className="no-entries-header">You have no videos in your playlist yet lol</h2>
+              )}
+              
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -3,8 +3,7 @@ import { createAction } from "../utils/createAction";
 
 
 export type badgeData = {
-  id: string;
-  name: String;
+  badgeName: String;
   description: String;
   badge: String;
 };

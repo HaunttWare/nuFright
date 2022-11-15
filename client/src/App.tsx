@@ -23,13 +23,27 @@ import Costumes from "./routes/costumes/costumes.component";
 import Stories from "./routes/stories/stories.component";
 import Gallery from "./routes/gallery/gallery.component";
 import MapBox from "./routes/haunted-houses/Map.component";
+import Followers from "./routes/profile/followers.component";
+import Following from "./routes/profile/following.component";
 import Profile from "./routes/profile/profile.component";
 import MusicMakingView from "./routes/MusicMaker/MusicMakingView";
 import Chat from "./routes/chat/chat.component";
 import PlayListComp from "./routes/playlists/playlist.component";
 import LandingPage from "./routes/landingpage/landingpage.component";
 
+import {
+  fetchUser,
+  fetchBadges,
+  createBadge,
+  fetchFollowers,
+  fetchFollowing,
+  fetchMovies,
+  fetchShows,
+} from "./config/apiCalls";
+
 import io, { Socket } from "socket.io-client";
+import { setCurrentMovies } from "./store/movies/movies.action";
+import { setCurrentShows } from "./store/shows/shows.action";
 const ENDPOINT = "http://localhost:3000"; // https://nufright.com for production
 var socket: Socket;
 
@@ -41,81 +55,40 @@ const App = () => {
   const profileBadge = require("../../assets/profile-badge.png").default;
 
   useEffect(() => {
-    axios
-      .get("/api/auth/login/successful")
-      .then(({ data: { user } }) => {
-        if (user) {
-          dispatch(setCurrentUser(user));
+    const fetchData = async () => {
+      const user = await fetchUser();
+      if (!user) return;
+      dispatch(setCurrentUser(user));
+      const { ratings, badges } = await fetchBadges(user.id);
+      dispatch(setRatingList(ratings));
+      if (badges.length > 0) {
+        dispatch(setBadgeList(badges));
+      } else {
+        const badge = await createBadge(user.id);
+        dispatch(setBadgeList([badge]));
+        badgeToast.fire({
+          titleText: "It's ALIIIIVEEEE!!",
+          text: "Welcome to nuFright 😈",
+          imageUrl: profileBadge,
+          imageAlt: "😈",
+          imageHeight: "5rem",
+          imageWidth: "5.6rem",
+        });
+      }
+      const followers = await fetchFollowers(user.id);
+      if (!followers) return;
+      dispatch(setFollowerList(followers));
+      const following = await fetchFollowing(user.id);
+      if (!following) return;
+      dispatch(setFollowingList(following));
+      
+      const movies = await fetchMovies();
+      dispatch(setCurrentMovies(movies));
 
-          axios
-            .get(`/api/user/${user.id}/ratings-badges`)
-            .then(({ data: { badges, ratings } }) => {
-              dispatch(setRatingList(ratings));
-
-              if (badges.length) {
-                dispatch(setBadgeList(badges));
-              } else {
-                const name = "It's ALIIIIVEEEE!!";
-                const starterBadge = {
-                  id: `${user.id}=${name}`,
-                  name,
-                  description: "Welcome to nuFright 😈",
-                  badge: "dis wur da badge goes",
-                };
-                dispatch(setBadgeList([starterBadge]));
-                axios
-                  .post("/api/badges", {
-                    userId: user.id,
-                    badgeName: starterBadge.name,
-                    description: starterBadge.description,
-                    badge: starterBadge.name,
-                  })
-                  .catch((err) =>
-                    console.error("db couldn't store first badge", err)
-                  );
-                badgeToast.fire({
-                  titleText: "It's ALIIIIVEEEE!!",
-                  text: "Welcome to nuFright 😈",
-                  imageUrl: profileBadge,
-                  imageAlt: "😈",
-                  imageHeight: "5rem",
-                  imageWidth: "5.6rem",
-                });
-              }
-            })
-            .catch((err) => {
-              console.error(
-                "error retrieving badges and ratings from backend \n",
-                err
-              );
-            });
-
-          //get following list
-          axios
-            .get(`/api/user/followings/${user.id}`)
-            .then(({ data }) => {
-              if (!data.length) return;
-
-              dispatch(setFollowingList(data));
-            })
-            .catch((err) => {
-              console.error("error retrieving followings from backend \n", err);
-            });
-
-          //gets followers list
-          axios
-            .get(`/api/user/followers/${user.id}`)
-            .then(({ data }) => {
-              if (!data.length) return;
-
-              dispatch(setFollowerList(data));
-            })
-            .catch((err) => {
-              console.error("error retrieving followers from backend \n", err);
-            });
-        }
-      })
-      .catch((err) => console.log(err));
+      const shows = await fetchShows();
+      dispatch(setCurrentShows(shows));
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -128,6 +101,8 @@ const App = () => {
       socket.disconnect();
     };
   }, [currentUser]);
+
+
 
   return (
     <Routes>
@@ -152,6 +127,8 @@ const App = () => {
         <Route path="find-haunts" element={<MapBox />} />
         <Route path="sounds" element={<MusicMakingView />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="profile/followers" element={<Followers />} />
+        <Route path="profile/following" element={<Following />} />
         <Route
           path="chats"
           element={

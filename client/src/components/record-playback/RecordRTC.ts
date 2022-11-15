@@ -19,6 +19,6 @@ export const useRecorderPermission = (
     });
     setRecorder(recorder);
   };
-  console.log('recorder', recorder);
+ // console.log('recorder', recorder);
   return recorder;
 };

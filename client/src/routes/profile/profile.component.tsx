@@ -1,12 +1,14 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentUser, selectFollowerList, selectFollowingList } from "../../store/user/user.selector";
 import { selectBadgeList } from "../../store/badges/badges.selector";
 
+import { Tooltip } from "@chakra-ui/react";
+
 import PhotosTab from "../../components/profile-tabs/photos-tab/photos-tab.component";
 import LikesTab from "../../components/profile-tabs/likes-tab/likes-tab.component";
-import SavesTab from "../../components/profile-tabs/saves-tab/saves-tab.component";
 import BadgesTab from "../../components/profile-tabs/badges-tab/badges-tab.component";
 
 export type ImageData = {
@@ -22,6 +24,8 @@ const Profile = () => {
   const userBadges = useSelector(selectBadgeList);
   const [activeTab, setActiveTab] = useState("photos");
   const [userImages, setUserImages] = useState<ImageData[]>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentUser) {
@@ -51,17 +55,10 @@ const Profile = () => {
                     className="img-fluid img-thumbnail mt-4 mb-2"
                     style={{ width: "150px", zIndex: 1 }}
                   />
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    style={{ zIndex: 1 }}
-                  >
-                    Edit profile
-                  </button>
                 </div>
                 <div className="ms-3" style={{ marginTop: "130px" }}>
-                  <h5>{currentUser.name}</h5>
-                  <p>{currentUser.email}</p>
+                  <h3 className="display-5">{currentUser.name}</h3>
+                  <p className="text-muted h5">{currentUser.email}</p>
                 </div>
               </div>
               <div className="p-4 text-white">
@@ -70,21 +67,26 @@ const Profile = () => {
                     <p className="mb-1 h5">{userImages.length}</p>
                     <p className="small text-muted mb-0">Photos</p>
                   </div>
-                  <div className="px-3">
+
+                 <Tooltip label="View Followers" aria-label="Followers">
+                 <div className="px-3" style={{cursor: "pointer"}} onClick={() => navigate('followers')}>
                     <p className="mb-1 h5">{followers.length}</p>
                     <p className="small text-muted mb-0">Followers</p>
                   </div>
-                  <div>
+                </Tooltip>
+                <Tooltip label="View Following" aria-label="Following">
+                  <div style={{cursor: "pointer"}} onClick={() => navigate('following')}>
                     <p className="mb-1 h5">{following.length}</p>
                     <p className="small text-muted mb-0">Following</p>
                   </div>
+                  </Tooltip>
                 </div>
                 <ul className="nav nav-tabs">
                   <li className="nav-item">
                     <button
                       className={`nav-link ${
                         activeTab === "photos" ? "active" : ""
-                      }`}
+                      } text-muted fw-bold`}
                       onClick={() => setActiveTab("photos")}
                     >
                       My Photos
@@ -94,7 +96,7 @@ const Profile = () => {
                     <button
                       className={`nav-link ${
                         activeTab === "badges" ? "active" : ""
-                      }`}
+                      } text-muted fw-bold`}
                       onClick={() => setActiveTab("badges")}
                     >
                       My Badges
@@ -104,20 +106,10 @@ const Profile = () => {
                     <button
                       className={`nav-link ${
                         activeTab === "likes" ? "active" : ""
-                      }`}
+                      } text-muted fw-bold`}
                       onClick={() => setActiveTab("likes")}
                     >
                       Likes
-                    </button>
-                  </li>
-                  <li className="nav-item">
-                    <button
-                      className={`nav-link ${
-                        activeTab === "saves" ? "active" : ""
-                      }`}
-                      onClick={() => setActiveTab("saves")}
-                    >
-                      Saves
                     </button>
                   </li>
                 </ul>
@@ -143,13 +135,6 @@ const Profile = () => {
                     }`}
                   >
                     <LikesTab />
-                  </div>
-                  <div
-                    className={`tab-pane fade ${
-                      activeTab === "saves" ? "show active" : ""
-                    }`}
-                  >
-                    <SavesTab />
                   </div>
                 </div>
               </div>
