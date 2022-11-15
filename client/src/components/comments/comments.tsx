@@ -4,6 +4,7 @@ import { selectCurrentUser } from '../../store/user/user.selector';
 import axios from 'axios';
 import CommentForm from './comment-form';
 import Comment from './comment';
+import './comment.styles.scss'
 
 
 type CommentsData = {
@@ -89,6 +90,7 @@ const Comments = ({ category, type }: CommentsProps) => {
   
 
   return comments.length ? (
+    <div className='comments_card' >
     <div className='row text-light py-2' onClick={() => setShowComments(true)}>
       <div className='col-12 text-center'>
         <u style={{cursor: 'pointer'}}>{viewCommentsString}</u>
@@ -105,15 +107,16 @@ const Comments = ({ category, type }: CommentsProps) => {
         </div>
       </div>
     </div>
+    </div>
   ) : (
-    <>
+    <div className='comments_card' >
       <div className='row text-light py-2'>
         <div className='col-12 text-center'>
           {viewCommentsString}
           <CommentForm newComment={newComment} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
