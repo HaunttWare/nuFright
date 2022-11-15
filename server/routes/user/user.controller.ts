@@ -13,108 +13,29 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllUsers = async (req: Request, res: Response) => {
-  const { search, currentUserId } = req.query;
-
+export const getUsers = async (req: Request, res: Response) => {
+  const { userIds } = req.query as any;
+console.log(userIds)
+  // get users that match the userIds
   try {
-    if (search) {
-      const users = await db.user.findMany({
-        where: {
-          OR: [
-            { name: { contains: search as string, mode: "insensitive" } },
-            { name: { contains: search as string, mode: "insensitive" } },
-          ],
-          NOT: { id: currentUserId as string },
-        },
-      });
-      res.status(200).json(users);
-    } else {
-      res.status(200).json([]);
-    }
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-export const followUser = async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  const { currentUserId, isFollowing } = req.body;
-
-  try {
-    const isFollowing = await db.follows.findFirst({
+    const users = await db.user.findMany({
       where: {
-        followerId: currentUserId,
-        followingId: userId,
+        id: {
+          in: userIds,
+        },
       },
     });
-
-    if (isFollowing) {
-      await db.follows.delete({
-        where: {
-          id: isFollowing.id,
-        },
-      });
-      res.status(200).json({ isFollowing: false });
-    } else {
-      const follow = await db.follows.create({
-        data: {
-          followerId: currentUserId,
-          followingId: userId,
-          isFollowing: true,
-        },
-        include: {
-          follower: true,
-          following: true,
-        },
-      });
-      res.send(follow);
-    }
+    res.status(200).json(users);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 };
 
-export const getFollowers = async (req: Request, res: Response) => {
-  const { currentUserId } = req.params;
-
-  try {
-    const followers = await db.follows.findMany({
-      where: {
-        followingId: currentUserId,
-      },
-      select: {
-        follower: true,
-      },
-    });
-
-    const followersList = followers.map((follower) => follower.follower);
-    res.status(200).json(followersList);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-export const getFollowing = async (req: Request, res: Response) => {
-  const { currentUserId } = req.params;
-
-  try {
-    const following = await db.follows.findMany({
-      where: {
-        followerId: currentUserId,
-      },
-      select: {
-        following: true,
-      },
-    });
-
-    const followingUsers = following.map((follow) => follow.following);
-    res.status(200).json(followingUsers);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
-  }
-};
 
 export const getUserLikedBooks = async (req: Request, res: Response) => {
+  // Get the user id from the request
+  // query the db for the liked books of the user with that id
+  // return the books
   const { id } = req.params;
   const likedBooks = await db.likes.findMany({
     where: {
@@ -200,30 +121,30 @@ export const getUserRatingsNBadges = async (req: Request, res: Response) => {
       include: {
         ratings: true,
         badges: true,
-      },
-    });
+      }
+    })
     const rateArr = RatingsNBadges?.ratings.map((rating) => {
-      const horrorId = rating.id.split("=")[1];
+      const horrorId = rating.id.split('=')[1];
       return {
         id: rating.id,
         horrorId,
-        rating: rating.rating,
-      };
-    });
+        rating: rating.rating
+     }
+    })
     const badgeArr = RatingsNBadges?.badges.map((badge) => ({
       id: badge.id,
       name: badge.name,
       description: badge.description,
-      badge: badge.badge,
-    }));
+      badge: badge.badge
+    }))
     res.json({
       success: true,
       message: "retrieved user badges and ratings",
       badges: badgeArr,
-      ratings: rateArr,
+      ratings: rateArr
     });
   } catch (err) {
-    console.error("error getting Ratings and Badges\n", err);
+    console.error('error getting Ratings and Badges\n', err);
     res.sendStatus(500);
   }
-};
+}

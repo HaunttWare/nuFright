@@ -4,7 +4,6 @@ import Map, {useMap, Marker, Popup, GeolocateControl as GeolocationControl} from
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {features} from './haunted-houses';
 import {distance} from '@turf/turf';
-import {Box} from '@chakra-ui/react'
 
 type Feature = {
   geometry: {
@@ -151,7 +150,7 @@ const MapBox = () => {
       })()
     }
   }, [])
-
+  
   return (
     <>
       <div className='w-100 d-flex flex-row'>
