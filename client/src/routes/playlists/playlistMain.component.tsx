@@ -178,15 +178,4 @@ const PlayListMain = () => {
 };
 
 export default PlayListMain;
-// Hey John,  might be useful later
-//  useEffect(() => {
-//   if(audioCtx.state === 'running') {
-//     audioCtx.suspend().then(function() {
-//       susresBtn.textContent = 'Resume context';
-//     });
-//   } else if(audioCtx.state === 'suspended') {
-//     audioCtx.resume().then(function() {
-//       susresBtn.textContent = 'Suspend context';
-//     });
-//   }
-//  })
+
